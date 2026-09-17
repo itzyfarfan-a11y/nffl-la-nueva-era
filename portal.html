@@ -1,0 +1,105 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NFFL — La Nueva Era</title><style>
+:root{--bg:#08070c;--card:#14121d;--line:#29243a;--p:#8d3cff;--g:#f2c94c;--txt:#f5f2fb;--muted:#aaa3b8}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#201133 0,#08070c 48%);font-family:Arial,sans-serif;color:var(--txt)}header{padding:16px 14px 10px;text-align:center;position:sticky;top:0;background:#08070cf5;backdrop-filter:blur(12px);z-index:5;border-bottom:1px solid var(--line)}h1{margin:0;font-size:24px;letter-spacing:1.5px;line-height:1.1}h1 b{color:var(--g)}header small{display:block;color:var(--muted);font-size:13px;margin-top:6px}main{max-width:1000px;margin:auto;padding:12px}.selection-hint{font-size:11px;color:var(--muted);margin:0 2px 6px;letter-spacing:.2px}.controls{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:8px;margin-bottom:10px}select,button{width:100%;min-width:0;padding:11px 10px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--txt);font-weight:700;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}button{background:linear-gradient(135deg,#7b2cff,#b44cff);border:0;cursor:pointer}.nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin:8px 0 12px;padding:2px 1px}.nav button{width:100%;min-width:0;font-size:12px;padding:10px 8px;background:#181522;border:1px solid var(--line);white-space:nowrap}.nav button.active{outline:2px solid var(--g);color:var(--g);background:#21182d}section{display:none}.card{background:#11101aeF;border:1px solid var(--line);border-radius:14px;padding:13px;margin:9px 0}.card h2{margin:3px 0 10px;font-size:24px}.card h3{margin:2px 0 8px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px}.grid .card{margin:0;padding:12px}.team{display:flex;align-items:center;gap:9px}.team img{width:42px;height:42px;border-radius:10px;object-fit:cover;background:#222}.muted{color:var(--muted)}table{width:100%;border-collapse:collapse;font-size:12px}th,td{padding:8px 4px;border-bottom:1px solid var(--line);text-align:center}th:nth-child(2),td:nth-child(2){text-align:left}.badge{display:inline-block;padding:4px 8px;border-radius:999px;background:#24183b;color:#d9c3ff;font-size:10px}.match{display:grid;grid-template-columns:1fr 62px 1fr;align-items:center;gap:7px;text-align:center}.score{font-size:19px;font-weight:900;color:var(--g)}.player{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--line)}.player img{width:40px;height:40px;border-radius:50%;object-fit:cover}.empty{padding:26px;text-align:center;color:var(--muted)}.loading{padding:22px;text-align:center;color:var(--muted)}.section-title{display:flex;justify-content:space-between;align-items:center;gap:8px}.count{font-size:11px;color:var(--muted);font-weight:700}@media(max-width:650px){header{padding-top:13px}h1{font-size:22px}.controls{gap:7px}select{font-size:13px;padding:10px;min-width:0}.nav{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.nav button{min-height:40px}.match{grid-template-columns:1fr 48px 1fr;font-size:12px}.card h2{font-size:22px}}
+
+.admin-btn{width:auto;display:inline-block;margin-top:10px;padding:8px 14px;border-radius:999px;background:#181522;border:1px solid var(--g);color:var(--g);font-size:12px;font-weight:800}
+.modal{display:none;position:fixed;inset:0;background:rgba(4,3,8,.82);backdrop-filter:blur(8px);z-index:20;padding:20px;align-items:center;justify-content:center}
+.modal.open{display:flex}.login-card{position:relative;width:min(440px,100%);background:#14121d;border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.45)}
+.login-card h2{margin:0 0 8px;font-size:25px}.login-icon{font-size:32px;margin-bottom:6px}.login-card label{display:block;font-size:12px;font-weight:800;margin:14px 0 6px;color:var(--muted)}
+.login-card input{width:100%;padding:13px;border-radius:12px;border:1px solid var(--line);background:#09080d;color:var(--txt);font-size:15px;outline:none}.login-card input:focus{border-color:var(--g)}
+.login-btn{margin-top:16px;background:linear-gradient(135deg,#7b2cff,#b44cff);color:#fff;border:0;padding:13px;border-radius:12px;font-weight:900}
+.close-btn{position:absolute;right:12px;top:10px;width:auto;padding:2px 9px;background:transparent;border:0;color:var(--muted);font-size:28px}.login-msg{min-height:20px;margin-top:10px;font-size:12px;color:var(--muted)}
+</style><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script></head><body><header><h1>NFFL <b>LA NUEVA ERA</b></h1><small>Calendario · Resultados · Equipos · Playoffs</small><button id="adminBtn" class="admin-btn" type="button">🔐 Administrador</button></header>
+<div id="adminModal" class="modal" aria-hidden="true">
+  <div class="login-card">
+    <button id="closeAdmin" class="close-btn" type="button" aria-label="Cerrar">×</button>
+    <div class="login-icon">🔐</div>
+    <h2>Administrador NFFL</h2>
+    <p class="muted">Ingresa con tu cuenta de administrador para entrar al panel.</p>
+    <label>Correo</label>
+    <input id="adminEmail" type="email" autocomplete="username" placeholder="Correo">
+    <label>Contraseña</label>
+    <input id="adminPassword" type="password" autocomplete="current-password" placeholder="Contraseña">
+    <button id="adminLogin" class="login-btn" type="button">INGRESAR</button>
+    <div id="adminMsg" class="login-msg"></div>
+  </div>
+</div>
+<main>
+<div class="selection-hint">Selecciona torneo y categoría</div><div class="controls"><select id="t"><option value="">Cargando torneos...</option></select><select id="c"><option value="">Todas las categorías</option></select></div><div id="status" class="card muted" style="display:none"></div><div class="nav" id="nav"></div>
+<section id="inicio"></section><section id="equipos"></section><section id="jugadores"></section><section id="calendario"></section><section id="resultados"></section><section id="tabla"></section><section id="playoffs"></section>
+</main><footer style="text-align:center;padding:20px 12px 28px;color:var(--muted);font-size:11px">NFFL LA NUEVA ERA · Portal público</footer><script>
+const URL='https://picivrqgmckrwutarhyw.supabase.co';function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}const KEY='sb_publishable_SK8XBpzn3b5Dr-qa2rO7Nw_un7KbvCl';
+const headers={'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json'};
+const t=document.getElementById('t'), c=document.getElementById('c'), status=document.getElementById('status'), nav=document.getElementById('nav');
+const sections={
+  inicio:document.getElementById('inicio'), equipos:document.getElementById('equipos'),
+  jugadores:document.getElementById('jugadores'), calendario:document.getElementById('calendario'),
+  resultados:document.getElementById('resultados'), tabla:document.getElementById('tabla'),
+  playoffs:document.getElementById('playoffs')
+};
+let data={tournament:{},categories:[],teams:[],matches:[],playoffs:[]};let tab='inicio';
+async function rpc(name,body={}){let r=await fetch(URL+'/rest/v1/rpc/'+name,{method:'POST',headers,body:JSON.stringify(body)});if(!r.ok)throw Error(await r.text());return r.json()}
+async function load(){try{let ts=await rpc('public_list_tournaments');if(!ts.length){t.innerHTML='<option value="">Sin torneos publicados</option>';showStatus('Aún no hay torneos publicados. Cuando el administrador publique uno, aparecerá aquí automáticamente.');render();return}t.innerHTML=ts.map(x=>`<option value="${esc(x.id)}">${esc(x.name)}</option>`).join('');await refresh()}catch(e){showStatus('No se pudo cargar NFFL. Revisa la conexión o las funciones públicas de Supabase.');console.error(e);render()}}
+function showStatus(msg){status.textContent=msg;status.style.display='block'}
+window.onerror=function(msg,src,line,col){showStatus('Error de la página: '+msg);console.error(msg,src,line,col)};
+async function refresh(){if(!t.value){render();return}try{data=await rpc('public_get_tournament_data',{p_tournament_id:t.value,p_category_id:c.value||null});status.style.display='none';if(!data||typeof data!=='object'){throw Error('Respuesta inválida del servidor')}
+if(!Array.isArray(data.categories)||!Array.isArray(data.teams)||!Array.isArray(data.matches)||!Array.isArray(data.playoffs)){
+  throw Error('La respuesta del torneo no tiene el formato esperado')
+}c.innerHTML='<option value="">Todas las categorías</option>'+data.categories.map(x=>`<option value="${esc(x.id)}">${esc(x.name)}</option>`).join('');if(data.categories.some(x=>x.id===c.dataset.keep))c.value=c.dataset.keep;render()}catch(e){showStatus('No se pudo cargar la información del torneo.');console.error(e)}}
+function team(id){return (data.teams||[]).find(x=>x.id===id)||{name:'Por definir'}}function render(){let navs=[['inicio','🏠 Inicio'],['equipos','👥 Equipos'],['jugadores','🧑 Jugadores'],['calendario','📅 Calendario'],['resultados','🏈 Resultados'],['tabla','📊 Tabla'],['playoffs','🏆 Playoffs']];nav.innerHTML=navs.map(x=>`<button class="${tab===x[0]?'active':''}" onclick="tab='${x[0]}';render()">${x[1]}</button>`).join('');document.querySelectorAll('section').forEach(s=>s.style.display='none');let s=sections[tab];if(!s)throw Error('Sección no encontrada: '+tab);s.style.display='block';let cat=c.value?data.categories.find(x=>x.id===c.value):null;
+if(tab==='inicio')s.innerHTML=`<div class="card"><h2>${esc(data.tournament?.name||'NFFL')}</h2><p class="muted">${esc(data.tournament?.season||'')} ${cat? '· '+esc(cat.name):'· Selecciona una categoría para consultar su información.'}</p><div class="grid"><div class="card"><b>${(data.teams||[]).length}</b><br><span class="muted">Equipos</span></div><div class="card"><b>${(data.matches||[]).filter(x=>x.status==='jugado'||x.status==='incomparecencia').length}</b><br><span class="muted">Juegos registrados</span></div><div class="card"><b>${(data.playoffs||[]).length}</b><br><span class="muted">Partidos de playoffs</span></div></div></div>`;
+if(tab==='equipos')s.innerHTML='<h2>Equipos</h2>'+(!data.teams.length?'<div class="empty">No hay equipos publicados para esta selección.</div>':'<div class="grid">')+data.teams.map(x=>`<div class="card team">${x.logo_url?`<img src="${esc(x.logo_url)}">`:'<div class="team img"></div>'}<div><b>${esc(x.name)}</b></div></div>`).join('')+(data.teams.length?' </div>':'' );
+if(tab==='jugadores')loadPlayers(s);
+if(tab==='calendario'){let items=[...(data.matches||[]).map(m=>({...m,_kind:'regular',_date:m.match_date,_time:m.match_time})),...(data.playoffs||[]).map(p=>({...p,_kind:'playoff',_date:p.match_date,_time:p.match_time}))];items.sort((a,b)=>String(a._date||'9999').localeCompare(String(b._date||'9999'))||String(a._time||'99:99').localeCompare(String(b._time||'99:99'))||((a._kind==='playoff'?1:0)-(b._kind==='playoff'?1:0)));let days={};for(const m of items){let k=m._date||'SIN FECHA';(days[k]??=[]).push(m)}let keys=Object.keys(days);s.innerHTML='<div class="section-title"><h2>Calendario General</h2><span class="count">'+items.length+' partidos</span></div>'+(!keys.length?'<div class="empty">No hay calendario publicado.</div>':keys.map(day=>`<div class="card"><h3>${day==='SIN FECHA'?'📌 Fecha pendiente':'📅 '+esc(day)}</h3>${days[day].map(m=>m._kind==='playoff'?`<div class="card"><span class="badge">🏆 ${esc(m.stage)}</span><div class="match"><div>${esc(team(m.team_a_id).name)}</div><div class="score">${m.score_a!=null||m.score_b!=null?(m.score_a??'—')+'-'+(m.score_b??'—'):'VS'}</div><div>${esc(team(m.team_b_id).name)}</div></div><div class="muted" style="text-align:center">${esc(m.match_time?String(m.match_time).slice(0,5):'Hora por definir')} · ${esc(m.field_name||'Campo por definir')}</div></div>`:`<div class="card"><span class="badge">Jornada ${esc(m.round_number)}${m.is_makeup?' · Reposición':''}</span><div class="match"><div>${esc(team(m.home_team_id).name)}</div><div class="score">${m.status==='jugado'||m.status==='incomparecencia'?(m.home_score??0)+'-'+(m.away_score??0):'VS'}</div><div>${esc(team(m.away_team_id).name)}</div></div><div class="muted" style="text-align:center">${esc(m.match_time?String(m.match_time).slice(0,5):'Hora por definir')} · ${esc(m.field_name||'Campo por definir')}</div></div>`).join('')}</div>`).join('') )}
+if(tab==='resultados'){let played=data.matches.filter(m=>m.status==='jugado'||m.status==='incomparecencia').map(m=>({...m,_kind:'regular'}));let po=(data.playoffs||[]).filter(p=>p.score_a!=null||p.score_b!=null).map(p=>({...p,_kind:'playoff'}));let all=[...played,...po].sort((a,b)=>String(a.match_date||'9999').localeCompare(String(b.match_date||'9999'))||String(a.match_time||'99:99').localeCompare(String(b.match_time||'99:99')));s.innerHTML='<div class="section-title"><h2>Resultados</h2><span class="count">'+all.length+' juegos</span></div>'+ (all.map(m=>m._kind==='playoff'?`<div class="card"><span class="badge">🏆 ${esc(m.stage)}</span><div class="match"><b>${esc(team(m.team_a_id).name)}</b><div class="score">${m.score_a??'—'}-${m.score_b??'—'}</div><b>${esc(team(m.team_b_id).name)}</b></div><div class="muted" style="text-align:center">${esc(m.match_date||'')}</div></div>`:`<div class="card"><span class="badge">Jornada ${esc(m.round_number)}${m.status==='incomparecencia'?' · Incomparecencia':''}</span><div class="match"><b>${esc(team(m.home_team_id).name)}</b><div class="score">${m.home_score??0}-${m.away_score??0}</div><b>${esc(team(m.away_team_id).name)}</b></div><div class="muted" style="text-align:center">${esc(m.match_date||'')}</div></div>`).join('')||'<div class="empty">Aún no hay resultados publicados.</div>')}
+if(tab==='tabla')renderTable(s);
+if(tab==='playoffs')s.innerHTML='<h2>Playoffs</h2>'+data.playoffs.map(p=>`<div class="card"><span class="badge">${esc(p.stage)}</span><div class="match"><b>${esc(p.team_a_id?team(p.team_a_id).name:'Por definir')}</b><div class="score">${p.score_a??'—'}<br>VS<br>${p.score_b??'—'}</div><b>${esc(p.team_b_id?team(p.team_b_id).name:'Por definir')}</b></div></div>`).join('')||'<div class="empty">El bracket aún no ha sido publicado.</div>';
+}
+async function loadPlayers(s){if(!c.value){s.innerHTML='<div class="empty">Selecciona una categoría para consultar los rosters aprobados.</div>';return}s.innerHTML='<div class="loading">Cargando jugadores…</div>';try{let html='<div class="section-title"><h2>Jugadores</h2><span class="count">Rosters aprobados</span></div>';let found=0;for(const tm of data.teams){let p=await rpc('public_get_roster',{p_tournament_id:t.value,p_category_id:c.value,p_team_id:tm.id});if(p.length){found+=p.length;html+=`<div class="card"><h3>${esc(tm.name)}</h3>${p.map(x=>`<div class="player">${x.photo_url?`<img src="${esc(x.photo_url)}" loading="lazy">`:''}<div><b>#${esc(x.jersey_number)} ${esc(x.full_name)}</b></div></div>`).join('')}</div>`}}s.innerHTML=found?html:'<div class="empty">No hay rosters aprobados para esta categoría.</div>'}catch(e){s.innerHTML='<div class="empty">No se pudieron cargar los jugadores en este momento.</div>';console.error(e)}}
+function renderTable(s){
+if(!c.value){s.innerHTML='<h2>Tabla de posiciones</h2><div class="empty">Selecciona una categoría para consultar su tabla.</div>';return}
+let map={};for(const m of data.matches){if(m.status!=='jugado'&&m.status!=='incomparecencia')continue;const excluded=m.stats_exclude_team_id||null;for(const id of [m.home_team_id,m.away_team_id])if(!map[id])map[id]={id,pj:0,pg:0,pp:0,pf:0,pc:0};let h=map[m.home_team_id],a=map[m.away_team_id],hs=m.home_score||0,as=m.away_score||0;if(m.home_team_id!==excluded){h.pj++;h.pf+=hs;h.pc+=as;if(hs>as)h.pg++;else if(as>hs)h.pp++}if(m.away_team_id!==excluded){a.pj++;a.pf+=as;a.pc+=hs;if(as>hs)a.pg++;else if(hs>as)a.pp++}}
+let rows=Object.values(map).map(x=>({...x,dif:x.pf-x.pc})).filter(x=>x.pj>0).sort((x,y)=>y.dif-x.dif||y.pf-x.pf||x.pc-y.pc||team(x.id).name.localeCompare(team(y.id).name));s.innerHTML='<h2>Tabla de posiciones</h2><div class="card"><table><thead><tr><th>#</th><th>Equipo</th><th>PJ</th><th>PG</th><th>PP</th><th>PA</th><th>PC</th><th>DIF</th></tr></thead><tbody>'+rows.map((x,i)=>`<tr><td>${i+1}</td><td><b>${team(x.id).name}</b></td><td>${x.pj}</td><td>${x.pg}</td><td>${x.pp}</td><td>${x.pf}</td><td>${x.pc}</td><td>${x.dif}</td></tr>`).join('')+'</tbody></table></div>'}
+t.onchange=()=>{c.dataset.keep='';refresh()};c.onchange=()=>{c.dataset.keep=c.value;refresh()};load();
+</script>
+<script>
+(function(){
+  const modal=document.getElementById('adminModal');
+  const open=document.getElementById('adminBtn');
+  const close=document.getElementById('closeAdmin');
+  const login=document.getElementById('adminLogin');
+  const email=document.getElementById('adminEmail');
+  const pass=document.getElementById('adminPassword');
+  const msg=document.getElementById('adminMsg');
+  const SB_URL='https://picivrqgmckrwutarhyw.supabase.co';
+  const SB_KEY='sb_publishable_SK8XBpzn3b5Dr-qa2rO7Nw_un7KbvCl';
+  function show(){modal.classList.add('open');modal.setAttribute('aria-hidden','false');setTimeout(()=>email.focus(),50)}
+  function hide(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true');msg.textContent=''}
+  open.addEventListener('click',show);
+  close.addEventListener('click',hide);
+  modal.addEventListener('click',e=>{if(e.target===modal)hide()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')hide()});
+  login.addEventListener('click',async()=>{
+    const e=email.value.trim(), p=pass.value;
+    if(!e||!p){msg.textContent='Escribe tu correo y contraseña.';return}
+    login.disabled=true;login.textContent='ENTRANDO...';msg.textContent='';
+    try{
+      if(!window.supabase || !window.supabase.createClient) throw new Error('Supabase no disponible');
+      const client=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+      const {data,error}=await client.auth.signInWithPassword({email:e,password:p});
+      if(error)throw error;
+      const uid=data?.user?.id;
+      if(!uid)throw new Error('No se encontró la cuenta.');
+      // La autenticación ya quedó establecida en Supabase. La validación final
+      // del rol de administradora se hace también en admin.html antes de mostrar
+      // cualquier función de administración. Evitamos bloquear el redirect por
+      // una consulta secundaria al perfil en esta pantalla pública.
+      msg.textContent='Acceso correcto. Abriendo administración…';
+      window.location.replace(window.location.origin+'/admin.html');
+    }catch(err){
+      msg.textContent=err.message==='Esta cuenta no tiene permisos de Administradora NFFL.'?'Esta cuenta no tiene permisos de Administradora NFFL.':'No se pudo iniciar sesión. Verifica tus datos.';
+      console.error(err);
+    }finally{login.disabled=false;login.textContent='INGRESAR'}
+  });
+})();
+</script>
+</body></html>
