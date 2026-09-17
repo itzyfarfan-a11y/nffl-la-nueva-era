@@ -11,4 +11,4 @@
 </style><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script></head><body><header><h1>NFFL <b>LA NUEVA ERA</b></h1><small>Calendario · Resultados · Equipos · Playoffs</small><button id="adminBtn" class="admin-btn" type="button">🔐 Administrador</button></header>
 <div id="adminModal" class="modal" aria-hidden="true">
   <div class="login-card">
-    <button id="closeAdmin" class="close-btn" type="button" aria-label="Cerrar">×
+    <button id="adminBtn" class="admin-btn" type="button" onclick="document.getElementById('adminModal').classList.add('open');document.getElementById('adminModal').setAttribute('aria-hidden','false');">🔐 Administrador</button>
