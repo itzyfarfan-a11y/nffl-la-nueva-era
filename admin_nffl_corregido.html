@@ -1,0 +1,383 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NFFL — La Nueva Era · Administración</title><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
+:root{--bg:#07070b;--card:#15121d;--card2:#1d1828;--line:#382e48;--purple:#7d22ff;--gold:#e6c04d;--txt:#fff;--mut:#aaa4b7;--ok:#50d890;--red:#ff6378;--blue:#62a8ff}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -10%,#35105f,#07070b 48%);color:var(--txt);font-family:Arial,sans-serif}.app{max-width:1180px;margin:auto;min-height:100vh}.top{padding:15px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#09090eed;backdrop-filter:blur(12px);z-index:10}.brand{font-weight:900;font-size:22px}.brand b{color:var(--gold)}.sub{font-size:10px;letter-spacing:3px;color:var(--mut);margin-top:3px}.hidden{display:none!important}.nav{display:flex;gap:6px;overflow-x:auto;overflow-y:hidden;padding:9px 12px;scrollbar-width:none;-webkit-overflow-scrolling:touch;border-bottom:1px solid var(--line);position:sticky;top:68px;background:#09090ef5;z-index:9}.nav::-webkit-scrollbar{display:none}.nav button{white-space:nowrap;flex:0 0 auto}button{border:0;border-radius:10px;padding:10px 13px;background:#292333;color:#fff;font-weight:800;cursor:pointer}button:hover{filter:brightness(1.15)}.nav button.active,.primary{background:var(--purple)}.gold{background:var(--gold);color:#17120a}.danger{background:#632031}.blue{background:#244e80}.view{display:none}.view.active{display:block}main{padding:18px}.card{background:linear-gradient(145deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:16px;padding:16px;margin:12px 0}.hero{padding:24px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.stat{font-size:28px;font-weight:900;margin-top:5px}.mut{color:var(--mut)}.tag{display:inline-block;padding:5px 8px;border-radius:99px;background:#2b213b;color:#ddceff;font-size:11px}.ok{color:var(--ok)}.red{color:var(--red)}.notice{padding:12px;border-left:3px solid var(--gold);background:#211b2b;border-radius:9px;margin:12px 0}.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:9px}.full{grid-column:1/-1}input,select{width:100%;padding:11px;border-radius:9px;border:1px solid var(--line);background:#0d0c12;color:#fff}.linkbox{word-break:break-all;background:#0c0b10;padding:11px;border-radius:9px;border:1px dashed #5a4b70;margin-top:8px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.row{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}table{width:100%;border-collapse:collapse}th,td{padding:9px;border-bottom:1px solid var(--line);text-align:left;font-size:13px}th{color:var(--gold)}.small{font-size:12px}.match{display:grid;grid-template-columns:80px 1fr 1fr 170px;gap:10px;align-items:center}.team{font-weight:800}.score{font-size:20px;font-weight:900}.bracket{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.bracketcol{display:flex;flex-direction:column;gap:12px}.gamebox{background:#100d16;border:1px solid var(--line);border-radius:12px;padding:12px}.gamebox b{display:block;margin:4px 0}.toast{position:fixed;right:15px;bottom:15px;background:#1c1725;border:1px solid var(--line);padding:13px 16px;border-radius:12px;display:none;z-index:50}.empty{padding:20px;text-align:center;color:var(--mut)}.modal{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;padding:18px;z-index:100}.modal.show{display:flex}.modalbox{width:min(560px,100%);max-height:90vh;overflow:auto;background:linear-gradient(145deg,#241d2e,#15121d);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 20px 70px #000}.modalbox h3{margin:0 0 5px}.modal-actions{display:flex;gap:9px;justify-content:flex-end;margin-top:14px;flex-wrap:wrap}.warning{padding:11px 12px;border-left:3px solid var(--gold);background:#302719;border-radius:9px;margin-top:10px}.warning b{color:var(--gold)}@media(max-width:700px){main{padding:11px}.top{padding:13px}.nav{top:62px}.hero{padding:18px}.match{grid-template-columns:55px 1fr 1fr;}.match .actions{grid-column:1/-1}.bracket{grid-template-columns:1fr}.brand{font-size:18px}}
+</style></head><body><div class="app"><header class="top"><div><div class="brand">NFFL <b>LA NUEVA ERA</b></div><div class="sub">ADMINISTRACIÓN</div></div><div id="sessionName" class="mut"></div></header><nav id="nav" class="nav hidden"><button data-v="inicio" class="active">Inicio</button><button data-v="torneos">Torneos</button><button data-v="equipos">Equipos</button><button data-v="rosters">Rosters</button><button data-v="calendario">Calendario</button><button data-v="resultados">Resultados</button><button data-v="tabla">Tabla</button><button data-v="playoffs">Playoffs</button><button onclick="logout()">Salir</button></nav><main>
+<section id="login" class="view active"><div class="card hero"><h1>🏈 Entrar a NFFL</h1><p class="mut">Panel de Administración — La Nueva Era.</p><div class="form"><input id="email" placeholder="Correo"><input id="password" type="password" placeholder="Contraseña"></div><button class="primary full" style="margin-top:10px" onclick="login()">INGRESAR</button><button type="button" class="ghost full" style="margin-top:10px" onclick="resetPassword()">¿OLVIDASTE TU CONTRASEÑA?</button><p id="msg" class="red"></p></div></section>
+<section id="recovery" class="view"><div class="card hero"><h1>🔐 Nueva contraseña</h1><p class="mut">Crea una nueva contraseña para tu cuenta de administradora NFFL.</p><div class="form"><input id="newPassword" type="password" placeholder="Nueva contraseña"><input id="newPassword2" type="password" placeholder="Repite la nueva contraseña"></div><button class="primary full" style="margin-top:10px" onclick="saveNewPassword()">GUARDAR NUEVA CONTRASEÑA</button><p id="recoveryMsg" class="red"></p></div></section>
+<section id="inicio" class="view"><div class="card hero"><h1>Centro de control NFFL</h1><p class="mut">Todo lo de la liga en un solo lugar.</p><div class="toolbar"><button class="primary" onclick="setView('torneos')">🏆 Administrar torneo</button><button class="gold" onclick="setView('rosters')">🔗 Enlaces de roster</button><button onclick="setView('calendario')">📅 Calendario</button></div></div><div class="grid"><div class="card"><div class="mut">Torneos</div><div class="stat" id="cT">0</div></div><div class="card"><div class="mut">Equipos</div><div class="stat" id="cE">0</div></div><div class="card"><div class="mut">Jugadores</div><div class="stat" id="cP">0</div></div><div class="card"><div class="mut">Partidos</div><div class="stat" id="cM">0</div></div></div><div id="dashStatus"></div></section>
+<section id="torneos" class="view"><h2>🏆 Torneos</h2><div class="card"><div class="form"><input id="tn" placeholder="Nombre del torneo"><input id="tseason" placeholder="Temporada (ej. 2026)"><input id="ts" type="date"><select id="trounds"><option value="7" selected>7 jornadas</option><option value="6">6 jornadas</option><option value="5">5 jornadas</option><option value="4">4 jornadas</option><option value="3">3 jornadas</option><option value="2">2 jornadas</option><option value="1">1 jornada</option></select><button class="primary" onclick="createTournament()">+ Crear torneo</button></div><div class="notice">Cada torneo es independiente y puede tener entre <b>1 y 7 jornadas</b>. Al activarlo, los enlaces de roster dejan de permitir cambios.</div></div><div id="tlist"></div><div class="card"><h3>Inscribir equipo en categoría</h3><div class="form"><select id="at"></select><select id="ac"></select><select id="ae"></select><button class="gold" onclick="enrollTeam()">+ Inscribir</button></div><div id="enrolled" class="mut"></div></div>
+<div class="card"><h3>🔄 Sustitución / baja de equipo</h3><div class="notice">Si un equipo se da de baja antes de terminar el torneo, puedes sustituirlo por otro. Los partidos ya jugados se conservan y los partidos pendientes se reasignan al nuevo equipo.</div><div class="form"><select id="rtour"></select><select id="rcat"></select><select id="roldteam"></select><select id="rnewteam"></select><input id="rnote" placeholder="Motivo / observación (opcional)"></div><button class="danger" style="margin-top:9px" onclick="replaceTournamentTeam()">🔄 Dar de baja y sustituir equipo</button><div id="replacementStatus" class="mut small" style="margin-top:8px"></div></div></div></section>
+<section id="equipos" class="view"><h2>👥 Equipos</h2><div class="card"><div class="form"><input id="en" placeholder="Nombre del equipo"><button class="primary" onclick="createTeam()">+ Crear equipo</button></div><p class="mut small">La categoría se asigna al inscribir el equipo en un torneo.</p></div><div id="elist"></div></section>
+<section id="rosters" class="view"><h2>📋 Rosters</h2><div class="notice">Desde aquí Administración puede <b>consultar los rosters ya registrados</b> de cualquier torneo, categoría y equipo. La revisión es independiente del enlace que recibe cada coach.</div><div class="card"><h3>🔗 Enlaces de Roster para Coaches</h3><div class="form"><select id="rt"></select><select id="rc"></select><select id="re"></select><button class="gold" onclick="generateLink()">GENERAR ENLACE</button></div><p id="linkStatus" class="mut"></p><div id="linkOut"></div></div><div class="card"><h3>👀 Visualización de Rosters</h3><div class="form"><select id="art"><option value="">Selecciona torneo</option></select><select id="arc"><option value="">Selecciona categoría</option></select><select id="are"><option value="">Todos los equipos</option></select><button onclick="loadAdminRosters()">🔄 Actualizar</button></div><div id="adminRosterStatus" class="mut small" style="margin-top:9px"></div></div><div id="adminRosterList"></div></section>
+<section id="calendario" class="view"><h2>📅 Calendario</h2><div class="card"><div class="form"><select id="ct"></select><select id="cc"></select><input id="cd" type="date"><input id="cf" placeholder="Cancha"><input id="ch" type="time"></div><div class="toolbar" style="margin-top:9px"><button class="primary" onclick="generateSchedule()">🎲 Generar jornadas del torneo</button><button onclick="manualMatch()">✏️ Crear juego manual</button><button class="gold" onclick="publishCategorySchedule()">📢 Publicar jornada/categoría</button></div><div class="notice">El generador usa el número de jornadas configurado en el torneo, evita repetir rivales cuando es posible y permite torneos relámpago.</div></div><div class="card"><h3>🔁 Reponer jornada de equipo sustituto</h3><div class="notice">Usa esto cuando un equipo entra después de que otro se dio de baja. El partido de reposición cuenta para el equipo que necesita completar sus jornadas; el rival queda excluido de sus estadísticas.</div><div class="form"><select id="mt"></select><select id="mc"></select><select id="mmake"></select><select id="mopp"></select><input id="mround" type="number" min="1" placeholder="Jornada de reposición"><input id="mdate" type="date"><input id="mtime" type="time"><input id="mfield" placeholder="Cancha"><input id="mnote" placeholder="Motivo / observación"></div><div class="toolbar" style="margin-top:9px"><button class="gold" onclick="createMakeupMatch()">➕ Crear partido de reposición</button></div><div id="makeupStatus" class="mut small" style="margin-top:8px"></div></div><div id="scheduleList"></div></section>
+<section id="resultados" class="view"><h2>🏈 Resultados</h2><div class="notice">Incomparecencia = <b>18–0</b>. El equipo ausente conserva el adeudo del arbitraje.</div><div class="card"><div class="form"><select id="rst"></select><select id="rsc"></select><select id="rsr"></select></div></div><div id="resultsList"></div></section>
+<section id="tabla" class="view"><h2>📊 Tabla de posiciones</h2><div class="card"><div class="form"><select id="st"></select><select id="sc"></select></div></div><div id="standings"></div></section>
+<section id="playoffs" class="view"><h2>🏆 Playoffs</h2><div class="card"><div class="form"><select id="pt"></select><select id="pc"></select></div><div class="toolbar" style="margin-top:9px"><button class="gold" onclick="buildPlayoffs()">Generar bracket</button><button onclick="publishPlayoffs()">📢 Publicar bracket</button></div><div class="notice">Siembra automática: <b>DIF → PA → PC</b>. El formato se adapta al número de equipos de cada categoría.</div></div><div id="bracket"></div></section>
+</main></div>
+<div id="toast" class="toast"></div>
+<div id="editModal" class="modal" onclick="if(event.target===this)closeEditMatch()">
+  <div class="modalbox">
+    <h3>✏️ EDITAR PARTIDO — VENTANA ÚNICA</h3>
+    <div id="editMatchTeams" class="mut small" style="margin-bottom:12px"></div>
+    <div class="form">
+      <div><label class="small mut">Fecha</label><input id="emDate" type="date"></div>
+      <div><label class="small mut">Hora</label><input id="emTime" type="time"></div>
+      <div><label class="small mut">Cancha</label><input id="emField" placeholder="Ej. Cancha 1"></div>
+      <div><label class="small mut">Jornada</label><input id="emRound" type="number" min="1" max="7"></div>
+    </div>
+    <div id="editWarnings"></div>
+    <div class="modal-actions">
+      <button onclick="closeEditMatch()">Cancelar</button>
+      <button class="primary" onclick="saveEditMatch()">💾 Guardar cambios</button>
+    </div>
+  </div>
+</div>
+<script>
+const SUPABASE_URL='https://picivrqgmckrwutarhyw.supabase.co';let sb=null;
+const key='sb_publishable_SK8XBpzn3b5Dr-qa2rO7Nw_un7KbvCl';
+function makeClient(){
+  if(!window.supabase||!window.supabase.createClient) throw new Error('No se pudo cargar el sistema de acceso.');
+  return window.supabase.createClient(SUPABASE_URL,key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,flowType:'pkce'}});
+}
+try{sb=makeClient()}catch(e){console.error(e)}
+function toast(x){const t=document.getElementById('toast');t.textContent=x;t.style.display='block';setTimeout(()=>t.style.display='none',2600)}
+function esc(s){return String(s??'').replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[m]))}function val(id){return document.getElementById(id)?.value||''}function fill(id,data,key,label){const el=document.getElementById(id);if(!el)return;const old=el.value;el.innerHTML=(data||[]).map(x=>`<option value="${esc(x[key])}">${esc(x[label])}</option>`).join('');if(old&&[...el.options].some(o=>o.value===old))el.value=old}
+function setView(v){document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));document.getElementById(v).classList.add('active');document.querySelectorAll('.nav button[data-v]').forEach(b=>b.classList.toggle('active',b.dataset.v===v));({torneos:loadT,equipos:loadE,rosters:loadRosterSelects,calendario:loadScheduleSelectors,resultados:loadResults,tabla:loadStandingsSelectors,playoffs:loadPlayoffSelectors,inicio:refreshDashboard}[v]||(()=>{}))()}
+document.querySelectorAll('.nav button[data-v]').forEach(b=>b.onclick=()=>setView(b.dataset.v));
+async function refreshAllSelectors(){if(!sb)return;await loadEnrollmentSelectors();await loadRosterSelects();await loadScheduleSelectors();await loadStandingsSelectors();await loadPlayoffSelectors()}
+async function login(){
+  const msg=document.getElementById('msg');msg.textContent='';
+  const email=val('email').trim(),password=val('password');
+  if(!email||!password){msg.textContent='Escribe tu correo y contraseña.';return}
+  try{
+    sb=makeClient();
+    const {data,error}=await sb.auth.signInWithPassword({email,password});
+    if(error)throw error;
+    if(!data?.session||!data?.user?.id)throw new Error('La sesión no pudo establecerse.');
+    const {data:isAdmin,error:adminError}=await sb.rpc('is_admin');
+    if(adminError)throw new Error('No se pudo verificar el permiso de administradora.');
+    if(isAdmin!==true){await sb.auth.signOut();throw new Error('Esta cuenta no tiene permisos de Administradora NFFL.')}
+    const {data:prof}=await sb.from('profiles').select('full_name').eq('id',data.user.id).maybeSingle();
+    document.getElementById('login').classList.remove('active');
+    document.getElementById('recovery').classList.remove('active');
+    document.getElementById('nav').classList.remove('hidden');
+    document.getElementById('sessionName').textContent=prof?.full_name||'Administradora NFFL';
+    msg.textContent='';
+    setView('inicio');
+  }catch(e){
+    console.error('NFFL login:',e);
+    msg.textContent=e?.message||'No se pudo iniciar sesión.';
+  }
+}
+async function resetPassword(){
+  const email=val('email').trim();
+  if(!email)return document.getElementById('msg').textContent='Escribe tu correo primero.';
+  try{
+    if(!sb) sb=supabase.createClient(SUPABASE_URL,key);
+    const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin});
+    if(error)throw error;
+    const msg=document.getElementById('msg'); msg.className=''; msg.style.color='#d7ff72'; msg.textContent='Te enviamos un enlace para restablecer tu contraseña. Revisa tu correo.';
+  }catch(e){const msg=document.getElementById('msg');msg.className='red';msg.textContent=e.message}
+}
+async function saveNewPassword(){
+  if(!sb) sb=supabase.createClient(SUPABASE_URL,key);
+  const a=val('newPassword'),b=val('newPassword2'),m=document.getElementById('recoveryMsg');
+  m.className='red'; m.style.color='';
+  if(!a||a.length<8)return m.textContent='La contraseña debe tener al menos 8 caracteres.';
+  if(a!==b)return m.textContent='Las contraseñas no coinciden.';
+  try{
+    const {error}=await sb.auth.updateUser({password:a});
+    if(error)throw error;
+    m.className=''; m.style.color='#d7ff72'; m.textContent='Contraseña actualizada. Ya puedes entrar a NFFL.';
+    document.getElementById('password').value=a;
+    setTimeout(()=>{setView('login')},900);
+  }catch(e){m.className='red';m.textContent=e.message}
+}
+function showRecovery(){document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));document.getElementById('recovery').classList.add('active');document.getElementById('nav').classList.add('hidden');}
+if(sb) sb.auth.onAuthStateChange((event)=>{if(event==='PASSWORD_RECOVERY')showRecovery();});
+async function initAdminSession(){
+  const msg=document.getElementById('msg');
+  try{
+    sb=makeClient();
+    const {data:{session},error:sessionError}=await sb.auth.getSession();
+    if(sessionError)throw sessionError;
+    if(!session){
+      document.getElementById('login').classList.add('active');
+      document.getElementById('nav').classList.add('hidden');
+      return;
+    }
+    const {data:isAdmin,error:adminError}=await sb.rpc('is_admin');
+    if(adminError)throw new Error('No se pudo verificar el permiso de administradora.');
+    if(isAdmin!==true){
+      await sb.auth.signOut();
+      document.getElementById('login').classList.add('active');
+      document.getElementById('nav').classList.add('hidden');
+      msg.textContent='Esta cuenta no tiene permisos de Administradora NFFL.';
+      return;
+    }
+    const {data:prof}=await sb.from('profiles').select('full_name').eq('id',session.user.id).maybeSingle();
+    document.getElementById('login').classList.remove('active');
+    document.getElementById('recovery').classList.remove('active');
+    document.getElementById('nav').classList.remove('hidden');
+    document.getElementById('sessionName').textContent=prof?.full_name||'Administradora NFFL';
+    setView('inicio');
+  }catch(e){
+    console.error('NFFL session:',e);
+    document.getElementById('login').classList.add('active');
+    document.getElementById('nav').classList.add('hidden');
+    msg.textContent=e?.message||'No se pudo verificar el acceso.';
+  }
+}
+if(location.pathname.endsWith('/admin.html')){
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initAdminSession);
+  else initAdminSession();
+}
+// Fallback: if Supabase returns from a recovery link, make the recovery form visible even if the auth event arrives late.
+(function(){
+  const hasRecoveryCode=new URLSearchParams(location.search).has('code');
+  const hash=location.hash||'';
+  const hasRecoveryHash=/type=recovery|error_code=|error_description=.*recover/i.test(hash);
+  if(hasRecoveryCode||hasRecoveryHash)setTimeout(()=>showRecovery(),300);
+})();
+async function logout(){if(sb)await sb.auth.signOut();location.reload()}
+async function refreshDashboard(){if(!sb)return;for(const [id,table] of [['cT','tournaments'],['cE','teams'],['cP','players'],['cM','matches']]){const {count}=await sb.from(table).select('*',{count:'exact',head:true});document.getElementById(id).textContent=count??0}const {data}=await sb.from('tournaments').select('name,status,start_date').order('created_at',{ascending:false}).limit(1);document.getElementById('dashStatus').innerHTML=data?.[0]?`<div class="card"><b>Último torneo:</b> ${esc(data[0].name)} <span class="tag">${esc(data[0].status)}</span> · inicio ${data[0].start_date||'sin fecha'}</div>`:''}
+async function createTournament(){const name=val('tn').trim(),start=val('ts');if(!name||!start)return alert('Completa nombre y fecha.');const rounds=Number(val('trounds'))||7;const u=(await sb.auth.getUser()).data.user;const {error}=await sb.from('tournaments').insert({name,season:val('tseason').trim()||null,start_date:start,regular_rounds:rounds,status:'proximo',created_by:u.id});if(error)return alert(error.message);toast('Torneo creado');document.getElementById('tn').value='';document.getElementById('tseason').value='';document.getElementById('trounds').value='7';await loadT();refreshDashboard()}
+async function deleteTournament(id){const {data:t,error:te}=await sb.from('tournaments').select('id,name,status').eq('id',id).single();if(te)return alert(te.message);if(t.status==='activo')return alert('No se puede eliminar un torneo activo. Finalizalo primero.');if(!confirm('Eliminar definitivamente el torneo '+t.name+'? Se eliminaran sus datos del torneo, pero NO los equipos ni jugadores generales.'))return;const {error}=await sb.rpc('delete_tournament',{p_tournament_id:id});if(error)return alert(error.message);toast('Torneo eliminado');await loadT();refreshDashboard()}async function loadT(){const {data,error}=await sb.from('tournaments').select('*');if(error)return alert(error.message);const ordered=(data||[]).sort((a,b)=>{const af=a.status==='finalizado'?1:0,bf=b.status==='finalizado'?1:0;return af-bf||new Date(b.created_at)-new Date(a.created_at)});document.getElementById('tlist').innerHTML=ordered.map(t=>`<div class="card"><div class="row"><b>${esc(t.name)}</b><span class="tag">${esc(t.status)}</span></div><div class="mut small">${t.season?`Temporada ${esc(t.season)} · `:''}Inicio: ${t.start_date||'sin fecha'} · ${t.regular_rounds} ${t.regular_rounds===1?'jornada':'jornadas'}</div><div class="toolbar" style="margin-top:9px">${t.status==='proximo'?`<button class="primary" onclick="activateTournament('${t.id}')">▶ Activar torneo</button>`:''}${t.status!=='finalizado'?`<button class="danger" onclick="finishTournament('${t.id}')">✓ Finalizar</button>`:''}${t.status!=='activo'?`<button class="danger" onclick="deleteTournament('${t.id}','${esc(t.name)}')">🗑️ Eliminar torneo</button>`:''}</div></div>`).join('')||'<div class="empty">Sin torneos.</div>';await loadEnrollmentSelectors();await loadReplacementSelectors()}
+async function activateTournament(id){if(!confirm('¿Activar torneo? Los enlaces de roster quedarán cerrados.'))return;const {error}=await sb.from('tournaments').update({status:'activo'}).eq('id',id);if(error)alert(error.message);else{toast('Torneo activado. Rosters cerrados.');loadT();}}
+async function finishTournament(id){if(!confirm('¿Marcar torneo como finalizado?'))return;const {error}=await sb.from('tournaments').update({status:'finalizado'}).eq('id',id);if(error)alert(error.message);else{toast('Torneo finalizado');loadT()}}
+async function deleteTournament(id,name){if(!confirm(`¿Eliminar DEFINITIVAMENTE el torneo \"${name}\"?\n\nSe borrarán sus inscripciones, rosters, partidos, playoffs y enlaces. Los equipos y jugadores generales NO se borrarán. Esta acción no se puede deshacer.`))return;const {error}=await sb.rpc('delete_tournament',{p_tournament_id:id});if(error)return alert(error.message);toast('Torneo eliminado');await loadT();refreshDashboard()}
+async function loadEnrollmentSelectors(){const {data:t}=await sb.from('tournaments').select('id,name').eq('status','proximo').order('created_at',{ascending:false});fill('at',t,'id','name');const {data:c}=await sb.from('categories').select('id,name').order('name');fill('ac',c,'id','name');const {data:e}=await sb.from('teams').select('id,name').order('name');fill('ae',e,'id','name');await loadEnrolled()}
+async function loadReplacementSelectors(){const {data:t}=await sb.from('tournaments').select('id,name,status').in('status',['proximo','activo']).order('created_at',{ascending:false});fill('rtour',t,'id','name');await loadReplacementCats()}
+async function loadReplacementCats(){const tid=val('rtour');const {data}=await sb.from('tournament_categories').select('category_id,categories(id,name)').eq('tournament_id',tid);fill('rcat',(data||[]).map(x=>({id:x.category_id,name:x.categories?.name||'Categoría'})),'id','name');await loadReplacementTeams()}
+async function loadReplacementTeams(){const tid=val('rtour'),cat=val('rcat');const oldEl=document.getElementById('roldteam'),newEl=document.getElementById('rnewteam');if(!tid||!cat){oldEl.innerHTML='<option value="">Equipo que sale</option>';newEl.innerHTML='<option value="">Equipo que entra</option>';return}const {data:ins}=await sb.from('tournament_teams').select('id,team_id,teams(id,name),is_active').eq('tournament_id',tid).eq('category_id',cat).eq('is_active',true);const active=(ins||[]).filter(x=>x.teams);oldEl.innerHTML='<option value="">Equipo que sale</option>'+active.map(x=>`<option value="${x.id}">${esc(x.teams.name)}</option>`).join('');const used=new Set(active.map(x=>x.team_id));const {data:all}=await sb.from('teams').select('id,name').order('name');newEl.innerHTML='<option value="">Equipo que entra</option>'+(all||[]).filter(x=>!used.has(x.id)).map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join('')}
+async function replaceTournamentTeam(){const tt=val('roldteam'),nt=val('rnewteam');if(!tt||!nt)return alert('Selecciona el equipo que sale y el equipo que entra.');if(!confirm('¿Confirmas la sustitución? Los partidos ya jugados se conservarán y los pendientes se reasignarán al nuevo equipo.'))return;const {data,error}=await sb.rpc('replace_tournament_team',{p_tournament_team_id:tt,p_new_team_id:nt,p_note:val('rnote').trim()||null});if(error)return alert(error.message||'La función de sustitución todavía no está disponible en el servidor.');document.getElementById('replacementStatus').textContent=`Sustitución realizada. Partidos reasignados: ${data?.matches_reassigned??0}.`;toast('Equipo sustituido correctamente');await loadEnrollmentSelectors();await loadReplacementSelectors();await loadScheduleSelectors();}
+async function enrollTeam(){const tournament_id=val('at'),category_id=val('ac'),team_id=val('ae');if(!tournament_id||!category_id||!team_id)return alert('Selecciona torneo, categoría y equipo.');const {error}=await sb.from('tournament_teams').insert({tournament_id,category_id,team_id});if(error)return alert(error.message);const {error:ce}=await sb.from('tournament_categories').upsert({tournament_id,category_id},{onConflict:'tournament_id,category_id'});if(ce)return alert(ce.message);toast('Equipo inscrito en la categoría');loadEnrolled();await refreshAllSelectors()}
+async function loadEnrolled(){const tid=val('at');if(!tid){document.getElementById('enrolled').textContent='';return}const {data}=await sb.from('tournament_teams').select('team_id,category_id,teams(name),categories(name),is_active').eq('tournament_id',tid).eq('is_active',true);document.getElementById('enrolled').innerHTML=(data||[]).map(x=>`<div>• ${esc(x.teams.name)} — ${esc(x.categories.name)}</div>`).join('')||'Sin equipos inscritos.'}
+async function createTeam(){const name=val('en').trim();if(!name)return alert('Escribe el nombre del equipo.');const {error}=await sb.from('teams').insert({name});if(error)alert(error.message);else{toast('Equipo creado');document.getElementById('en').value='';loadE()}}
+async function loadE(){const {data,error}=await sb.from('teams').select('*').order('name');if(error)return alert(error.message);document.getElementById('elist').innerHTML=(data||[]).map(e=>`<div class="card"><div class="row"><b>${esc(e.name)}</b><span class="tag">${e.coach_id?'Coach asignado':'Coach pendiente'}</span></div></div>`).join('')||'<div class="empty">Sin equipos.</div>'}
+async function loadRosterSelects(){const {data:t}=await sb.from('tournaments').select('id,name,start_date,status').in('status',['proximo','activo']).order('created_at',{ascending:false});fill('rt',t,'id','name');await updateRosterCatsTeams();fill('art',t,'id','name');await updateAdminRosterCatsTeams()}
+async function updateRosterCatsTeams(){const tid=val('rt'),cat=val('rc');if(!tid)return;const {data:tc}=await sb.from('tournament_categories').select('category_id,categories(id,name)').eq('tournament_id',tid);fill('rc',(tc||[]).map(x=>({id:x.categories.id,name:x.categories.name})),'id','name');const selectedCat=cat&&[...document.getElementById('rc').options].some(o=>o.value===cat)?cat:val('rc');const {data:e}=await sb.from('tournament_teams').select('team_id,teams(id,name)').eq('tournament_id',tid).eq('category_id',selectedCat).eq('is_active',true);fill('re',(e||[]).map(x=>({id:x.teams.id,name:x.teams.name})),'id','name')}
+document.getElementById('rt').onchange=updateRosterCatsTeams;document.getElementById('rc').onchange=updateRosterCatsTeams;
+async function updateAdminRosterCatsTeams(){const tid=val('art');const catEl=document.getElementById('arc'),teamEl=document.getElementById('are');if(!tid){catEl.innerHTML='<option value="">Selecciona categoría</option>';teamEl.innerHTML='<option value="">Todos los equipos</option>';document.getElementById('adminRosterList').innerHTML='';return}const {data:tc,error}=await sb.from('tournament_categories').select('category_id,categories(id,name)').eq('tournament_id',tid);if(error)return alert(error.message);const cats=(tc||[]).map(x=>({id:x.category_id,name:x.categories?.name||'Categoría'}));fill('arc',cats,'id','name');if(cats.length)catEl.value=cats[0].id;await updateAdminRosterTeams()}
+async function updateAdminRosterTeams(){const tid=val('art'),cat=val('arc'),teamEl=document.getElementById('are');if(!tid||!cat){teamEl.innerHTML='<option value="">Todos los equipos</option>';document.getElementById('adminRosterList').innerHTML='';return}const {data:e,error}=await sb.from('tournament_teams').select('team_id,teams(id,name)').eq('tournament_id',tid).eq('category_id',cat).eq('is_active',true);if(error)return alert(error.message);teamEl.innerHTML='<option value="">Todos los equipos</option>'+(e||[]).map(x=>`<option value="${x.team_id}">${esc(x.teams?.name||'Equipo')}</option>`).join('');await loadAdminRosters()}
+async function loadAdminRosters(){
+ const tid=val('art'),cat=val('arc'),team=val('are');
+ const out=document.getElementById('adminRosterList'),status=document.getElementById('adminRosterStatus');
+ if(!tid||!cat){out.innerHTML='<div class="empty">Selecciona torneo y categoría para consultar los rosters.</div>';return}
+ const {data:teams,error:te}=await sb.from('tournament_teams').select('team_id,teams(id,name)').eq('tournament_id',tid).eq('category_id',cat).eq('is_active',true);
+ if(te)return alert(te.message);
+ let q=sb.from('roster_registrations').select('id,team_id,player_id,status,created_at,approved_at,teams(name),categories(name),players(id,full_name,photo_url,jersey_number,curp)').eq('tournament_id',tid).eq('category_id',cat).order('created_at');
+ if(team)q=q.eq('team_id',team);
+ const {data,error}=await q;if(error)return alert(error.message);
+ const rows=data||[], grouped={};
+ (teams||[]).forEach(t=>grouped[t.team_id]={name:t.teams?.name||'Equipo',players:[]});
+ rows.forEach(r=>(grouped[r.team_id]??={name:r.teams?.name||'Equipo',players:[]}).players.push(r));
+ const groups=Object.values(grouped);
+ const total=rows.length, approved=rows.filter(r=>r.status==='aprobado').length, rejected=rows.filter(r=>r.status==='rechazado').length, pending=total-approved-rejected;
+ status.innerHTML=`<b>${groups.length}</b> equipo(s) · <b>${total}</b> jugador(es) · ✅ ${approved} aprobados · 🕐 ${pending} pendientes · ❌ ${rejected} rechazados`;
+ out.innerHTML=groups.map(g=>`<div class="card"><div class="row"><h3 style="margin:0">🏈 ${esc(g.name)}</h3><span class="tag">${g.players.length} jugador${g.players.length===1?'':'es'}</span></div>${g.players.length?`<div style="overflow:auto;margin-top:10px"><table><thead><tr><th>Foto</th><th>Jugador</th><th>Núm.</th><th>CURP</th><th>Estado</th></tr></thead><tbody>${g.players.map(r=>`<tr><td>${r.players?.photo_url?`<img src="${esc(r.players.photo_url)}" alt="" style="width:52px;height:52px;object-fit:cover;border-radius:9px;border:1px solid var(--line)">`:'—'}</td><td><b>${esc(r.players?.full_name||'Sin nombre')}</b><div class="small mut">${r.approved_at?'Revisado: '+new Date(r.approved_at).toLocaleString('es-MX'):''}</div></td><td>${r.players?.jersey_number??'—'}</td><td class="small">${esc(r.players?.curp||'—')}</td><td><span class="tag">${esc(r.status||'registrado')}</span><div class="toolbar" style="margin-top:6px"><button onclick="setRosterStatus('${r.id}','aprobado')">✅ Aprobar</button><button class="danger" onclick="setRosterStatus('${r.id}','rechazado')">❌ Rechazar</button></div></td></tr>`).join('')}</tbody></table></div>`:'<div class="empty">Este equipo todavía no tiene jugadores registrados.</div>'}</div>`).join('')||'<div class="empty">No hay equipos registrados en esta categoría.</div>';
+}
+document.getElementById('rt').onchange=updateRosterCatsTeams;document.getElementById('rc').onchange=updateRosterCatsTeams;
+document.getElementById('art').onchange=updateAdminRosterCatsTeams;
+document.getElementById('arc').onchange=updateAdminRosterTeams;
+async function setRosterStatus(id,status){
+  const label=status==='aprobado'?'aprobar':'rechazar';
+  if(!confirm('¿Deseas '+label+' este registro?'))return;
+  const u=(await sb.auth.getUser()).data.user;
+  const {error}=await sb.from('roster_registrations').update({status,approved_by:status==='aprobado'?u.id:null,approved_at:status==='aprobado'?new Date().toISOString():null}).eq('id',id);
+  if(error)return alert(error.message);
+  toast(status==='aprobado'?'Jugador aprobado':'Jugador rechazado');
+  await loadAdminRosters();
+}
+document.getElementById('are').onchange=loadAdminRosters;
+document.getElementById('rtour').onchange=loadReplacementCats;document.getElementById('rcat').onchange=loadReplacementTeams;document.getElementById('mt').onchange=loadMakeupSelectors;document.getElementById('mc').onchange=loadMakeupTeams;
+async function generateLink(){const tournament_id=val('rt'),category_id=val('rc'),team_id=val('re');if(!tournament_id||!category_id||!team_id)return alert('Selecciona torneo, categoría y equipo.');const {data:token,error}=await sb.rpc('create_roster_access_link',{p_tournament_id:tournament_id,p_category_id:category_id,p_team_id:team_id,p_expires_at:null});if(error)return alert(error.message);const base='https://picivrqgmckrwutarhyw.supabase.co/functions/v1/nffl-roster';const link=base+'?token='+encodeURIComponent(token);document.getElementById('linkStatus').textContent='Enlace activo mientras el torneo esté en Próximo.';document.getElementById('linkOut').innerHTML=`<input id="linkField" value="${esc(link)}" readonly style="margin-top:8px" onclick="this.select()"><div class="toolbar" style="margin-top:8px"><button class="gold" onclick="copyLink()">📋 COPIAR ENLACE</button><button onclick="openRosterLink()">🔗 ABRIR ENLACE</button></div>`}
+async function copyLink(){const f=document.getElementById('linkField');if(!f)return;const link=f.value;f.focus();f.select();try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(link);toast('Enlace copiado.');return}}catch(e){}try{document.execCommand('copy');toast('Enlace copiado.');return}catch(e){}prompt('Copia este enlace:',link)}
+function openRosterLink(){const f=document.getElementById('linkField');if(f&&f.value)window.open(f.value,'_blank')}
+async function loadMakeupSelectors(){const tid=val('mt'),cat=val('mc');if(!tid){return}const {data:tc}=await sb.from('tournament_categories').select('category_id,categories(id,name)').eq('tournament_id',tid);fill('mc',(tc||[]).map(x=>({id:x.category_id,name:x.categories.name})),'id','name');await loadMakeupTeams()}
+async function loadMakeupTeams(){const tid=val('mt'),cat=val('mc');if(!tid||!cat){fill('mmake',[],'id','name');fill('mopp',[],'id','name');return}const {data}=await sb.from('tournament_teams').select('team_id,teams(id,name)').eq('tournament_id',tid).eq('category_id',cat).eq('is_active',true);const arr=(data||[]).map(x=>({id:x.team_id,name:x.teams.name}));fill('mmake',arr,'id','name');fill('mopp',arr,'id','name')}
+async function createMakeupMatch(){const tid=val('mt'),cat=val('mc'),make=val('mmake'),opp=val('mopp');const round=Number(val('mround'));if(!tid||!cat||!make||!opp||make===opp||!round)return alert('Selecciona torneo, categoría, equipo que repone, rival y jornada.');const date=val('mdate')||null,time=val('mtime')||null,field=val('mfield').trim()||null,note=val('mnote').trim()||'Reposición por sustitución';const {data,error}=await sb.from('matches').insert({tournament_id:tid,category_id:cat,round_number:round,match_date:date,match_time:time,field_name:field,home_team_id:make,away_team_id:opp,status:'programado',published:false,is_makeup:true,stats_exclude_team_id:opp,replacement_note:note}).select('id').single();if(error)return alert(error.message);document.getElementById('makeupStatus').textContent='Partido de reposición creado. El rival quedará excluido de las estadísticas de este partido.';toast('Reposición creada');await loadSchedule()}
+async function loadScheduleSelectors(){const {data:t}=await sb.from('tournaments').select('id,name,status').in('status',['proximo','activo']).order('created_at',{ascending:false});fill('ct',t,'id','name');fill('mt',t,'id','name');await scheduleCats();await loadMakeupSelectors()}
+async function scheduleCats(){const tid=val('ct');const {data}=await sb.from('tournament_categories').select('category_id,categories(id,name)').eq('tournament_id',tid);fill('cc',(data||[]).map(x=>({id:x.categories.id,name:x.categories.name})),'id','name');loadSchedule()}
+document.getElementById('ct').onchange=scheduleCats;document.getElementById('cc').onchange=loadSchedule;document.getElementById('pt').onchange=playoffCats;document.getElementById('pc').onchange=buildPlayoffsView;
+async function loadSchedule(){const tid=val('ct'),cat=val('cc');if(!tid||!cat)return;const {data,error}=await sb.from('matches').select('*,home:home_team_id(name),away:away_team_id(name)').eq('tournament_id',tid).eq('category_id',cat).order('round_number').order('match_time');if(error)return alert(error.message);const rows=data||[];const by={};rows.forEach(m=>(by[m.round_number]??=[]).push(m));let html=`<div class="card"><h3>📊 Calendario generado</h3><div class="notice"><b>${Object.keys(by).length} jornadas</b> · <b>${rows.length} partidos</b></div></div>`;html+=Object.keys(by).sort((a,b)=>+a-+b).map(r=>`<div class="card"><h3>Jornada ${r}</h3>${by[r].map(m=>`<div class="match"><b>🏈</b><div><div class="team">${esc(m.home?.name||'Local')}</div><div class="team">${esc(m.away?.name||'Visitante')}</div></div><div class="mut small">${m.match_date||'Fecha pendiente'} · ${m.match_time||'Hora pendiente'} · ${esc(m.field_name||'Cancha pendiente')}</div><div class="actions"><button onclick="editMatch('${m.id}')">✏️ Editar</button> <button onclick="publishMatch('${m.id}',${!m.published})">${m.published?'Ocultar':'Publicar'}</button></div></div>`).join('')}</div>`).join('');document.getElementById('scheduleList').innerHTML=html||'<div class="empty">Sin juegos.</div>'}
+async function generateSchedule(){
+ const tid=val('ct'),cat=val('cc');
+ if(!tid||!cat)return alert('Selecciona torneo y categoría.');
+ const {data:tour,error:te}=await sb.from('tournaments').select('regular_rounds').eq('id',tid).single();
+ if(te)return alert(te.message);
+ const {data:rows,error}=await sb.from('tournament_teams').select('team_id,teams(id,name)').eq('tournament_id',tid).eq('category_id',cat).eq('is_active',true);
+ if(error)return alert(error.message);
+ const teams=(rows||[]).map(x=>x.teams).filter(Boolean);
+ if(teams.length<2)return alert('Se necesitan al menos 2 equipos.');
+ const requested=Math.max(1,Number(tour?.regular_rounds)||7);
+ if(!confirm(`Se generarán ${requested} jornadas para ${teams.length} equipos y se reemplazarán los juegos programados actuales de esta categoría. ¿Continuar?`))return;
+ const del=await sb.from('matches').delete().eq('tournament_id',tid).eq('category_id',cat).eq('status','programado').eq('is_makeup',false);
+ if(del.error)return alert(del.error.message);
+ // Método de círculo: una vez por jornada, cada equipo juega como máximo una vez.
+ // Primero agota todos los cruces únicos (n-1 jornadas si n es par; n jornadas si n es impar),
+ // y después repite el ciclo en el mismo orden para las jornadas adicionales, evitando repetir el mismo rival consecutivamente.
+ let pool=teams.slice();
+ if(pool.length%2)pool.push({id:null,name:'DESCANSA'});
+ const n=pool.length,half=n/2;
+ const uniqueRounds=[];
+ for(let r=0;r<n-1;r++){
+   const pairs=[];
+   for(let i=0;i<half;i++){
+     const a=pool[i],b=pool[n-1-i];
+     if(a.id&&b.id)pairs.push([a,b]);
+   }
+   uniqueRounds.push(pairs);
+   pool=[pool[0],pool[n-1],...pool.slice(1,n-1)];
+ }
+ const created=[];
+ for(let r=1;r<=requested;r++){
+   const base=uniqueRounds[(r-1)%uniqueRounds.length]||[];
+   base.forEach(([a,b],idx)=>{
+     // Alterna local/visitante en los ciclos para que las repeticiones no queden idénticas.
+     const flip=Math.floor((r-1)/uniqueRounds.length)%2===1;
+     const home=flip?b:a, away=flip?a:b;
+     created.push({
+       tournament_id:tid,category_id:cat,round_number:r,
+       home_team_id:home.id,away_team_id:away.id,
+       match_date:null,match_time:null,field_name:null,
+       status:'programado',referee_fee_due:true,published:false
+     });
+   });
+ }
+ if(!created.length)return alert('No fue posible generar los enfrentamientos.');
+ const {error:e}=await sb.from('matches').insert(created);
+ if(e)return alert(e.message);
+ toast(`Calendario generado: ${requested} jornadas · ${created.length} partidos.`);
+ await loadSchedule();
+}
+async function manualMatch(){
+ const tid=val('ct'),cat=val('cc');if(!tid||!cat)return alert('Selecciona torneo y categoría.');
+ const {data:tour,error:te}=await sb.from('tournaments').select('regular_rounds').eq('id',tid).single();if(te)return alert(te.message);
+ const {data}=await sb.from('tournament_teams').select('team_id,teams(id,name)').eq('tournament_id',tid).eq('category_id',cat).eq('is_active',true);const teams=(data||[]).map(x=>x.teams);if(teams.length<2)return alert('Faltan equipos.');
+ const maxRounds=Math.max(1,Number(tour?.regular_rounds)||7),list=teams.map((x,i)=>`${i+1}. ${x.name}`).join('\n');
+ const r=Number(prompt(`Jornada 1-${maxRounds}`, '1')),ai=Number(prompt('Número de equipo local:\n'+list,'1')),bi=Number(prompt('Número de equipo visitante:\n'+list,'2'));
+ if(!Number.isInteger(r)||r<1||r>maxRounds||!teams[ai-1]||!teams[bi-1]||ai===bi)return alert('Datos de juego inválidos.');
+ const {error}=await sb.from('matches').insert({tournament_id:tid,category_id:cat,round_number:r,home_team_id:teams[ai-1].id,away_team_id:teams[bi-1].id,match_date:val('cd')||null,match_time:val('ch')||null,field_name:val('cf').trim()||null,status:'programado',referee_fee_due:true,published:false,is_makeup:false});if(error)alert(error.message);else{toast('Juego creado');loadSchedule()}
+}
+let editingMatch=null;
+async function editMatch(id){
+ const {data:m,error}=await sb.from('matches').select('*,home:home_team_id(name),away:away_team_id(name)').eq('id',id).single();
+ if(error)return alert(error.message);
+ editingMatch=m;
+ document.getElementById('editMatchTeams').innerHTML=`<b>${esc(m.home?.name||'Local')} vs ${esc(m.away?.name||'Visitante')}</b>`;
+ document.getElementById('emDate').value=m.match_date||'';
+ document.getElementById('emTime').value=(m.match_time||'').slice(0,5);
+ document.getElementById('emField').value=m.field_name||'';
+ document.getElementById('emRound').value=m.round_number||1;
+ document.getElementById('editWarnings').innerHTML='';
+ document.getElementById('editModal').classList.add('show');
+}
+function closeEditMatch(){editingMatch=null;document.getElementById('editModal').classList.remove('show')}
+async function getScheduleConflicts(m,date,time,field){
+ if(!date||!time)return [];
+ const {data:matches,error}=await sb.from('matches').select('id,category_id,home_team_id,away_team_id,field_name,round_number,home:home_team_id(name),away:away_team_id(name),categories(name)').eq('tournament_id',m.tournament_id).eq('match_date',date).eq('match_time',time+':00').neq('id',m.id).neq('status','cancelado');
+ if(error)return [{type:'error',text:error.message}];
+ const conflicts=[];
+ const allTeams=[m.home_team_id,m.away_team_id];
+ for(const x of matches||[]){
+   if(allTeams.includes(x.home_team_id)||allTeams.includes(x.away_team_id)) conflicts.push({type:'team',text:`${x.home?.name||''} vs ${x.away?.name||''} ya tiene partido a esa hora.`});
+   if(field&&x.field_name&&x.field_name.trim().toLowerCase()===field.trim().toLowerCase()) conflicts.push({type:'field',text:`La ${x.field_name} ya está ocupada en ${x.categories?.name||'otra categoría'}.`});
+ }
+ const otherTeamIds=(matches||[]).flatMap(x=>[x.home_team_id,x.away_team_id]);
+ const teamIds=[...new Set([...allTeams,...otherTeamIds])];
+ if(teamIds.length){
+   const {data:regs}=await sb.from('roster_registrations').select('team_id,player_id').eq('tournament_id',m.tournament_id).in('team_id',teamIds).eq('status','aprobado');
+   const mine=(regs||[]).filter(r=>allTeams.includes(r.team_id)).map(r=>r.player_id);
+   const mineSet=new Set(mine);
+   const shared=(regs||[]).filter(r=>!allTeams.includes(r.team_id)&&mineSet.has(r.player_id));
+   if(shared.length) conflicts.push({type:'player',text:`Hay ${new Set(shared.map(x=>x.player_id)).size} jugador(es) registrados en más de un equipo con partido simultáneo.`});
+ }
+ return conflicts;
+}
+async function saveEditMatch(){
+ if(!editingMatch)return;
+ const date=document.getElementById('emDate').value;
+ const time=document.getElementById('emTime').value;
+ const field=document.getElementById('emField').value.trim();
+ const round=+document.getElementById('emRound').value;
+ if(!date||!time||!round)return alert('Captura fecha, hora y jornada.');
+ const warnings=await getScheduleConflicts(editingMatch,date,time,field);
+ const box=document.getElementById('editWarnings');
+ if(warnings.length){
+   box.innerHTML=`<div class="warning"><b>⚠️ Avisos de programación</b><ul style="margin:7px 0 0 18px">${warnings.map(w=>`<li>${esc(w.text)}</li>`).join('')}</ul><div class="small mut" style="margin-top:7px">Puedes guardar de todos modos. El administrador tiene la última palabra.</div></div>`;
+   if(!confirm('Hay avisos de empalme. ¿Guardar de todos modos?'))return;
+ }
+ const {error:e}=await sb.from('matches').update({match_date:date,match_time:time,field_name:field||null,round_number:round}).eq('id',editingMatch.id);
+ if(e)return alert(e.message);
+ closeEditMatch();toast('Juego actualizado');loadSchedule();
+}
+async function publishMatch(id,p){const {error}=await sb.from('matches').update({published:p}).eq('id',id);if(error)alert(error.message);else loadSchedule()}
+async function publishCategorySchedule(){const tid=val('ct'),cat=val('cc');if(!tid||!cat)return;const {error}=await sb.from('matches').update({published:true}).eq('tournament_id',tid).eq('category_id',cat);if(error)alert(error.message);else{toast('Calendario publicado');loadSchedule()}}
+async function loadResults(){const box=document.getElementById('resultsList');const {data:t,error:te}=await sb.from('tournaments').select('id,name,status,created_at').in('status',['proximo','activo']).order('created_at',{ascending:false});if(te)return alert(te.message);if(!t?.length){box.innerHTML='<div class="empty">No hay torneos activos o próximos.</div>';return}box.innerHTML='<div class="card"><div class="form"><select id="resT"></select><select id="resC"></select><select id="resR"></select></div></div><div id="resGames"></div>';fill('resT',t,'id','name');await updateResultCats();document.getElementById('resT').onchange=updateResultCats;document.getElementById('resC').onchange=updateResultRounds;document.getElementById('resR').onchange=loadResultGames}async function updateResultCats(){const tid=val('resT');const {data}=await sb.from('tournament_categories').select('category_id,categories(id,name)').eq('tournament_id',tid);fill('resC',(data||[]).map(x=>({id:x.category_id,name:x.categories?.name||'Categoría'})),'id','name');await updateResultRounds()}async function updateResultRounds(){const tid=val('resT'),cat=val('resC'),el=document.getElementById('resR');if(!tid||!cat){el.innerHTML='<option value="">Selecciona jornada</option>';return}const {data}=await sb.from('matches').select('round_number').eq('tournament_id',tid).eq('category_id',cat).order('round_number');const rounds=[...new Set((data||[]).map(x=>x.round_number))];el.innerHTML=rounds.map(r=>`<option value="${r}">Jornada ${r}</option>`).join('');await loadResultGames()}async function loadResultGames(){const tid=val('resT'),cat=val('resC'),round=val('resR'),out=document.getElementById('resGames');if(!tid||!cat||!round){out.innerHTML='<div class="empty">Selecciona torneo, categoría y jornada.</div>';return}const {data,error}=await sb.from('matches').select('*,home:home_team_id(name),away:away_team_id(name)').eq('tournament_id',tid).eq('category_id',cat).eq('round_number',Number(round)).order('match_time');if(error)return alert(error.message);out.innerHTML=(data||[]).map(m=>`<div class="card"><div class="row"><b>${esc(m.home?.name||'Local')} vs ${esc(m.away?.name||'Visitante')}</b><span class="tag">J${m.round_number}${m.is_makeup?' · REPOSICIÓN':''}</span></div><div class="form"><input id="ha_${m.id}" type="number" min="0" placeholder="Local" value="${m.home_score??''}"><input id="aa_${m.id}" type="number" min="0" placeholder="Visitante" value="${m.away_score??''}"><select id="ab_${m.id}"><option value="">Sin incomparecencia</option><option value="${m.home_team_id}">Ausente: ${esc(m.home?.name||'Local')}</option><option value="${m.away_team_id}">Ausente: ${esc(m.away?.name||'Visitante')}</option></select><button class="gold" onclick="saveResult('${m.id}')">Guardar</button></div></div>`).join('')||'<div class="empty">Sin juegos en esta jornada.</div>'}
+async function saveResult(id){const abs=val('ab_'+id);if(abs){const {data:m,error:me}=await sb.from('matches').select('home_team_id,away_team_id').eq('id',id).single();if(me||!m)return alert(me?.message||'No se encontró el partido.');const homeAbsent=abs===m.home_team_id;const {error}=await sb.from('matches').update({home_score:homeAbsent?0:18,away_score:homeAbsent?18:0,status:'incomparecencia',absent_team_id:abs,referee_fee_due:true}).eq('id',id);if(error)alert(error.message);else{toast('Incomparecencia registrada 18–0');loadResults()}return}const a=val('ha_'+id),b=val('aa_'+id);if(a===''||b==='')return alert('Captura ambos marcadores.');const sa=Number(a),sbv=Number(b);if(!Number.isInteger(sa)||!Number.isInteger(sbv)||sa<0||sbv<0)return alert('Los marcadores deben ser números enteros de 0 o mayores.');const {error}=await sb.from('matches').update({home_score:sa,away_score:sbv,status:'jugado',absent_team_id:null}).eq('id',id);if(error)alert(error.message);else{toast('Resultado guardado');loadResults()}}
+async function loadStandingsSelectors(){const {data:t}=await sb.from('tournaments').select('id,name,status').in('status',['proximo','activo']).order('created_at',{ascending:false});fill('st',t,'id','name');await standingsCats()}
+async function standingsCats(){const tid=val('st');const {data}=await sb.from('tournament_categories').select('category_id,categories(id,name)').eq('tournament_id',tid);fill('sc',(data||[]).map(x=>({id:x.categories.id,name:x.categories.name})),'id','name');loadStandings()}
+document.getElementById('st').onchange=standingsCats;document.getElementById('sc').onchange=loadStandings;document.getElementById('rst').onchange=resultCats;document.getElementById('rsc').onchange=resultRounds;document.getElementById('rsr').onchange=loadResultsForSelection;
+async function loadStandings(){const tid=val('st'),cat=val('sc');if(!tid||!cat)return;const {data:teams}=await sb.from('tournament_teams').select('team_id,teams(name)').eq('tournament_id',tid).eq('category_id',cat).eq('is_active',true);const {data:ms}=await sb.from('matches').select('*').eq('tournament_id',tid).eq('category_id',cat).in('status',['jugado','incomparecencia']);const map={};(teams||[]).forEach(x=>map[x.team_id]={name:x.teams.name,jj:0,jg:0,pa:0,pc:0});(ms||[]).forEach(m=>{if(!map[m.home_team_id]||!map[m.away_team_id])return;const excluded=m.stats_exclude_team_id||null;const hs=Number(m.home_score)||0,as=Number(m.away_score)||0;if(m.home_team_id!==excluded){map[m.home_team_id].jj++;map[m.home_team_id].pa+=hs;map[m.home_team_id].pc+=as;if(hs>as)map[m.home_team_id].jg++}if(m.away_team_id!==excluded){map[m.away_team_id].jj++;map[m.away_team_id].pa+=as;map[m.away_team_id].pc+=hs;if(as>hs)map[m.away_team_id].jg++}});const r=Object.values(map).map(x=>({...x,dif:x.pa-x.pc})).sort((a,b)=>b.dif-a.dif||b.pa-a.pa||a.pc-b.pc||a.name.localeCompare(b.name));document.getElementById('standings').innerHTML=`<div class="card"><table><thead><tr><th>#</th><th>Equipo</th><th>JJ</th><th>JG</th><th>PA</th><th>PC</th><th>DIF</th></tr></thead><tbody>${r.map((x,i)=>`<tr><td>${i+1}</td><td><b>${esc(x.name)}</b></td><td>${x.jj}</td><td>${x.jg}</td><td>${x.pa}</td><td>${x.pc}</td><td>${x.dif}</td></tr>`).join('')}</tbody></table></div>`}\n\nasync function loadPlayoffSelectors(){const {data:t}=await sb.from('tournaments').select('id,name,status').in('status',['proximo','activo']).order('created_at',{ascending:false});fill('pt',t,'id','name');await playoffCats()}
+async function playoffCats(){const tid=val('pt'),el=document.getElementById('pc');if(!el)return;if(!tid){el.innerHTML='<option value="">Selecciona torneo</option>';return}const {data,error}=await sb.from('tournament_categories').select('category_id,categories(id,name)').eq('tournament_id',tid);if(error){el.innerHTML='<option value="">No se pudieron cargar categorías</option>';return}const cats=(data||[]).map(x=>({id:x.category_id,name:x.categories?.name||'Categoría'}));fill('pc',cats,'id','name');if(!el.value&&cats.length)el.value=cats[0].id;await buildPlayoffsView()}
+async function buildPlayoffs(){const tid=val('pt'),cat=val('pc');if(!tid||!cat)return alert('Selecciona torneo y categoría.');const {data:teams,error:te}=await sb.from('tournament_teams').select('team_id,teams(name)').eq('tournament_id',tid).eq('category_id',cat).eq('is_active',true);if(te)return alert(te.message);if(!teams?.length)return alert('No hay equipos.');const {data:ms,error:me}=await sb.from('matches').select('*').eq('tournament_id',tid).eq('category_id',cat).in('status',['jugado','incomparecencia']);if(me)return alert(me.message);const map={};teams.forEach(x=>map[x.team_id]={id:x.team_id,name:x.teams.name,pa:0,pc:0,jg:0});(ms||[]).forEach(m=>{if(!map[m.home_team_id]||!map[m.away_team_id])return;const excluded=m.stats_exclude_team_id||null,hs=m.home_score||0,as=m.away_score||0;if(m.home_team_id!==excluded){map[m.home_team_id].pa+=hs;map[m.home_team_id].pc+=as;if(hs>as)map[m.home_team_id].jg++;}if(m.away_team_id!==excluded){map[m.away_team_id].pa+=as;map[m.away_team_id].pc+=hs;if(as>hs)map[m.away_team_id].jg++;}});let ranked=Object.values(map).map(x=>({...x,dif:x.pa-x.pc})).sort((a,b)=>b.dif-a.dif||b.pa-a.pa||a.pc-b.pc||a.name.localeCompare(b.name));if(ranked.length<2)return alert('Se necesitan al menos 2 equipos.');ranked=ranked.slice(0,8);ranked.forEach((x,i)=>x.seed=i+1);if(!confirm('Se reemplazará el bracket actual de esta categoría. ¿Continuar?'))return;const {error:de}=await sb.from('playoff_matches').delete().eq('tournament_id',tid).eq('category_id',cat);if(de)return alert(de.message);let rows=[],order=1;const add=(stage,a,b)=>rows.push({tournament_id:tid,category_id:cat,stage,seed_a:a!=null?ranked[a].seed:null,seed_b:b!=null?ranked[b].seed:null,team_a_id:a!=null?ranked[a].id:null,team_b_id:b!=null?ranked[b].id:null,match_order:order++,published:false});const n=ranked.length;if(n>=8){[[0,7],[3,4],[2,5],[1,6]].forEach(x=>add('Cuartos de final',x[0],x[1]));add('Semifinal',null,null);add('Semifinal',null,null);add('Final',null,null)}else if(n===7){[[1,6],[2,5],[3,4]].forEach(x=>add('Cuartos de final',x[0],x[1]));add('Semifinal',0,null);add('Semifinal',null,null);add('Final',null,null)}else if(n===6){add('Cuartos de final',2,5);add('Cuartos de final',3,4);add('Semifinal',0,null);add('Semifinal',1,null);add('Final',null,null)}else if(n===5){add('Cuartos de final',3,4);add('Semifinal',0,null);add('Semifinal',1,2);add('Final',null,null)}else if(n===4){add('Semifinal',0,3);add('Semifinal',1,2);add('Final',null,null)}else if(n===3){add('Semifinal',1,2);add('Final',0,null)}else add('Final',0,1);const {error:pe}=await sb.from('playoff_matches').insert(rows);if(pe)return alert(pe.message);buildPlayoffsView();toast('Bracket completo guardado como borrador')}
+async function savePlayoffResult(id){
+ const {data:m,error}=await sb.from('playoff_matches').select('*,a:team_a_id(name),b:team_b_id(name)').eq('id',id).single();
+ if(error)return alert(error.message);
+ if(!m.team_a_id||!m.team_b_id)return alert('Este partido aún espera al ganador de una ronda anterior.');
+ const a=prompt('Marcador de '+(m.a?.name||'Local'),m.score_a??'0'),b=prompt('Marcador de '+(m.b?.name||'Visitante'),m.score_b??'0');
+ if(a===null||b===null)return;
+ if(a===''||b===''||isNaN(+a)||isNaN(+b)||+a===+b||+a<0||+b<0)return alert('Captura un marcador válido y sin empate.');
+ const winner=(+a>+b)?m.team_a_id:m.team_b_id;
+ const oldWinner=m.winner_team_id||null;
+ const {error:e}=await sb.from('playoff_matches').update({score_a:+a,score_b:+b,winner_team_id:winner}).eq('id',id);
+ if(e)return alert(e.message);
+ const {data:all}=await sb.from('playoff_matches').select('*').eq('tournament_id',m.tournament_id).eq('category_id',m.category_id).order('match_order');
+ const sameStage=all.filter(x=>x.stage===m.stage).sort((x,y)=>x.match_order-y.match_order);
+ const nextStage=m.stage==='Cuartos de final'?'Semifinal':m.stage==='Semifinal'?'Final':null;
+ if(nextStage){
+   const next=all.filter(x=>x.stage===nextStage).sort((x,y)=>x.match_order-y.match_order);
+   const idx=sameStage.findIndex(x=>x.id===id);
+   let target=null,slot=null;
+   if(m.stage==='Cuartos de final'){
+     const qfCount=sameStage.length;
+     if(qfCount===4){
+       // 8+ equipos: QF1/QF2 -> SF1, QF3/QF4 -> SF2.
+       target=next[Math.floor(idx/2)];slot=idx%2===0?'team_a_id':'team_b_id';
+     }else if(qfCount===3){
+       // 7 equipos: seed 1 espera QF1; QF2 y QF3 forman la otra semifinal.
+       if(idx===0){target=next[0];slot='team_b_id';}
+       else {target=next[1];slot=idx===1?'team_a_id':'team_b_id';}
+     }else if(qfCount===2){
+       // 6 equipos: seeds 1 y 2 esperan; cada QF alimenta la segunda plaza.
+       target=next[idx];slot='team_b_id';
+     }else if(qfCount===1){
+       // 5 equipos: seed 1 espera y el ganador del QF enfrenta al seed 1.
+       target=next[0];slot='team_b_id';
+     }
+   }else if(m.stage==='Semifinal'){
+     target=next[0];slot=idx===0?'team_a_id':'team_b_id';
+   }
+   if(target&&slot){
+     const seedSlot=slot==='team_a_id'?'seed_a':'seed_b';
+     const reset={score_a:null,score_b:null,winner_team_id:null};
+     await sb.from('playoff_matches').update(reset).eq('id',target.id);
+     const final=all.find(x=>x.stage==='Final');
+     if(m.stage==='Cuartos de final'&&final)await sb.from('playoff_matches').update(reset).eq('id',final.id);
+     await sb.from('playoff_matches').update({[slot]:winner,[seedSlot]:null}).eq('id',target.id);
+   }
+ }
+ toast(oldWinner&&oldWinner!==winner?'Resultado de playoff corregido':'Resultado de playoff guardado');
+ buildPlayoffsView();
+}
+async function publishPlayoffs(){const tid=val('pt'),cat=val('pc');if(!tid||!cat)return;const {error}=await sb.from('playoff_matches').update({published:true}).eq('tournament_id',tid).eq('category_id',cat);if(error)alert(error.message);else{toast('Bracket publicado');buildPlayoffsView()}}
+async function buildPlayoffsView(){
+ const tid=val('pt'),cat=val('pc');if(!tid||!cat)return;
+ const {data,error}=await sb.from('playoff_matches').select('*,a:team_a_id(name),b:team_b_id(name)').eq('tournament_id',tid).eq('category_id',cat).order('match_order');
+ if(error)return alert(error.message);
+ if(!data?.length){document.getElementById('bracket').innerHTML='<div class="empty">Aún no hay bracket generado.</div>';return}
+ const stages=[...new Set(data.map(m=>m.stage))];
+ document.getElementById('bracket').innerHTML='<div class="card"><h3>Bracket</h3><div class="bracket">'+stages.map(stage=>`<div class="bracketcol"><h4 style="margin:4px 0">${esc(stage)}</h4>${data.filter(m=>m.stage===stage).map(m=>`<div class="gamebox"><span class="mut small">Juego ${m.match_order}</span><b>${esc(m.a?.name||'Por definir')}</b><span>${m.score_a??''}</span><b>${esc(m.b?.name||'Por definir')}</b><span>${m.score_b??''}</span><span class="tag">${m.winner_team_id?'Ganador definido':m.published?'Publicado':'Borrador'}</span>${m.team_a_id&&m.team_b_id?`<button style="margin-top:8px" onclick="savePlayoffResult('${m.id}')">🏈 ${m.winner_team_id?'Editar resultado':'Capturar resultado'}</button>`:''}</div>`).join('')}</div>`).join('')+'</div></div>';
+}
+
+</script></body></html>
