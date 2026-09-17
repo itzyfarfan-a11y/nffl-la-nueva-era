@@ -104,8 +104,13 @@ t.onchange=()=>{c.dataset.keep='';refresh()};c.onchange=()=>{c.dataset.keep=c.va
     try{
       const d=await authLogin(e,p);
       msg.textContent='Acceso correcto. Abriendo administración…';
-      const hash='#access_token='+encodeURIComponent(d.access_token)+'&refresh_token='+encodeURIComponent(d.refresh_token)+'&expires_in='+encodeURIComponent(d.expires_in||3600)+'&token_type=bearer&type=login';
-      window.location.replace(window.location.origin+'/admin.html'+hash);
+      // Guardamos temporalmente la sesión y abrimos administración sin depender de un hash largo.
+      localStorage.setItem('nffl_admin_session',JSON.stringify({
+        access_token:d.access_token,
+        refresh_token:d.refresh_token,
+        expires_in:d.expires_in||3600
+      }));
+      window.location.href=window.location.origin+'/admin.html';
     }catch(err){
       msg.textContent=err.message||'No se pudo iniciar sesión.';
       console.error(err);
