@@ -20,6 +20,7 @@
     <label>Contraseña</label>
     <input id="adminPassword" type="password" autocomplete="current-password" placeholder="Contraseña">
     <button id="adminLogin" class="login-btn" type="button">INGRESAR</button>
+    <button id="adminReset" type="button" style="margin-top:10px;width:100%;background:transparent;border:0;color:#d8c8ff;text-decoration:underline;padding:8px">¿Olvidaste tu contraseña?</button>
     <div id="adminMsg" class="login-msg"></div>
   </div>
 </div>
@@ -97,9 +98,29 @@ t.onchange=()=>{c.dataset.keep='';refresh()};c.onchange=()=>{c.dataset.keep=c.va
       msg.textContent='Acceso correcto. Abriendo administración…';
       window.location.href=window.location.origin+'/admin.html';
     }catch(err){
-      msg.textContent=err.message==='Esta cuenta no tiene permisos de Administradora NFFL.'?'Esta cuenta no tiene permisos de Administradora NFFL.':'No se pudo iniciar sesión. Verifica tus datos.';
+      const code=err?.code||'';
+      const text=err?.message||'';
+      if(code==='invalid_credentials' || /invalid login credentials/i.test(text)){
+        msg.textContent='Correo o contraseña incorrectos.';
+      }else if(text==='Esta cuenta no tiene permisos de Administradora NFFL.'){
+        msg.textContent=text;
+      }else{
+        msg.textContent='Error de acceso: '+text;
+      }
       console.error(err);
     }finally{login.disabled=false;login.textContent='INGRESAR'}
+  });
+  document.getElementById('adminReset')?.addEventListener('click',async()=>{
+    const e=email.value.trim();
+    if(!e){msg.textContent='Escribe tu correo primero.';return}
+    msg.textContent='Enviando enlace de recuperación…';
+    try{
+      if(!window.supabase || !window.supabase.createClient) throw new Error('Supabase no disponible');
+      const client=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+      const {error}=await client.auth.resetPasswordForEmail(e,{redirectTo:window.location.origin+'/admin.html'});
+      if(error)throw error;
+      msg.textContent='Revisa tu correo para crear una nueva contraseña.';
+    }catch(err){msg.textContent='No se pudo enviar el enlace: '+(err?.message||'error desconocido');}
   });
 })();
 </script>
