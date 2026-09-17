@@ -1,2 +1,7 @@
 /*
-  Cache-Control: no-cache, no-store, must-revalidate
+  NFFL LA NUEVA ERA
+  No-cache para evitar que el celular conserve una versión vieja.
+*/
+Cache-Control: no-cache, no-store, must-revalidate
+Pragma: no-cache
+Expires: 0
