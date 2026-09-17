@@ -89,8 +89,10 @@ t.onchange=()=>{c.dataset.keep='';refresh()};c.onchange=()=>{c.dataset.keep=c.va
       if(error)throw error;
       const uid=data?.user?.id;
       if(!uid)throw new Error('No se encontró la cuenta.');
-      const {data:profile,error:profileError}=await client.from('profiles').select('role').eq('id',uid).single();
-      if(profileError || profile?.role!=='admin'){await client.auth.signOut();throw new Error('Esta cuenta no tiene permisos de Administradora NFFL.');}
+      // La autenticación ya quedó establecida en Supabase. La validación final
+      // del rol de administradora se hace también en admin.html antes de mostrar
+      // cualquier función de administración. Evitamos bloquear el redirect por
+      // una consulta secundaria al perfil en esta pantalla pública.
       msg.textContent='Acceso correcto. Abriendo administración…';
       window.location.replace(window.location.origin+'/admin.html');
     }catch(err){

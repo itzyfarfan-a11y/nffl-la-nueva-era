@@ -1,5 +1,5 @@
 <!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NFFL — La Nueva Era · Administración</title><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
-:root{--bg:#07070b;--card:#15121d;--card2:#1d1828;--line:#382e48;--purple:#7d22ff;--gold:#e6c04d;--txt:#fff;--mut:#aaa4b7;--ok:#50d890;--red:#ff6378;--blue:#62a8ff}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -10%,#35105f,#07070b 48%);color:var(--txt);font-family:Arial,sans-serif}.app{max-width:1180px;margin:auto;min-height:100vh}.top{padding:15px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#09090eed;backdrop-filter:blur(12px);z-index:10}.brand{font-weight:900;font-size:22px}.brand b{color:var(--gold)}.sub{font-size:10px;letter-spacing:3px;color:var(--mut);margin-top:3px}.nav{display:flex;gap:6px;overflow:auto;padding:9px 12px;border-bottom:1px solid var(--line);position:sticky;top:68px;background:#09090ef5;z-index:9}.nav button{white-space:nowrap}button{border:0;border-radius:10px;padding:10px 13px;background:#292333;color:#fff;font-weight:800;cursor:pointer}button:hover{filter:brightness(1.15)}.nav button.active,.primary{background:var(--purple)}.gold{background:var(--gold);color:#17120a}.danger{background:#632031}.blue{background:#244e80}.view{display:none}.view.active{display:block}main{padding:18px}.card{background:linear-gradient(145deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:16px;padding:16px;margin:12px 0}.hero{padding:24px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.stat{font-size:28px;font-weight:900;margin-top:5px}.mut{color:var(--mut)}.tag{display:inline-block;padding:5px 8px;border-radius:99px;background:#2b213b;color:#ddceff;font-size:11px}.ok{color:var(--ok)}.red{color:var(--red)}.notice{padding:12px;border-left:3px solid var(--gold);background:#211b2b;border-radius:9px;margin:12px 0}.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:9px}.full{grid-column:1/-1}input,select{width:100%;padding:11px;border-radius:9px;border:1px solid var(--line);background:#0d0c12;color:#fff}.linkbox{word-break:break-all;background:#0c0b10;padding:11px;border-radius:9px;border:1px dashed #5a4b70;margin-top:8px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.row{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}table{width:100%;border-collapse:collapse}th,td{padding:9px;border-bottom:1px solid var(--line);text-align:left;font-size:13px}th{color:var(--gold)}.small{font-size:12px}.match{display:grid;grid-template-columns:80px 1fr 1fr 170px;gap:10px;align-items:center}.team{font-weight:800}.score{font-size:20px;font-weight:900}.bracket{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.bracketcol{display:flex;flex-direction:column;gap:12px}.gamebox{background:#100d16;border:1px solid var(--line);border-radius:12px;padding:12px}.gamebox b{display:block;margin:4px 0}.toast{position:fixed;right:15px;bottom:15px;background:#1c1725;border:1px solid var(--line);padding:13px 16px;border-radius:12px;display:none;z-index:50}.empty{padding:20px;text-align:center;color:var(--mut)}.modal{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;padding:18px;z-index:100}.modal.show{display:flex}.modalbox{width:min(560px,100%);max-height:90vh;overflow:auto;background:linear-gradient(145deg,#241d2e,#15121d);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 20px 70px #000}.modalbox h3{margin:0 0 5px}.modal-actions{display:flex;gap:9px;justify-content:flex-end;margin-top:14px;flex-wrap:wrap}.warning{padding:11px 12px;border-left:3px solid var(--gold);background:#302719;border-radius:9px;margin-top:10px}.warning b{color:var(--gold)}@media(max-width:700px){main{padding:11px}.top{padding:13px}.nav{top:62px}.hero{padding:18px}.match{grid-template-columns:55px 1fr 1fr;}.match .actions{grid-column:1/-1}.bracket{grid-template-columns:1fr}.brand{font-size:18px}}
+:root{--bg:#07070b;--card:#15121d;--card2:#1d1828;--line:#382e48;--purple:#7d22ff;--gold:#e6c04d;--txt:#fff;--mut:#aaa4b7;--ok:#50d890;--red:#ff6378;--blue:#62a8ff}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -10%,#35105f,#07070b 48%);color:var(--txt);font-family:Arial,sans-serif}.app{max-width:1180px;margin:auto;min-height:100vh}.top{padding:15px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#09090eed;backdrop-filter:blur(12px);z-index:10}.brand{font-weight:900;font-size:22px}.brand b{color:var(--gold)}.sub{font-size:10px;letter-spacing:3px;color:var(--mut);margin-top:3px}.hidden{display:none!important}.nav{display:flex;gap:6px;overflow:auto;padding:9px 12px;border-bottom:1px solid var(--line);position:sticky;top:68px;background:#09090ef5;z-index:9}.nav button{white-space:nowrap}button{border:0;border-radius:10px;padding:10px 13px;background:#292333;color:#fff;font-weight:800;cursor:pointer}button:hover{filter:brightness(1.15)}.nav button.active,.primary{background:var(--purple)}.gold{background:var(--gold);color:#17120a}.danger{background:#632031}.blue{background:#244e80}.view{display:none}.view.active{display:block}main{padding:18px}.card{background:linear-gradient(145deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:16px;padding:16px;margin:12px 0}.hero{padding:24px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.stat{font-size:28px;font-weight:900;margin-top:5px}.mut{color:var(--mut)}.tag{display:inline-block;padding:5px 8px;border-radius:99px;background:#2b213b;color:#ddceff;font-size:11px}.ok{color:var(--ok)}.red{color:var(--red)}.notice{padding:12px;border-left:3px solid var(--gold);background:#211b2b;border-radius:9px;margin:12px 0}.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:9px}.full{grid-column:1/-1}input,select{width:100%;padding:11px;border-radius:9px;border:1px solid var(--line);background:#0d0c12;color:#fff}.linkbox{word-break:break-all;background:#0c0b10;padding:11px;border-radius:9px;border:1px dashed #5a4b70;margin-top:8px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.row{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}table{width:100%;border-collapse:collapse}th,td{padding:9px;border-bottom:1px solid var(--line);text-align:left;font-size:13px}th{color:var(--gold)}.small{font-size:12px}.match{display:grid;grid-template-columns:80px 1fr 1fr 170px;gap:10px;align-items:center}.team{font-weight:800}.score{font-size:20px;font-weight:900}.bracket{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.bracketcol{display:flex;flex-direction:column;gap:12px}.gamebox{background:#100d16;border:1px solid var(--line);border-radius:12px;padding:12px}.gamebox b{display:block;margin:4px 0}.toast{position:fixed;right:15px;bottom:15px;background:#1c1725;border:1px solid var(--line);padding:13px 16px;border-radius:12px;display:none;z-index:50}.empty{padding:20px;text-align:center;color:var(--mut)}.modal{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;padding:18px;z-index:100}.modal.show{display:flex}.modalbox{width:min(560px,100%);max-height:90vh;overflow:auto;background:linear-gradient(145deg,#241d2e,#15121d);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 20px 70px #000}.modalbox h3{margin:0 0 5px}.modal-actions{display:flex;gap:9px;justify-content:flex-end;margin-top:14px;flex-wrap:wrap}.warning{padding:11px 12px;border-left:3px solid var(--gold);background:#302719;border-radius:9px;margin-top:10px}.warning b{color:var(--gold)}@media(max-width:700px){main{padding:11px}.top{padding:13px}.nav{top:62px}.hero{padding:18px}.match{grid-template-columns:55px 1fr 1fr;}.match .actions{grid-column:1/-1}.bracket{grid-template-columns:1fr}.brand{font-size:18px}}
 </style></head><body><div class="app"><header class="top"><div><div class="brand">NFFL <b>LA NUEVA ERA</b></div><div class="sub">ADMINISTRACIÓN</div></div><div id="sessionName" class="mut"></div></header><nav id="nav" class="nav hidden"><button data-v="inicio" class="active">Inicio</button><button data-v="torneos">Torneos</button><button data-v="equipos">Equipos</button><button data-v="rosters">Rosters</button><button data-v="calendario">Calendario</button><button data-v="resultados">Resultados</button><button data-v="tabla">Tabla</button><button data-v="playoffs">Playoffs</button><button onclick="logout()">Salir</button></nav><main>
 <section id="login" class="view active"><div class="card hero"><h1>🏈 Entrar a NFFL</h1><p class="mut">Panel de Administración — La Nueva Era.</p><div class="form"><input id="email" placeholder="Correo"><input id="password" type="password" placeholder="Contraseña"></div><button class="primary full" style="margin-top:10px" onclick="login()">INGRESAR</button><button type="button" class="ghost full" style="margin-top:10px" onclick="resetPassword()">¿OLVIDASTE TU CONTRASEÑA?</button><p id="msg" class="red"></p></div></section>
 <section id="recovery" class="view"><div class="card hero"><h1>🔐 Nueva contraseña</h1><p class="mut">Crea una nueva contraseña para tu cuenta de administradora NFFL.</p><div class="form"><input id="newPassword" type="password" placeholder="Nueva contraseña"><input id="newPassword2" type="password" placeholder="Repite la nueva contraseña"></div><button class="primary full" style="margin-top:10px" onclick="saveNewPassword()">GUARDAR NUEVA CONTRASEÑA</button><p id="recoveryMsg" class="red"></p></div></section>
@@ -33,14 +33,41 @@
 </div>
 <script>
 const SUPABASE_URL='https://picivrqgmckrwutarhyw.supabase.co';let sb=null;
-const key='sb_publishable_SK8XBpzn3b5Dr-qa2rO7Nw_un7KbvCl';try{sb=supabase.createClient(SUPABASE_URL,key)}catch(e){}
+const key='sb_publishable_SK8XBpzn3b5Dr-qa2rO7Nw_un7KbvCl';
+function makeClient(){
+  if(!window.supabase||!window.supabase.createClient) throw new Error('No se pudo cargar el sistema de acceso.');
+  return window.supabase.createClient(SUPABASE_URL,key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,flowType:'pkce'}});
+}
+try{sb=makeClient()}catch(e){console.error(e)}
 function toast(x){const t=document.getElementById('toast');t.textContent=x;t.style.display='block';setTimeout(()=>t.style.display='none',2600)}
 function esc(s){return String(s??'').replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[m]))}function val(id){return document.getElementById(id)?.value||''}function fill(id,data,key,label){const el=document.getElementById(id);if(!el)return;const old=el.value;el.innerHTML=(data||[]).map(x=>`<option value="${esc(x[key])}">${esc(x[label])}</option>`).join('');if(old&&[...el.options].some(o=>o.value===old))el.value=old}
 function setView(v){document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));document.getElementById(v).classList.add('active');document.querySelectorAll('.nav button[data-v]').forEach(b=>b.classList.toggle('active',b.dataset.v===v));({torneos:loadT,equipos:loadE,rosters:loadRosterSelects,calendario:loadScheduleSelectors,resultados:loadResults,tabla:loadStandingsSelectors,playoffs:loadPlayoffSelectors,inicio:refreshDashboard}[v]||(()=>{}))()}
 document.querySelectorAll('.nav button[data-v]').forEach(b=>b.onclick=()=>setView(b.dataset.v));
 async function refreshAllSelectors(){if(!sb)return;await loadEnrollmentSelectors();await loadRosterSelects();await loadScheduleSelectors();await loadStandingsSelectors();await loadPlayoffSelectors()}
-async function login(){const msg=document.getElementById('msg');msg.textContent='';let k=key;try{sb=supabase.createClient(SUPABASE_URL,k);
-const {data,error}=await sb.auth.signInWithPassword({email:val('email'),password:val('password')});if(error)throw error;const uid=data.user.id;const prof=await sb.from('profiles').select('role,full_name').eq('id',uid).single();if(prof.error||prof.data?.role!=='admin'){await sb.auth.signOut();throw new Error('Esta cuenta no tiene permisos de Administradora NFFL.')}document.getElementById('login').classList.remove('active');document.getElementById('nav').classList.remove('hidden');document.getElementById('sessionName').textContent='Administradora NFFL';setView('inicio')}catch(e){msg.textContent=e.message}}
+async function login(){
+  const msg=document.getElementById('msg');msg.textContent='';
+  const email=val('email').trim(),password=val('password');
+  if(!email||!password){msg.textContent='Escribe tu correo y contraseña.';return}
+  try{
+    sb=makeClient();
+    const {data,error}=await sb.auth.signInWithPassword({email,password});
+    if(error)throw error;
+    if(!data?.session||!data?.user?.id)throw new Error('La sesión no pudo establecerse.');
+    const {data:isAdmin,error:adminError}=await sb.rpc('is_admin');
+    if(adminError)throw new Error('No se pudo verificar el permiso de administradora.');
+    if(isAdmin!==true){await sb.auth.signOut();throw new Error('Esta cuenta no tiene permisos de Administradora NFFL.')}
+    const {data:prof}=await sb.from('profiles').select('full_name').eq('id',data.user.id).maybeSingle();
+    document.getElementById('login').classList.remove('active');
+    document.getElementById('recovery').classList.remove('active');
+    document.getElementById('nav').classList.remove('hidden');
+    document.getElementById('sessionName').textContent=prof?.full_name||'Administradora NFFL';
+    msg.textContent='';
+    setView('inicio');
+  }catch(e){
+    console.error('NFFL login:',e);
+    msg.textContent=e?.message||'No se pudo iniciar sesión.';
+  }
+}
 async function resetPassword(){
   const email=val('email').trim();
   if(!email)return document.getElementById('msg').textContent='Escribe tu correo primero.';
@@ -66,22 +93,44 @@ async function saveNewPassword(){
   }catch(e){m.className='red';m.textContent=e.message}
 }
 function showRecovery(){document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));document.getElementById('recovery').classList.add('active');document.getElementById('nav').classList.add('hidden');}
-sb.auth.onAuthStateChange((event)=>{if(event==='PASSWORD_RECOVERY')showRecovery();});
-async function autoOpenAdmin(){
+if(sb) sb.auth.onAuthStateChange((event)=>{if(event==='PASSWORD_RECOVERY')showRecovery();});
+async function initAdminSession(){
+  const msg=document.getElementById('msg');
   try{
-    sb=supabase.createClient(SUPABASE_URL,key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
-    const {data:{session}}=await sb.auth.getSession();
-    if(!session)return;
-    const uid=session.user.id;
-    const prof=await sb.from('profiles').select('role,full_name').eq('id',uid).single();
-    if(prof.error||prof.data?.role!=='admin'){await sb.auth.signOut();return;}
+    sb=makeClient();
+    const {data:{session},error:sessionError}=await sb.auth.getSession();
+    if(sessionError)throw sessionError;
+    if(!session){
+      document.getElementById('login').classList.add('active');
+      document.getElementById('nav').classList.add('hidden');
+      return;
+    }
+    const {data:isAdmin,error:adminError}=await sb.rpc('is_admin');
+    if(adminError)throw new Error('No se pudo verificar el permiso de administradora.');
+    if(isAdmin!==true){
+      await sb.auth.signOut();
+      document.getElementById('login').classList.add('active');
+      document.getElementById('nav').classList.add('hidden');
+      msg.textContent='Esta cuenta no tiene permisos de Administradora NFFL.';
+      return;
+    }
+    const {data:prof}=await sb.from('profiles').select('full_name').eq('id',session.user.id).maybeSingle();
     document.getElementById('login').classList.remove('active');
+    document.getElementById('recovery').classList.remove('active');
     document.getElementById('nav').classList.remove('hidden');
-    document.getElementById('sessionName').textContent='Administradora NFFL';
+    document.getElementById('sessionName').textContent=prof?.full_name||'Administradora NFFL';
     setView('inicio');
-  }catch(e){console.error(e)}
+  }catch(e){
+    console.error('NFFL session:',e);
+    document.getElementById('login').classList.add('active');
+    document.getElementById('nav').classList.add('hidden');
+    msg.textContent=e?.message||'No se pudo verificar el acceso.';
+  }
 }
-if(location.pathname.endsWith('/admin.html'))autoOpenAdmin();
+if(location.pathname.endsWith('/admin.html')){
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initAdminSession);
+  else initAdminSession();
+}
 // Fallback: if Supabase returns from a recovery link, make the recovery form visible even if the auth event arrives late.
 (function(){
   const hasRecoveryCode=new URLSearchParams(location.search).has('code');
