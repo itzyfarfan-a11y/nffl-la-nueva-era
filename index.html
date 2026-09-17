@@ -49,8 +49,8 @@ function team(id){return (data.teams||[]).find(x=>x.id===id)||{name:'Por definir
 if(tab==='inicio')s.innerHTML=`<div class="card"><h2>${esc(data.tournament?.name||'NFFL')}</h2><p class="muted">${esc(data.tournament?.season||'')} ${cat? '· '+esc(cat.name):'· Selecciona una categoría para consultar su información.'}</p><div class="grid"><div class="card"><b>${(data.teams||[]).length}</b><br><span class="muted">Equipos</span></div><div class="card"><b>${(data.matches||[]).filter(x=>x.status==='jugado'||x.status==='incomparecencia').length}</b><br><span class="muted">Juegos registrados</span></div><div class="card"><b>${(data.playoffs||[]).length}</b><br><span class="muted">Partidos de playoffs</span></div></div></div>`;
 if(tab==='equipos')s.innerHTML='<h2>Equipos</h2>'+(!data.teams.length?'<div class="empty">No hay equipos publicados para esta selección.</div>':'<div class="grid">')+data.teams.map(x=>`<div class="card team">${x.logo_url?`<img src="${esc(x.logo_url)}">`:'<div class="team img"></div>'}<div><b>${esc(x.name)}</b></div></div>`).join('')+(data.teams.length?' </div>':'' );
 if(tab==='jugadores')loadPlayers(s);
-if(tab==='calendario'){let rounds={};for(const m of data.matches){(rounds[m.round_number||0]??=[]).push(m)}let rkeys=Object.keys(rounds).sort((a,b)=>Number(a)-Number(b));s.innerHTML='<div class="section-title"><h2>Calendario</h2><span class="count">'+data.matches.length+' partidos</span></div>'+(!rkeys.length?'<div class="empty">No hay calendario publicado.</div>':rkeys.map(r=>`<div class="card"><h3>Jornada ${esc(r)}</h3>${rounds[r].map(m=>`<div class="card"><span class="badge">${esc(m.match_date||'Fecha por definir')}</span><div class="match"><div>${esc(team(m.home_team_id).name)}</div><div class="score">${m.status==='jugado'||m.status==='incomparecencia'?(m.home_score??0)+'-'+(m.away_score??0):'VS'}</div><div>${esc(team(m.away_team_id).name)}</div></div><div class="muted" style="text-align:center">${esc(m.match_time?m.match_time.slice(0,5):'Hora por definir')} · ${esc(m.field_name||'Campo por definir')}</div></div>`).join('')}</div>`).join('') )}
-if(tab==='resultados'){let played=data.matches.filter(m=>m.status==='jugado'||m.status==='incomparecencia');s.innerHTML='<div class="section-title"><h2>Resultados</h2><span class="count">'+played.length+' juegos</span></div>'+ (played.map(m=>`<div class="card"><span class="badge">Jornada ${esc(m.round_number)}${m.status==='incomparecencia'?' · Incomparecencia':''}</span><div class="match"><b>${esc(team(m.home_team_id).name)}</b><div class="score">${m.home_score??0}-${m.away_score??0}</div><b>${esc(team(m.away_team_id).name)}</b></div><div class="muted" style="text-align:center">${esc(m.match_date||'')}</div></div>`).join('')||'<div class="empty">Aún no hay resultados publicados.</div>')}
+if(tab==='calendario'){let items=[...(data.matches||[]).map(m=>({...m,_kind:'regular',_date:m.match_date,_time:m.match_time})),...(data.playoffs||[]).map(p=>({...p,_kind:'playoff',_date:p.match_date,_time:p.match_time}))];items.sort((a,b)=>String(a._date||'9999').localeCompare(String(b._date||'9999'))||String(a._time||'99:99').localeCompare(String(b._time||'99:99'))||((a._kind==='playoff'?1:0)-(b._kind==='playoff'?1:0)));let days={};for(const m of items){let k=m._date||'SIN FECHA';(days[k]??=[]).push(m)}let keys=Object.keys(days);s.innerHTML='<div class="section-title"><h2>Calendario General</h2><span class="count">'+items.length+' partidos</span></div>'+(!keys.length?'<div class="empty">No hay calendario publicado.</div>':keys.map(day=>`<div class="card"><h3>${day==='SIN FECHA'?'📌 Fecha pendiente':'📅 '+esc(day)}</h3>${days[day].map(m=>m._kind==='playoff'?`<div class="card"><span class="badge">🏆 ${esc(m.stage)}</span><div class="match"><div>${esc(team(m.team_a_id).name)}</div><div class="score">${m.score_a!=null||m.score_b!=null?(m.score_a??'—')+'-'+(m.score_b??'—'):'VS'}</div><div>${esc(team(m.team_b_id).name)}</div></div><div class="muted" style="text-align:center">${esc(m.match_time?String(m.match_time).slice(0,5):'Hora por definir')} · ${esc(m.field_name||'Campo por definir')}</div></div>`:`<div class="card"><span class="badge">Jornada ${esc(m.round_number)}${m.is_makeup?' · Reposición':''}</span><div class="match"><div>${esc(team(m.home_team_id).name)}</div><div class="score">${m.status==='jugado'||m.status==='incomparecencia'?(m.home_score??0)+'-'+(m.away_score??0):'VS'}</div><div>${esc(team(m.away_team_id).name)}</div></div><div class="muted" style="text-align:center">${esc(m.match_time?String(m.match_time).slice(0,5):'Hora por definir')} · ${esc(m.field_name||'Campo por definir')}</div></div>`).join('')}</div>`).join('') )}
+if(tab==='resultados'){let played=data.matches.filter(m=>m.status==='jugado'||m.status==='incomparecencia').map(m=>({...m,_kind:'regular'}));let po=(data.playoffs||[]).filter(p=>p.score_a!=null||p.score_b!=null).map(p=>({...p,_kind:'playoff'}));let all=[...played,...po].sort((a,b)=>String(a.match_date||'9999').localeCompare(String(b.match_date||'9999'))||String(a.match_time||'99:99').localeCompare(String(b.match_time||'99:99')));s.innerHTML='<div class="section-title"><h2>Resultados</h2><span class="count">'+all.length+' juegos</span></div>'+ (all.map(m=>m._kind==='playoff'?`<div class="card"><span class="badge">🏆 ${esc(m.stage)}</span><div class="match"><b>${esc(team(m.team_a_id).name)}</b><div class="score">${m.score_a??'—'}-${m.score_b??'—'}</div><b>${esc(team(m.team_b_id).name)}</b></div><div class="muted" style="text-align:center">${esc(m.match_date||'')}</div></div>`:`<div class="card"><span class="badge">Jornada ${esc(m.round_number)}${m.status==='incomparecencia'?' · Incomparecencia':''}</span><div class="match"><b>${esc(team(m.home_team_id).name)}</b><div class="score">${m.home_score??0}-${m.away_score??0}</div><b>${esc(team(m.away_team_id).name)}</b></div><div class="muted" style="text-align:center">${esc(m.match_date||'')}</div></div>`).join('')||'<div class="empty">Aún no hay resultados publicados.</div>')}
 if(tab==='tabla')renderTable(s);
 if(tab==='playoffs')s.innerHTML='<h2>Playoffs</h2>'+data.playoffs.map(p=>`<div class="card"><span class="badge">${esc(p.stage)}</span><div class="match"><b>${esc(p.team_a_id?team(p.team_a_id).name:'Por definir')}</b><div class="score">${p.score_a??'—'}<br>VS<br>${p.score_b??'—'}</div><b>${esc(p.team_b_id?team(p.team_b_id).name:'Por definir')}</b></div></div>`).join('')||'<div class="empty">El bracket aún no ha sido publicado.</div>';
 }
@@ -58,7 +58,8 @@ async function loadPlayers(s){if(!c.value){s.innerHTML='<div class="empty">Selec
 function renderTable(s){
 if(!c.value){s.innerHTML='<h2>Tabla de posiciones</h2><div class="empty">Selecciona una categoría para consultar su tabla.</div>';return}
 let map={};for(const m of data.matches){if(m.status!=='jugado'&&m.status!=='incomparecencia')continue;const excluded=m.stats_exclude_team_id||null;for(const id of [m.home_team_id,m.away_team_id])if(!map[id])map[id]={id,pj:0,pg:0,pp:0,pf:0,pc:0};let h=map[m.home_team_id],a=map[m.away_team_id],hs=m.home_score||0,as=m.away_score||0;if(m.home_team_id!==excluded){h.pj++;h.pf+=hs;h.pc+=as;if(hs>as)h.pg++;else if(as>hs)h.pp++}if(m.away_team_id!==excluded){a.pj++;a.pf+=as;a.pc+=hs;if(as>hs)a.pg++;else if(hs>as)a.pp++}}
-let rows=Object.values(map).map(x=>({...x,dif:x.pf-x.pc})).filter(x=>x.pj>0).sort((x,y)=>y.dif-x.dif||y.pf-x.pf||x.pc-y.pc||team(x.id).name.localeCompare(team(y.id).name));s.innerHTML='<h2>Tabla de posiciones</h2><div class="card"><table><thead><tr><th>#</th><th>Equipo</th><th>PJ</th><th>PG</th><th>PP</th><th>PA</th><th>PC</th><th>DIF</th></tr></thead><tbody>'+rows.map((x,i)=>`<tr><td>${i+1}</td><td><b>${team(x.id).name}</b></td><td>${x.pj}</td><td>${x.pg}</td><td>${x.pp}</td><td>${x.pf}</td><td>${x.pc}</td><td>${x.dif}</td></tr>`).join('')+'</tbody></table></div>'}
+for(const tm of data.teams){if(!map[tm.id])map[tm.id]={id:tm.id,pj:0,pg:0,pp:0,pf:0,pc:0}}
+let rows=Object.values(map).map(x=>({...x,dif:x.pf-x.pc})).sort((x,y)=>y.dif-x.dif||y.pf-x.pf||x.pc-y.pc||team(x.id).name.localeCompare(team(y.id).name));s.innerHTML='<h2>Tabla de posiciones</h2><div class="card"><table><thead><tr><th>#</th><th>Equipo</th><th>JJ</th><th>JG</th><th>PP</th><th>PA</th><th>PC</th><th>DIF</th></tr></thead><tbody>'+rows.map((x,i)=>`<tr><td>${i+1}</td><td><b>${team(x.id).name}</b></td><td>${x.pj}</td><td>${x.pg}</td><td>${x.pp}</td><td>${x.pf}</td><td>${x.pc}</td><td>${x.dif}</td></tr>`).join('')+'</tbody></table></div>'}
 t.onchange=()=>{c.dataset.keep='';refresh()};c.onchange=()=>{c.dataset.keep=c.value;refresh()};load();
 </script>
 <script>
@@ -72,47 +73,31 @@ t.onchange=()=>{c.dataset.keep='';refresh()};c.onchange=()=>{c.dataset.keep=c.va
   const msg=document.getElementById('adminMsg');
   const SB_URL='https://picivrqgmckrwutarhyw.supabase.co';
   const SB_KEY='sb_publishable_SK8XBpzn3b5Dr-qa2rO7Nw_un7KbvCl';
-  function show(){modal.classList.add('open');modal.setAttribute('aria-hidden','false');msg.textContent='';setTimeout(()=>email.focus(),50)}
+  function show(){modal.classList.add('open');modal.setAttribute('aria-hidden','false');setTimeout(()=>email.focus(),50)}
   function hide(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true');msg.textContent=''}
   open.addEventListener('click',show);
   close.addEventListener('click',hide);
   modal.addEventListener('click',e=>{if(e.target===modal)hide()});
   document.addEventListener('keydown',e=>{if(e.key==='Escape')hide()});
-  async function authLogin(e,p){
-    const r=await fetch(SB_URL+'/auth/v1/token?grant_type=password',{
-      method:'POST',headers:{'apikey':SB_KEY,'Content-Type':'application/json'},
-      body:JSON.stringify({email:e,password:p})
-    });
-    let d={};try{d=await r.json()}catch(_){ }
-    if(!r.ok)throw new Error(d.error_description||d.msg||d.message||'No se pudo iniciar sesión.');
-    if(!d.access_token||!d.refresh_token)throw new Error('Supabase no devolvió una sesión válida.');
-    const pr=await fetch(SB_URL+'/rest/v1/profiles?id=eq.'+encodeURIComponent(d.user.id)+'&select=role,full_name&limit=1',{
-      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+d.access_token}
-    });
-    let rows=[];try{rows=await pr.json()}catch(_){ }
-    if(!pr.ok)throw new Error('No se pudo verificar el perfil de administradora.');
-    if(!rows[0]||rows[0].role!=='admin'){
-      await fetch(SB_URL+'/auth/v1/logout',{method:'POST',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+d.access_token}}).catch(()=>{});
-      throw new Error('Esta cuenta no tiene permisos de Administradora NFFL.');
-    }
-    return d;
-  }
   login.addEventListener('click',async()=>{
     const e=email.value.trim(), p=pass.value;
     if(!e||!p){msg.textContent='Escribe tu correo y contraseña.';return}
     login.disabled=true;login.textContent='ENTRANDO...';msg.textContent='';
     try{
-      const d=await authLogin(e,p);
+      if(!window.supabase || !window.supabase.createClient) throw new Error('Supabase no disponible');
+      const client=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+      const {data,error}=await client.auth.signInWithPassword({email:e,password:p});
+      if(error)throw error;
+      const uid=data?.user?.id;
+      if(!uid)throw new Error('No se encontró la cuenta.');
+      // La autenticación ya quedó establecida en Supabase. La validación final
+      // del rol de administradora se hace también en admin.html antes de mostrar
+      // cualquier función de administración. Evitamos bloquear el redirect por
+      // una consulta secundaria al perfil en esta pantalla pública.
       msg.textContent='Acceso correcto. Abriendo administración…';
-      // Guardamos temporalmente la sesión y abrimos administración sin depender de un hash largo.
-      localStorage.setItem('nffl_admin_session',JSON.stringify({
-        access_token:d.access_token,
-        refresh_token:d.refresh_token,
-        expires_in:d.expires_in||3600
-      }));
-      window.location.href=window.location.origin+'/admin.html';
+      window.location.replace(window.location.origin+'/admin.html');
     }catch(err){
-      msg.textContent=err.message||'No se pudo iniciar sesión.';
+      msg.textContent=err.message==='Esta cuenta no tiene permisos de Administradora NFFL.'?'Esta cuenta no tiene permisos de Administradora NFFL.':'No se pudo iniciar sesión. Verifica tus datos.';
       console.error(err);
     }finally{login.disabled=false;login.textContent='INGRESAR'}
   });
