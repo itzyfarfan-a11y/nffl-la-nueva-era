@@ -89,13 +89,16 @@ t.onchange=()=>{c.dataset.keep='';refresh()};c.onchange=()=>{c.dataset.keep=c.va
       const {data,error}=await client.auth.signInWithPassword({email:e,password:p});
       if(error)throw error;
       const uid=data?.user?.id;
-      if(!uid)throw new Error('No se encontró la cuenta.');
-      // La autenticación ya quedó establecida en Supabase. La validación final
-      // del rol de administradora se hace también en admin.html antes de mostrar
-      // cualquier función de administración. Evitamos bloquear el redirect por
-      // una consulta secundaria al perfil en esta pantalla pública.
+      if(!uid||!data?.session)throw new Error('La sesión no pudo establecerse.');
+      // Transferencia explícita de la sesión al panel de administración.
+      // Esto evita depender de la restauración automática de sesión entre
+      // páginas en GitHub Pages.
+      localStorage.setItem('nffl_admin_session',JSON.stringify({
+        access_token:data.session.access_token,
+        refresh_token:data.session.refresh_token
+      }));
       msg.textContent='Acceso correcto. Abriendo administración…';
-      window.location.replace(window.location.origin+'/admin.html');
+      window.location.href = new URL('./admin.html', window.location.href).href;
     }catch(err){
       msg.textContent=err.message==='Esta cuenta no tiene permisos de Administradora NFFL.'?'Esta cuenta no tiene permisos de Administradora NFFL.':'No se pudo iniciar sesión. Verifica tus datos.';
       console.error(err);
