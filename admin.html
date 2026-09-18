@@ -539,5 +539,9 @@ async function buildPlayoffsView(){
  const stages=[...new Set(data.map(m=>m.stage))];
  document.getElementById('bracket').innerHTML='<div class="card"><h3>Bracket</h3><div class="bracket">'+stages.map(stage=>`<div class="bracketcol"><h4 style="margin:4px 0">${esc(stage)}</h4>${data.filter(m=>m.stage===stage).map(m=>`<div class="gamebox"><span class="mut small">Juego ${m.match_order}</span><b>${esc(m.a?.name||'Por definir')}</b><span>${m.score_a??''}</span><b>${esc(m.b?.name||'Por definir')}</b><span>${m.score_b??''}</span><div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:6px"><input id="pd_${m.id}" type="date" value="${m.match_date||''}" title="Fecha"><input id="ph_${m.id}" type="time" value="${m.match_time?String(m.match_time).slice(0,5):''}" title="Hora"><input id="pcf_${m.id}" type="text" value="${esc(m.field_name||'')}" placeholder="Campo" style="grid-column:1/-1"><button class="gold" style="grid-column:1/-1" onclick="savePlayoffSchedule('${m.id}')">📅 Guardar fecha, hora y campo</button></div><span class="tag" style="margin-top:8px">${m.winner_team_id?'Ganador definido':m.published?'Publicado':'Borrador'}</span>${m.team_a_id&&m.team_b_id?`<button style="margin-top:8px" onclick="savePlayoffResult('${m.id}')">🏈 ${m.winner_team_id?'Editar resultado':'Capturar resultado'}</button>`:''}</div>`).join('')}</div>`).join('')+'</div></div>';
 }
-
+document.getElementById('deltour').onchange=loadDeactivateCats;
+document.getElementById('delcat').onchange=loadDeactivateTeams;
+document.getElementById('rtour').onchange=loadReplacementCats;
+document.getElementById('rcat').onchange=loadReplacementTeams;
+</script></body></html>
 </script></body></html>
