@@ -75,7 +75,9 @@ t.onchange=()=>{c.dataset.keep='';refresh()};c.onchange=()=>{c.dataset.keep=c.va
   const SB_KEY='sb_publishable_SK8XBpzn3b5Dr-qa2rO7Nw_un7KbvCl';
   function show(){modal.classList.add('open');modal.setAttribute('aria-hidden','false');setTimeout(()=>email.focus(),50)}
   function hide(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true');msg.textContent=''}
-  open.addEventListener('click',show);
+  open.addEventListener('click',()=>{
+  window.location.href=new URL('./admin.html',window.location.href).href;
+}); 
   close.addEventListener('click',hide);
   modal.addEventListener('click',e=>{if(e.target===modal)hide()});
   document.addEventListener('keydown',e=>{if(e.key==='Escape')hide()});
