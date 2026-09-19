@@ -270,6 +270,45 @@ async function loadScheduleSelectors(){const {data:t}=await sb.from('tournaments
 async function scheduleCats(){const tid=val('ct');const {data,error}=await sb.from('tournament_categories').select('category_id,categories(id,name)').eq('tournament_id',tid);if(error)return alert(error.message);const cats=(data||[]).map(x=>({id:x.categories.id,name:x.categories.name}));const el=document.getElementById('cc');const keep=el.value;el.innerHTML='<option value=\"\">📅 Todas las categorías</option>'+cats.map(x=>`<option value=\"${esc(x.id)}\">${esc(x.name)}</option>`).join('');if(keep&&cats.some(x=>x.id===keep))el.value=keep;else el.value='';await loadSchedule()}
 
 document.getElementById('ct').onchange=scheduleCats;document.getElementById('cc').onchange=loadSchedule;document.getElementById('mmake').onchange=syncMakeupOpponent;document.getElementById('mopp').onchange=syncMakeupOpponent;document.getElementById('pt').onchange=playoffCats;document.getElementById('pc').onchange=buildPlayoffsView;
+
+function fieldNo(v){
+  const m=String(v||'').match(/(?:campo|cancha)\s*([1-4])/i);
+  return m?Number(m[1]):0;
+}
+function dayLabel(day){
+  if(day==='SIN FECHA') return day;
+  const d=new Date(day+'T12:00:00');
+  if(Number.isNaN(d.getTime())) return day;
+  return d.toLocaleDateString('es-MX',{weekday:'long',day:'2-digit',month:'2-digit',year:'numeric'});
+}
+function calendarCellClass(cat){
+  const n=String(cat||'').toLowerCase();
+  if(n==='mixto') return 'cg-mixto';
+  if(n==='bronce femenil'||n==='bronce') return 'cg-bronce';
+  if(n==='silver femenil') return 'cg-silverf';
+  if(n==='silver varonil') return 'cg-silverv';
+  if(n.includes('35')) return 'cg-35';
+  if(n.includes('golden')) return 'cg-golden';
+  return 'cg-other';
+}
+function renderCell(m){
+  if(!m) return '<div class="cg-empty">—</div>';
+  const cat=m.categories?.name||'Categoría';
+  const teams=`${esc(m.home?.name||m.a?.name||'Por definir')}<span> vs </span>${esc(m.away?.name||m.b?.name||'Por definir')}`;
+  const meta=m._kind==='playoff'
+    ? `${esc(cat)} · ${esc(m.stage||'Playoff')}`
+    : `${esc(cat)} · J${m.round_number||'?'}`;
+  const actions=m._kind==='playoff'
+    ? `<button onclick="editPlayoffSchedule('${m.id}')">✏️</button><button onclick="publishPlayoffMatch('${m.id}',${!m.published})">${m.published?'Ocultar':'📢'}</button>`
+    : `<button onclick="editMatch('${m.id}')">✏️</button><button onclick="publishMatch('${m.id}',${!m.published})">${m.published?'Ocultar':'📢'}</button>`;
+  return `<div class="cg-game ${calendarCellClass(cat)}">
+    <div class="cg-cat">${meta}</div>
+    <div class="cg-teams">${teams}</div>
+    <div class="cg-meta">${m._time?String(m._time).slice(0,5):'Hora pendiente'} · ${esc(m._field||'Campo pendiente')}</div>
+    <div class="cg-actions">${actions}</div>
+  </div>`;
+}
+
 async function loadSchedule(){
   const tid=val('ct'),cat=val('cc'); if(!tid)return;
   let q=sb.from('matches').select('*,home:teams!matches_home_team_id_fkey(name,club_name),away:teams!matches_away_team_id_fkey(name,club_name),categories(name)').eq('tournament_id',tid);
