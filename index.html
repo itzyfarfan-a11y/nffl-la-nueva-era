@@ -264,6 +264,24 @@ html,body{max-width:100%;overflow-x:hidden!important}
 }
 </style>
 
+
+<style id="final-approved-ui">
+/* Keep the approved structure; only improve readability and icon visibility. */
+#contentPanel.calendar{display:block!important;width:100%;box-sizing:border-box}
+.menu-card{cursor:pointer}
+@media(max-width:700px){
+  .brand-logo{width:46px!important;height:46px!important}
+  .menu-icon{font-size:21px!important;transform:none!important;width:30px!important;min-width:30px!important}
+  .header-btn .ico{font-size:15px!important;transform:none!important}
+  .select-icons{font-size:9px!important;transform:none!important}
+}
+@media(max-width:380px){
+  .brand-logo{width:43px!important;height:43px!important}
+  .menu-icon{font-size:19px!important;width:27px!important;min-width:27px!important}
+  .header-btn .ico{font-size:14px!important}
+  .select-icons{font-size:8px!important}
+}
+</style>
 </head>
 <body>
 <div class="page">
@@ -300,14 +318,14 @@ html,body{max-width:100%;overflow-x:hidden!important}
   </section>
 
   <section class="menu">
-    <button type="button" class="menu-card active" data-panel="calendar" onclick="setPanel(\'calendar\')"><div class="menu-icon">📅</div><div class="menu-text"><div class="menu-title">Calendario</div><div class="menu-sub">Jornadas y horarios</div></div><div class="menu-arrow">›</div></button>
-<button type="button" class="menu-card " data-panel="matches" onclick="setPanel(\'matches\')"><div class="menu-icon">🏈</div><div class="menu-text"><div class="menu-title">Enfrentamientos</div><div class="menu-sub">Partidos y resultados</div></div><div class="menu-arrow">›</div></button>
-<button type="button" class="menu-card " data-panel="teams" onclick="setPanel(\'teams\')"><div class="menu-icon">👥</div><div class="menu-text"><div class="menu-title">Equipos</div><div class="menu-sub">Conoce los equipos</div></div><div class="menu-arrow">›</div></button>
-<button type="button" class="menu-card " data-panel="players" onclick="setPanel(\'players\')"><div class="menu-icon">👕</div><div class="menu-text"><div class="menu-title">Jugadores</div><div class="menu-sub">Plantillas y fotos</div></div><div class="menu-arrow">›</div></button>
-<button type="button" class="menu-card " data-panel="results" onclick="setPanel(\'results\')"><div class="menu-icon">📊</div><div class="menu-text"><div class="menu-title">Resultados</div><div class="menu-sub">Marcadores y resumen</div></div><div class="menu-arrow">›</div></button>
-<button type="button" class="menu-card " data-panel="table" onclick="setPanel(\'table\')"><div class="menu-icon">📈</div><div class="menu-text"><div class="menu-title">Tabla</div><div class="menu-sub">Clasificaciones</div></div><div class="menu-arrow">›</div></button>
-<button type="button" class="menu-card " data-panel="playoffs" onclick="setPanel(\'playoffs\')"><div class="menu-icon">🏆</div><div class="menu-text"><div class="menu-title">Playoffs</div><div class="menu-sub">Fase final</div></div><div class="menu-arrow">›</div></button>
-<button type="button" class="menu-card " data-panel="champions" onclick="setPanel(\'champions\')"><div class="menu-icon">🥇</div><div class="menu-text"><div class="menu-title">Campeones</div><div class="menu-sub">Campeones por categoría</div></div><div class="menu-arrow">›</div></button><div class="menu-text"><div class="menu-title">Campeones</div><div class="menu-sub">Campeones por categoría</div></div><div class="menu-arrow">›</div></div>
+    <button type="button" class="menu-card active" data-panel="calendar" onclick="setPanel('calendar')"><div class="menu-icon">📅</div><div class="menu-text"><div class="menu-title">Calendario</div><div class="menu-sub">Jornadas y horarios</div></div><div class="menu-arrow">›</div></button>
+<button type="button" class="menu-card " data-panel="matches" onclick="setPanel('matches')"><div class="menu-icon">🏈</div><div class="menu-text"><div class="menu-title">Enfrentamientos</div><div class="menu-sub">Partidos y resultados</div></div><div class="menu-arrow">›</div></button>
+<button type="button" class="menu-card " data-panel="teams" onclick="setPanel('teams')"><div class="menu-icon">👥</div><div class="menu-text"><div class="menu-title">Equipos</div><div class="menu-sub">Conoce los equipos</div></div><div class="menu-arrow">›</div></button>
+<button type="button" class="menu-card " data-panel="players" onclick="setPanel('players')"><div class="menu-icon">👕</div><div class="menu-text"><div class="menu-title">Jugadores</div><div class="menu-sub">Plantillas y fotos</div></div><div class="menu-arrow">›</div></button>
+<button type="button" class="menu-card " data-panel="results" onclick="setPanel('results')"><div class="menu-icon">📊</div><div class="menu-text"><div class="menu-title">Resultados</div><div class="menu-sub">Marcadores y resumen</div></div><div class="menu-arrow">›</div></button>
+<button type="button" class="menu-card " data-panel="table" onclick="setPanel('table')"><div class="menu-icon">📈</div><div class="menu-text"><div class="menu-title">Tabla</div><div class="menu-sub">Clasificaciones</div></div><div class="menu-arrow">›</div></button>
+<button type="button" class="menu-card " data-panel="playoffs" onclick="setPanel('playoffs')"><div class="menu-icon">🏆</div><div class="menu-text"><div class="menu-title">Playoffs</div><div class="menu-sub">Fase final</div></div><div class="menu-arrow">›</div></button>
+<button type="button" class="menu-card " data-panel="champions" onclick="setPanel('champions')"><div class="menu-icon">🥇</div><div class="menu-text"><div class="menu-title">Campeones</div><div class="menu-sub">Campeones por categoría</div></div><div class="menu-arrow">›</div></button>
   </section>
 
   <section class="calendar" id="contentPanel">
@@ -325,7 +343,7 @@ async function rpc(fn,body){const r=await fetch(SUPA+'/rest/v1/rpc/'+fn,{method:
 function esc(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
 function teamName(id,d){return (d?.teams||[]).find(x=>x.id===id)?.name||'Por definir'}
 function catName(id,d){return (d?.categories||[]).find(x=>x.id===id)?.name||''}
-function setPanel(id){document.querySelectorAll('.menu-card').forEach(b=>b.classList.toggle('active',b.dataset.panel===id)); renderPanel(id)}
+function setPanel(id){document.querySelectorAll('.menu-card').forEach(b=>b.classList.toggle('active',b.dataset.panel===id)); return renderPanel(id)}
 function renderPanel(id){const title={calendar:'📅 Calendario',matches:'🏈 Enfrentamientos',teams:'👥 Equipos',players:'👕 Jugadores',results:'📊 Resultados',table:'📈 Tabla',playoffs:'🏆 Playoffs',champions:'🥇 Campeones'}[id]||'📅 Calendario';$('panelTitle').textContent=title; const f={calendar:renderCalendar,matches:renderMatches,teams:renderTeams,players:renderPlayers,results:renderResults,table:renderTable,playoffs:renderPlayoffs,champions:renderChampions}[id]||renderCalendar; f()}
 function matches(d=currentData){return (d?.matches||[]).filter(m=>!m.status||m.status!=='cancelled')}
 function renderCalendar(){const ms=matches(currentData);const by={};ms.forEach(m=>{const date=m.match_date||'Sin fecha';(by[date]??=[]).push(m)});let h='';for(const date of Object.keys(by).sort()){const rows={};by[date].forEach(m=>{const t=(m.match_time||'--:--').slice(0,5);(rows[t]??={});const f=(m.field_name||'Campo ?').toLowerCase().match(/(\d+)/)?.[1]||'';if(f)rows[t][f]=m});h+=`<div class="cal-date"><b>${esc(date)}</b><div class="cal-table-wrap"><table class="cal-table"><thead><tr><th>HORARIO</th><th>CAMPO 1</th><th>CAMPO 2</th><th>CAMPO 3</th><th>CAMPO 4</th></tr></thead><tbody>`;for(const t of Object.keys(rows).sort()){h+=`<tr><td>${esc(t)}</td>`;for(let i=1;i<=4;i++){const m=rows[t][i];h+=`<td>${m?`${esc(catName(m.category_id,currentData))}<br><b>${esc(teamName(m.home_team_id,currentData))} vs ${esc(teamName(m.away_team_id,currentData))}</b>`:'—'}</td>`}h+='</tr>'}h+='</tbody></table></div></div>'}$('panelBody').innerHTML=h||'<div class="empty">No hay partidos programados.</div>'}
@@ -338,19 +356,7 @@ function renderPlayoffs(){const p=currentData?.playoffs||[];$('panelBody').inner
 function renderChampions(){$('panelBody').innerHTML='<div class="empty">Los campeones aparecerán aquí cuando estén registrados.</div>'}
 async function load(){try{const ts=await rpc('public_list_tournaments',{});const list=Array.isArray(ts)?ts:(ts?.tournaments||[]);$('tournamentSelect').innerHTML=list.map(t=>`<option value="${esc(t.id)}">${esc(t.name||t.title)}</option>`).join('')||'<option value="">Sin torneos</option>';if(list[0])await loadTournament(list[0].id)}catch(e){$('panelBody').innerHTML='<div class="empty">No se pudo cargar la información pública.</div>'}}
 async function loadTournament(id){try{allData=await rpc('public_get_tournament_data',{p_tournament_id:id,p_category_id:null});currentData=allData;const cats=allData?.categories||[];$('categorySelect').innerHTML='<option value="">Todas las categorías</option>'+cats.map(c=>`<option value="${esc(c.id)}">${esc(c.name)}</option>`).join('');renderPanel(document.querySelector('.menu-card.active')?.dataset.panel||'calendar')}catch(e){$('panelBody').innerHTML='<div class="empty">No se pudo cargar el torneo.</div>'}}
-$('tournamentSelect').addEventListener('change',e=>loadTournament(e.target.value));$('categorySelect').addEventListener('change',async e=>{try{if(!e.target.value){currentData=allData}else currentData=await rpc('public_get_tournament_data',{p_tournament_id:$('tournamentSelect').value,p_category_id:e.target.value});renderPanel(document.querySelector('.menu-card.active')?.dataset.panel||'calendar')}catch(err){}});document.addEventListener('click',async e=>{
-  const b=e.target.closest('.menu-card');
-  if(!b)return;
-  const panel=b.dataset.panel||'calendar';
-  document.querySelectorAll('.menu-card').forEach(x=>x.classList.toggle('active',x===b));
-  $('panelBody').innerHTML='<div class="loading">Cargando…</div>';
-  try{
-    await Promise.resolve(renderPanel(panel));
-  }catch(err){
-    $('panelBody').innerHTML='<div class="empty">No se pudo cargar esta sección.</div>';
-  }
-});
-load();
+$('tournamentSelect').addEventListener('change',e=>loadTournament(e.target.value));$('categorySelect').addEventListener('change',async e=>{try{if(!e.target.value){currentData=allData}else currentData=await rpc('public_get_tournament_data',{p_tournament_id:$('tournamentSelect').value,p_category_id:e.target.value});renderPanel(document.querySelector('.menu-card.active')?.dataset.panel||'calendar')}catch(err){}});load();
 </script>
 
 <style id="final-readable-size">
@@ -413,6 +419,64 @@ button{font-size:14px!important}
     grid-template-columns:28px minmax(0,1fr) 12px!important;
   }
   .menu-icon{font-size:19px!important;width:23px}
+}
+</style>
+
+
+<style id="final-visual-adjustments">
+/* Ajuste final solicitado: texto más grande, iconos más visibles y logos/foto mejor aprovechados */
+body{font-size:16px!important}
+.header-title{font-size:clamp(18px,5vw,23px)!important}
+.header-subtitle{font-size:clamp(12px,3.3vw,15px)!important}
+.brand-logo{width:50px!important;height:50px!important;object-fit:contain!important}
+.league-title{font-size:clamp(16px,4.4vw,20px)!important}
+.league-subtitle{font-size:clamp(12px,3.2vw,15px)!important}
+select,.select-label{font-size:15px!important}
+.menu-card{grid-template-columns:38px minmax(0,1fr) 16px!important}
+.menu-icon{font-size:24px!important;width:32px!important}
+.menu-title{font-size:clamp(15px,4vw,18px)!important}
+.menu-desc{font-size:clamp(11px,3vw,14px)!important}
+.menu-arrow{font-size:19px!important}
+.calendar-title,.section-title{font-size:clamp(17px,4.5vw,21px)!important}
+.calendar th{font-size:13px!important}
+.calendar td{font-size:clamp(12px,3.2vw,15px)!important}
+.footer{font-size:12px!important}
+
+/* El recuadro destinado a la fotografía aprovecha completamente su área */
+.photo-upload,
+.photo-box,
+.upload-photo,
+.player-photo,
+.photo-placeholder,
+[class*="photo"][class*="upload"],
+[class*="photo"][class*="box"]{
+  width:100%!important;
+  height:100%!important;
+  min-height:100%!important;
+  box-sizing:border-box!important;
+}
+.photo-upload img,
+.photo-box img,
+.upload-photo img,
+.player-photo img{
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  display:block!important;
+}
+@media(max-width:420px){
+  .brand-logo{width:47px!important;height:47px!important}
+  .menu-card{grid-template-columns:34px minmax(0,1fr) 14px!important}
+  .menu-icon{font-size:22px!important;width:29px!important}
+  .menu-title{font-size:15px!important}
+  .menu-desc{font-size:11px!important}
+}
+@media(max-width:380px){
+  .brand-logo{width:45px!important;height:45px!important}
+  .menu-card{grid-template-columns:32px minmax(0,1fr) 13px!important}
+  .menu-icon{font-size:21px!important;width:27px!important}
+  .menu-title{font-size:14px!important}
+  .menu-desc{font-size:10.5px!important}
 }
 </style>
 
