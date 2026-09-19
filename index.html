@@ -338,7 +338,26 @@ function renderPlayoffs(){const p=currentData?.playoffs||[];$('panelBody').inner
 function renderChampions(){$('panelBody').innerHTML='<div class="empty">Los campeones aparecerán aquí cuando estén registrados.</div>'}
 async function load(){try{const ts=await rpc('public_list_tournaments',{});const list=Array.isArray(ts)?ts:(ts?.tournaments||[]);$('tournamentSelect').innerHTML=list.map(t=>`<option value="${esc(t.id)}">${esc(t.name||t.title)}</option>`).join('')||'<option value="">Sin torneos</option>';if(list[0])await loadTournament(list[0].id)}catch(e){$('panelBody').innerHTML='<div class="empty">No se pudo cargar la información pública.</div>'}}
 async function loadTournament(id){try{allData=await rpc('public_get_tournament_data',{p_tournament_id:id,p_category_id:null});currentData=allData;const cats=allData?.categories||[];$('categorySelect').innerHTML='<option value="">Todas las categorías</option>'+cats.map(c=>`<option value="${esc(c.id)}">${esc(c.name)}</option>`).join('');renderPanel(document.querySelector('.menu-card.active')?.dataset.panel||'calendar')}catch(e){$('panelBody').innerHTML='<div class="empty">No se pudo cargar el torneo.</div>'}}
-$('tournamentSelect').addEventListener('change',e=>loadTournament(e.target.value));$('categorySelect').addEventListener('change',async e=>{try{if(!e.target.value){currentData=allData}else currentData=await rpc('public_get_tournament_data',{p_tournament_id:$('tournamentSelect').value,p_category_id:e.target.value});renderPanel(document.querySelector('.menu-card.active')?.dataset.panel||'calendar')}catch(err){}});document.querySelectorAll('.menu-card').forEach(b=>b.addEventListener('click',()=>setPanel(b.dataset.panel)));load();
+$('tournamentSelect').addEventListener('change',e=>loadTournament(e.target.value));$('categorySelect').addEventListener('change',async e=>{try{if(!e.target.value){currentData=allData}else currentData=await rpc('public_get_tournament_data',{p_tournament_id:$('tournamentSelect').value,p_category_id:e.target.value});renderPanel(document.querySelector('.menu-card.active')?.dataset.panel||'calendar')}catch(err){}});document.querySelectorAll('.menu-card').forEach(b=>b.addEventListener('click',async()=>{
+  document.querySelectorAll('.menu-card').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  const panel=b.dataset.panel||'calendar';
+  $('panelBody').innerHTML='<div class=\"loading\">Cargando…</div>';
+  try{await Promise.resolve(renderPanel(panel))}catch(err){$('panelBody').innerHTML='<div class=\"empty\">No se pudo cargar esta sección. Intenta nuevamente.</div>';}
+}));
+$('tournamentSelect').addEventListener('change',async e=>{
+  if(!e.target.value)return;
+  $('panelBody').innerHTML='<div class=\"loading\">Cargando torneo…</div>';
+  await loadTournament(e.target.value);
+});
+$('categorySelect').addEventListener('change',async e=>{
+  try{
+    $('panelBody').innerHTML='<div class=\"loading\">Actualizando…</div>';
+    currentData=e.target.value?await rpc('public_get_tournament_data',{p_tournament_id:$('tournamentSelect').value,p_category_id:e.target.value}):allData;
+    renderPanel(document.querySelector('.menu-card.active')?.dataset.panel||'calendar');
+  }catch(err){$('panelBody').innerHTML='<div class=\"empty\">No se pudo actualizar la categoría.</div>';}
+});
+load();
 </script>
 
 <style id="final-readable-size">
