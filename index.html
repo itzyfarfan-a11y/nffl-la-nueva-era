@@ -38,12 +38,12 @@ table{width:100%;border-collapse:collapse;font-size:12px}th,td{padding:8px 5px;b
 <script>
 const SUPABASE_URL='https://picivrqgmckrwutarhyw.supabase.co';
 const SUPABASE_KEY='sb_publishable_SK8XBpzn3b5Dr-qa2rO7Nw_un7KbvCl';
-const headers={'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json'};
+const headers={'apikey':SUPABASE_KEY,'Content-Type':'application/json','Accept':'application/json'};
 const t=document.getElementById('t'),c=document.getElementById('c'),status=document.getElementById('status'),nav=document.getElementById('nav');
 const sections={inicio:inicio,equipos:equipos,jugadores:jugadores,calendario:calendario,enfrentamientos:enfrentamientos,resultados:resultados,tabla:tabla,playoffs:playoffs};
 let data={tournament:{},categories:[],teams:[],matches:[],playoffs:[]},tab='inicio';
 function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-async function rpc(name,body={}){const r=await fetch(SUPABASE_URL+'/rest/v1/rpc/'+name,{method:'POST',headers,body:JSON.stringify(body)});if(!r.ok)throw new Error(await r.text());return r.json()}
+async function rpc(name,body={}){const r=await fetch(SUPABASE_URL+'/rest/v1/rpc/'+name,{method:'POST',headers,body:JSON.stringify(body),cache:'no-store'});const txt=await r.text();if(!r.ok)throw new Error('HTTP '+r.status+' · '+txt.slice(0,500));try{return JSON.parse(txt)}catch(e){throw new Error('Respuesta no JSON · '+txt.slice(0,500))}}
 function team(id){return data.teams.find(x=>x.id===id)||{name:'Por definir'}}
 function catName(id){return data.categories.find(x=>x.id===id)?.name||'Categoría'}
 function showStatus(x){status.textContent=x;status.style.display='block'}
@@ -54,7 +54,7 @@ async function refresh(){
  if(!t.value)return;
  try{data=await rpc('public_get_tournament_data',{p_tournament_id:t.value,p_category_id:null});
  c.innerHTML='<option value="">Todas las categorías</option>'+data.categories.map(x=>`<option value="${esc(x.id)}">${esc(x.name)}</option>`).join('');
- status.style.display='none';render()}catch(e){console.error(e);showStatus('No se pudo cargar la información del torneo.')}}
+ status.style.display='none';render()}catch(e){console.error(e);showStatus('No se pudo cargar la información del torneo. '+(e?.message||''))}}
 function render(){
  const navs=[['inicio','🏠 Inicio'],['equipos','👥 Equipos'],['jugadores','🧑 Jugadores'],['calendario','📅 Calendario'],['enfrentamientos','📋 Enfrentamientos'],['resultados','🏈 Resultados'],['tabla','📊 Tabla'],['playoffs','🏆 Playoffs']];
  nav.innerHTML=navs.map(x=>`<button class="${tab===x[0]?'active':''}" onclick="tab='${x[0]}';render()">${x[1]}</button>`).join('');
