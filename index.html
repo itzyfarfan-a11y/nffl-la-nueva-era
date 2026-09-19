@@ -340,6 +340,33 @@ async function load(){try{const ts=await rpc('public_list_tournaments',{});const
 async function loadTournament(id){try{allData=await rpc('public_get_tournament_data',{p_tournament_id:id,p_category_id:null});currentData=allData;const cats=allData?.categories||[];$('categorySelect').innerHTML='<option value="">Todas las categorías</option>'+cats.map(c=>`<option value="${esc(c.id)}">${esc(c.name)}</option>`).join('');renderPanel(document.querySelector('.menu-card.active')?.dataset.panel||'calendar')}catch(e){$('panelBody').innerHTML='<div class="empty">No se pudo cargar el torneo.</div>'}}
 $('tournamentSelect').addEventListener('change',e=>loadTournament(e.target.value));$('categorySelect').addEventListener('change',async e=>{try{if(!e.target.value){currentData=allData}else currentData=await rpc('public_get_tournament_data',{p_tournament_id:$('tournamentSelect').value,p_category_id:e.target.value});renderPanel(document.querySelector('.menu-card.active')?.dataset.panel||'calendar')}catch(err){}});document.querySelectorAll('.menu-card').forEach(b=>b.addEventListener('click',()=>setPanel(b.dataset.panel)));load();
 </script>
+
+<style id="final-readable-size">
+/* Larger, more readable typography without changing the approved structure */
+body{font-size:15px}
+.header-title{font-size:clamp(17px,4.7vw,22px)!important;line-height:1.05}
+.header-subtitle{font-size:clamp(11px,3vw,14px)!important}
+.brand-logo{width:46px!important;height:46px!important}
+.league-title{font-size:clamp(15px,4vw,19px)!important;line-height:1.08}
+.league-subtitle{font-size:clamp(11px,3vw,14px)!important}
+select,.select-label{font-size:14px!important}
+.menu-title{font-size:clamp(14px,3.8vw,17px)!important;line-height:1.1}
+.menu-desc{font-size:clamp(10px,2.8vw,13px)!important;line-height:1.15}
+.calendar-title,.section-title{font-size:clamp(16px,4.2vw,20px)!important}
+.calendar th{font-size:12px!important}
+.calendar td{font-size:clamp(11px,3vw,14px)!important;line-height:1.12}
+.footer{font-size:11px!important}
+button{font-size:14px!important}
+@media (max-width:380px){
+  .brand-logo{width:43px!important;height:43px!important}
+  .header-title{font-size:17px!important}
+  .menu-title{font-size:13px!important}
+  .menu-desc{font-size:10px!important}
+  .calendar th{font-size:11px!important}
+  .calendar td{font-size:11px!important}
+}
+</style>
+
 </body>
 </html><style id="final-logo-visibility">
 @media (max-width:700px){
