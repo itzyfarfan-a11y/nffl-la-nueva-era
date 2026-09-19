@@ -482,3 +482,93 @@ footer{font-size:9px!important;padding:4px!important;margin:0!important}
   setTimeout(polishPublicLabels,100);
 })();
 </script>
+
+
+<style id="nffl-public-final-fix-2026-09-19">
+/* CORRECCIÓN FINAL: estructura estable en móvil */
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!important}
+body.home-screen{overflow:hidden!important}
+
+/* Encabezado: logo izquierda / título centro / perfil derecha */
+.gof-public-top{height:112px!important;min-height:112px!important;padding:8px 12px!important;box-sizing:border-box!important}
+.gof-public-head{width:100%!important;max-width:none!important;height:96px!important;margin:0!important;display:grid!important;grid-template-columns:58px minmax(0,1fr) 46px!important;grid-template-rows:1fr!important;align-items:center!important;gap:7px!important}
+.gof-header-logo-upload{grid-column:1!important;grid-row:1!important;width:52px!important;height:52px!important;margin:0!important;align-self:center!important;justify-self:start!important;pointer-events:none!important}
+.gof-header-logo-upload img{width:46px!important;height:46px!important;object-fit:contain!important}
+.gof-header-logo-upload input,.gof-header-logo-upload span{display:none!important}
+.gof-public-brand{grid-column:2!important;grid-row:1!important;width:100%!important;min-width:0!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;text-align:center!important;overflow:visible!important}
+.gof-public-title{width:100%!important;font-size:20px!important;line-height:1!important;letter-spacing:.4px!important;white-space:normal!important;overflow:visible!important;text-align:center!important}
+.gof-public-title b{display:block!important;white-space:nowrap!important;color:#f2c94c!important}
+.gof-public-sub{font-size:8px!important;letter-spacing:2.8px!important;margin-top:4px!important;white-space:nowrap!important;text-align:center!important}
+.gof-public-under-actions{display:flex!important;justify-content:center!important;align-items:center!important;gap:7px!important;margin-top:5px!important;height:28px!important}
+.gof-public-under-actions button{width:28px!important;height:28px!important;padding:0!important;border:1px solid #49345d!important;border-radius:50%!important;background:#15101e!important;font-size:14px!important;line-height:1!important;display:grid!important;place-items:center!important}
+.gof-public-profile{grid-column:3!important;grid-row:1!important;width:46px!important;height:100%!important;display:flex!important;justify-content:flex-end!important;align-items:center!important;margin:0!important}
+.gof-public-profile button{width:40px!important;height:40px!important;padding:0!important;border:1px solid #49345d!important;border-radius:50%!important;background:#15101e!important;font-size:19px!important;display:grid!important;place-items:center!important}
+
+/* Contenido: una sola columna vertical; nunca se comprime a la derecha */
+body.home-screen main{display:flex!important;flex-direction:column!important;align-items:stretch!important;width:100%!important;max-width:none!important;box-sizing:border-box!important;height:calc(100dvh - 112px)!important;min-height:0!important;overflow:hidden!important;padding:10px 12px 6px!important;gap:8px!important;margin:0!important}
+.gof-public-identity{width:100%!important;max-width:none!important;display:grid!important;grid-template-columns:minmax(0,1fr) 96px!important;gap:7px!important;flex:0 0 76px!important;margin:0!important}
+.gof-public-league,.gof-public-logo-card{height:76px!important;min-height:76px!important;box-sizing:border-box!important}
+.gof-public-league{padding:8px 10px!important;gap:8px!important}
+.gof-public-league b{font-size:17px!important;line-height:1.15!important;white-space:normal!important}
+.gof-public-league span{font-size:10px!important}
+.gof-public-logo-card{padding:6px!important}
+.gof-public-logo-upload{width:100%!important;height:100%!important;pointer-events:none!important}
+.gof-public-logo-upload img{width:56px!important;height:56px!important;object-fit:contain!important}
+
+.gof-public-selectors,.controls.gof-public-selectors{width:100%!important;max-width:none!important;display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:8px!important;flex:0 0 72px!important;margin:0!important;box-sizing:border-box!important}
+.gof-public-select-card{width:100%!important;min-width:0!important;height:72px!important;box-sizing:border-box!important;padding:6px 8px!important;display:flex!important;flex-direction:column!important;justify-content:center!important}
+.gof-public-select-card span{font-size:10px!important;line-height:1.1!important;margin-bottom:4px!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+.gof-public-select-card select{width:100%!important;height:34px!important;min-height:34px!important;box-sizing:border-box!important;font-size:11px!important}
+
+#nav,.nav{width:100%!important;max-width:none!important;box-sizing:border-box!important;display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:7px!important;margin:0!important;flex:1 1 auto!important;align-content:start!important;min-width:0!important}
+#nav button,.nav button{width:100%!important;min-width:0!important;height:72px!important;min-height:72px!important;box-sizing:border-box!important;display:flex!important;align-items:center!important;overflow:hidden!important;padding:8px 27px 8px 10px!important;font-size:15px!important;white-space:nowrap!important}
+#nav button:before,.nav button:before{font-size:28px!important;flex:0 0 31px!important}
+#nav button small,.nav button small{font-size:9px!important;min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+#nav button:after,.nav button:after{right:8px!important;font-size:25px!important}
+
+.gof-promo,body.home-screen footer{display:none!important}
+
+@media(max-width:650px){
+ .gof-public-top{height:108px!important;min-height:108px!important;padding:7px 10px!important}
+ .gof-public-head{height:94px!important;grid-template-columns:52px minmax(0,1fr) 42px!important;gap:5px!important}
+ .gof-header-logo-upload{width:48px!important;height:48px!important}
+ .gof-header-logo-upload img{width:42px!important;height:42px!important}
+ .gof-public-title{font-size:19px!important;line-height:1.02!important}
+ .gof-public-sub{font-size:7px!important;letter-spacing:2.4px!important;margin-top:4px!important}
+ .gof-public-under-actions{gap:6px!important;margin-top:5px!important}
+ .gof-public-under-actions button{width:27px!important;height:27px!important;font-size:13px!important}
+ .gof-public-profile button{width:37px!important;height:37px!important;font-size:18px!important}
+ body.home-screen main{height:calc(100dvh - 108px)!important;padding:8px 10px 5px!important;gap:7px!important}
+ .gof-public-identity{grid-template-columns:minmax(0,1fr) 88px!important;flex-basis:74px!important}
+ .gof-public-league,.gof-public-logo-card{height:74px!important;min-height:74px!important}
+ .gof-public-league img{width:52px!important;height:52px!important}
+ .gof-public-league b{font-size:16px!important}
+ .gof-public-selectors,.controls.gof-public-selectors{flex-basis:70px!important;gap:7px!important}
+ .gof-public-select-card{height:70px!important}
+ #nav,.nav{gap:7px!important}
+ #nav button,.nav button{height:69px!important;min-height:69px!important;font-size:14px!important}
+ #nav button:before,.nav button:before{font-size:26px!important;flex-basis:29px!important}
+}
+@media(max-width:390px){
+ .gof-public-top{height:104px!important;min-height:104px!important}
+ .gof-public-head{height:90px!important;grid-template-columns:48px minmax(0,1fr) 38px!important}
+ .gof-header-logo-upload{width:44px!important;height:44px!important}
+ .gof-header-logo-upload img{width:39px!important;height:39px!important}
+ .gof-public-title{font-size:17px!important}
+ .gof-public-sub{font-size:6px!important;letter-spacing:2px!important}
+ .gof-public-under-actions button{width:25px!important;height:25px!important;font-size:12px!important}
+ .gof-public-profile button{width:34px!important;height:34px!important;font-size:16px!important}
+ body.home-screen main{height:calc(100dvh - 104px)!important;padding:7px 8px 4px!important;gap:6px!important}
+ .gof-public-identity{grid-template-columns:minmax(0,1fr) 80px!important;flex-basis:68px!important}
+ .gof-public-league,.gof-public-logo-card{height:68px!important;min-height:68px!important}
+ .gof-public-league b{font-size:14px!important}
+ .gof-public-selectors,.controls.gof-public-selectors{flex-basis:62px!important;gap:6px!important}
+ .gof-public-select-card{height:62px!important}
+ .gof-public-select-card span{font-size:9px!important}
+ .gof-public-select-card select{height:29px!important;min-height:29px!important;font-size:10px!important}
+ #nav,.nav{gap:6px!important}
+ #nav button,.nav button{height:63px!important;min-height:63px!important;font-size:12.5px!important;padding:7px 23px 7px 8px!important}
+ #nav button:before,.nav button:before{font-size:23px!important;flex-basis:26px!important}
+ #nav button small,.nav button small{font-size:7.5px!important}
+}
+</style>
