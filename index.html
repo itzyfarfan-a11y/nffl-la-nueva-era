@@ -201,4 +201,88 @@ function matchups(){const s=document.getElementById('enfrentamientos');if(!c.val
 function results(){const s=document.getElementById('resultados'),a=data.matches.filter(m=>m.status==='jugado'||m.status==='incomparecencia');s.innerHTML='<h2>Resultados</h2>'+(a.length?a.map(m=>'<div class="card"><span class="badge">Semana '+esc(m.round_number)+'</span><div class="match"><b>'+esc(team(m.home_team_id).name)+'</b><div class="score">'+(m.home_score??0)+'-'+(m.away_score??0)+'</div><b>'+esc(team(m.away_team_id).name)+'</b></div></div>').join(''):'<div class="empty">Aún no hay resultados publicados.</div>')}
 function table(){const s=document.getElementById('tabla');if(!c.value){s.innerHTML='<div class="empty">Selecciona una categoría.</div>';return}const m={};data.matches.filter(x=>x.category_id===c.value&&(x.status==='jugado'||x.status==='incomparecencia')).forEach(x=>{m[x.home_team_id]??={id:x.home_team_id,jj:0,jg:0,pa:0,pc:0};m[x.away_team_id]??={id:x.away_team_id,jj:0,jg:0,pa:0,pc:0};const a=m[x.home_team_id],b=m[x.away_team_id],hs=x.home_score||0,as=x.away_score||0;a.jj++;b.jj++;a.pa+=hs;a.pc+=as;b.pa+=as;b.pc+=hs;if(hs>as)a.jg++;else if(as>hs)b.jg++});data.teams.forEach(x=>m[x.id]??={id:x.id,jj:0,jg:0,pa:0,pc:0});const rows=Object.values(m).map(x=>({...x,dif:x.pa-x.pc})).sort((a,b)=>b.dif-a.dif||b.pa-a.pa||a.pc-b.pc||team(a.id).name.localeCompare(team(b.id).name));s.innerHTML='<h2>Tabla de posiciones</h2><div class="card"><div class="scroll"><table><thead><tr><th>#</th><th>Equipo</th><th>JJ</th><th>JG</th><th>PA</th><th>PC</th><th>DIF</th></tr></thead><tbody>'+rows.map((x,i)=>'<tr><td>'+(i+1)+'</td><td><b>'+esc(team(x.id).name)+'</b></td><td>'+x.jj+'</td><td>'+x.jg+'</td><td>'+x.pa+'</td><td>'+x.pc+'</td><td>'+x.dif+'</td></tr>').join('')+'</tbody></table></div></div>'}function playoffs(){const s=document.getElementById('playoffs');s.innerHTML='<h2>Playoffs</h2>'+(data.playoffs.length?data.playoffs.map(p=>'<div class="card"><span class="badge">'+esc(p.stage||'Playoff')+'</span><div class="match"><b>'+esc(team(p.team_a_id).name)+'</b><div class="score">'+(p.score_a??'—')+'-'+(p.score_b??'—')+'</div><b>'+esc(team(p.team_b_id).name)+'</b></div></div>').join(''):'<div class="empty">El bracket aún no ha sido publicado.</div>')}
 async function refresh(){if(!t.value)return;try{data=await rpc('public_get_tournament_data',{p_tournament_id:t.value,p_category_id:null});c.innerHTML='<option value="">Todas las categorías</option>'+data.categories.map(x=>'<option value="'+esc(x.id)+'">'+esc(x.name)+'</option>').join('');render()}catch(e){status.textContent='No se pudo cargar el torneo.';status.style.display='block'}}t.onchange=()=>{c.value='';refresh()};c.onchange=render;(async()=>{try{const x=await rpc('public_list_tournaments');if(!x.length){status.textContent='Aún no hay torneos publicados.';status.style.display='block';return}t.innerHTML=x.map(y=>'<option value="'+esc(y.id)+'">'+esc(y.name)+'</option>').join('');await refresh()}catch(e){status.textContent='No se pudo cargar la información pública.';status.style.display='block'}})();
-</script></body></html>
+</script>
+<style id="nffl-harmony-layout-v6">
+/* HOME ARMONIOSA — diseñada para móvil sin desplazar */
+html,body{width:100%;max-width:100%;overflow-x:hidden!important}
+body.home-screen{overflow:hidden!important}
+body.home-screen main{height:calc(100dvh - 76px)!important;overflow:hidden!important;padding:12px 16px 8px!important;display:flex!important;flex-direction:column!important;gap:8px!important}
+body:not(.home-screen) main{overflow-y:auto!important}
+.gof-public-top{height:76px!important;min-height:76px!important;padding:8px 14px!important}
+.gof-public-head{max-width:none!important;display:grid!important;grid-template-columns:1fr auto!important;align-items:center!important}
+.gof-public-brand{text-align:center!important}
+.gof-public-title{font-size:22px!important;line-height:1.02!important;letter-spacing:1px!important}
+.gof-public-sub{font-size:9px!important;letter-spacing:3px!important;margin-top:5px!important}
+.gof-public-actions{gap:7px!important}
+.gof-public-actions button{width:38px!important;height:38px!important;font-size:18px!important;padding:0!important}
+.gof-public-identity{max-width:none!important;width:100%!important;grid-template-columns:minmax(0,1fr) 145px!important;gap:9px!important;margin:0!important;flex:0 0 82px!important}
+.gof-public-league,.gof-public-season{height:82px!important;min-height:82px!important;border-radius:15px!important}
+.gof-public-league{padding:9px 12px!important;gap:10px!important}
+.gof-public-league img{width:62px!important;height:62px!important;border-radius:11px!important}
+.gof-public-league b{font-size:16px!important}
+.gof-public-league span{font-size:11px!important}
+.gof-public-logo-card{padding:7px!important}
+.gof-public-logo-upload{width:100%!important;height:100%!important;border-radius:11px!important}
+.gof-public-logo-upload img{width:62px!important;height:62px!important}
+.gof-public-logo-upload span{font-size:11px!important}
+.gof-public-logo-upload small{font-size:8px!important}
+.gof-public-selectors{display:grid!important;grid-template-columns:1fr 1fr!important;gap:9px!important;margin:0!important;max-width:none!important;flex:0 0 78px!important}
+.gof-public-select-card{display:flex!important;flex-direction:column!important;justify-content:center!important;border:1px solid #7d4da0!important;border-radius:14px!important;background:linear-gradient(145deg,#21152d,#110d17)!important;padding:8px 11px!important;min-width:0!important}
+.gof-public-select-card span{font-size:11px!important;font-weight:900!important;color:#f2c94c!important;margin-bottom:5px!important;white-space:nowrap!important}
+.gof-public-select-card select{height:38px!important;min-height:38px!important;padding:5px 9px!important;font-size:13px!important;border-radius:9px!important;border:1px solid #9b59ff!important;background:#0d0a12!important;color:#fff!important}
+#status{display:none!important}
+#nav,.nav{max-width:none!important;width:100%!important;margin:0!important;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;flex:0 0 auto!important}
+#nav button,.nav button{height:68px!important;min-height:68px!important;padding:8px 28px 8px 12px!important;border-radius:14px!important;background:linear-gradient(145deg,#211b2b,#120f17)!important;border:1px solid #49385b!important;font-size:15px!important;font-weight:900!important;display:flex!important;align-items:center!important;position:relative!important;gap:8px!important;white-space:nowrap!important;overflow:hidden!important;text-align:left!important}
+#nav button small,.nav button small{font-size:10px!important;line-height:1.15!important;color:#cfc6da!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+#nav button:after,.nav button:after{content:'›'!important;position:absolute!important;right:10px!important;color:#b36cff!important;font-size:25px!important;font-weight:400!important}
+#nav button:before,.nav button:before{font-size:27px!important;flex:0 0 30px!important}
+#nav button.active{border-color:#9b59ff!important;box-shadow:0 0 0 1px #8d2cff55 inset!important}
+.public-back{display:block!important;width:max-content!important;margin:0 0 8px!important;padding:9px 14px!important;border:1px solid #8d2cff!important;border-radius:10px!important;background:#160f1e!important;color:#fff!important;font-weight:900!important;font-size:14px!important}
+.gof-promo{height:48px!important;min-height:48px!important;margin:0!important;border-radius:12px!important;overflow:hidden!important}
+.gof-promo img{max-height:45px!important}
+.gof-promo:after{font-size:16px!important;right:6%!important}
+footer{padding:4px!important;margin:0!important;font-size:9px!important}
+@media(max-width:650px){
+ body.home-screen main{padding:10px 12px 6px!important;gap:7px!important}
+ .gof-public-title{font-size:20px!important}
+ .gof-public-actions{gap:5px!important}.gof-public-actions button{width:35px!important;height:35px!important;font-size:16px!important}
+ .gof-public-identity{grid-template-columns:minmax(0,1fr) 116px!important;flex-basis:76px!important}
+ .gof-public-league,.gof-public-season{height:76px!important;min-height:76px!important}
+ .gof-public-league img,.gof-public-logo-upload img{width:56px!important;height:56px!important}
+ .gof-public-league b{font-size:14px!important}.gof-public-league span{font-size:10px!important}
+ .gof-public-selectors{flex-basis:70px!important;gap:7px!important}
+ .gof-public-select-card{padding:6px 8px!important;border-radius:12px!important}
+ .gof-public-select-card span{font-size:10px!important;margin-bottom:3px!important}
+ .gof-public-select-card select{height:34px!important;min-height:34px!important;font-size:11px!important}
+ #nav,.nav{gap:7px!important}
+ #nav button,.nav button{height:64px!important;min-height:64px!important;padding:7px 25px 7px 9px!important;font-size:13px!important;border-radius:12px!important;gap:6px!important}
+ #nav button:before,.nav button:before{font-size:24px!important;flex-basis:27px!important}
+ #nav button small,.nav button small{font-size:9px!important}
+ #nav button:after,.nav button:after{font-size:22px!important;right:7px!important}
+ .gof-promo{height:42px!important;min-height:42px!important}.gof-promo img{max-height:40px!important}
+}
+@media(max-width:390px){
+ body.home-screen main{padding:8px 9px 5px!important;gap:5px!important}
+ .gof-public-top{height:70px!important;min-height:70px!important}
+ body.home-screen main{height:calc(100dvh - 70px)!important}
+ .gof-public-title{font-size:18px!important}.gof-public-sub{font-size:7px!important}
+ .gof-public-identity{grid-template-columns:minmax(0,1fr) 105px!important;flex-basis:70px!important}.gof-public-league,.gof-public-season{height:70px!important;min-height:70px!important}
+ .gof-public-league img,.gof-public-logo-upload img{width:50px!important;height:50px!important}
+ .gof-public-league b{font-size:12px!important}.gof-public-league span{font-size:9px!important}
+ .gof-public-selectors{flex-basis:64px!important}.gof-public-select-card select{height:30px!important;min-height:30px!important;font-size:10px!important}
+ #nav button,.nav button{height:58px!important;min-height:58px!important;font-size:12px!important}
+ #nav button:before,.nav button:before{font-size:21px!important;flex-basis:24px!important}
+ #nav button small,.nav button small{font-size:8px!important}
+ .gof-promo{height:34px!important;min-height:34px!important}
+ footer{font-size:8px!important}
+}
+</style>
+<style id="nffl-public-final-polish-v7">
+body.home-screen #inicio{display:none!important}
+.gof-public-select-card:first-child span:before{content:"🏆 ";}
+.gof-public-select-card:nth-child(2) span:before{content:"🏷️ ";}
+.gof-public-select-card:first-child span{font-size:12px!important}
+.gof-public-select-card:nth-child(2) span{font-size:12px!important}
+@media(max-width:650px){.gof-public-select-card:first-child span,.gof-public-select-card:nth-child(2) span{font-size:10px!important}}
+</style>
+</body></html>
