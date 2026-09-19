@@ -300,14 +300,14 @@ html,body{max-width:100%;overflow-x:hidden!important}
   </section>
 
   <section class="menu">
-    <button type="button" class="menu-card active" data-panel="calendar"><div class="menu-icon">📅</div><div class="menu-text"><div class="menu-title">Calendario</div><div class="menu-sub">Jornadas y horarios</div></div><div class="menu-arrow">›</div></button>
-<button type="button" class="menu-card " data-panel="matches"><div class="menu-icon">🏈</div><div class="menu-text"><div class="menu-title">Enfrentamientos</div><div class="menu-sub">Partidos y resultados</div></div><div class="menu-arrow">›</div></button>
-<button type="button" class="menu-card " data-panel="teams"><div class="menu-icon">👥</div><div class="menu-text"><div class="menu-title">Equipos</div><div class="menu-sub">Conoce los equipos</div></div><div class="menu-arrow">›</div></button>
-<button type="button" class="menu-card " data-panel="players"><div class="menu-icon">👕</div><div class="menu-text"><div class="menu-title">Jugadores</div><div class="menu-sub">Plantillas y fotos</div></div><div class="menu-arrow">›</div></button>
-<button type="button" class="menu-card " data-panel="results"><div class="menu-icon">📊</div><div class="menu-text"><div class="menu-title">Resultados</div><div class="menu-sub">Marcadores y resumen</div></div><div class="menu-arrow">›</div></button>
-<button type="button" class="menu-card " data-panel="table"><div class="menu-icon">📈</div><div class="menu-text"><div class="menu-title">Tabla</div><div class="menu-sub">Clasificaciones</div></div><div class="menu-arrow">›</div></button>
-<button type="button" class="menu-card " data-panel="playoffs"><div class="menu-icon">🏆</div><div class="menu-text"><div class="menu-title">Playoffs</div><div class="menu-sub">Fase final</div></div><div class="menu-arrow">›</div></button>
-<button type="button" class="menu-card " data-panel="champions"><div class="menu-icon">🥇</div><div class="menu-text"><div class="menu-title">Campeones</div><div class="menu-sub">Campeones por categoría</div></div><div class="menu-arrow">›</div></button><div class="menu-text"><div class="menu-title">Campeones</div><div class="menu-sub">Campeones por categoría</div></div><div class="menu-arrow">›</div></div>
+    <button type="button" class="menu-card active" data-panel="calendar" onclick="setPanel(\'calendar\')"><div class="menu-icon">📅</div><div class="menu-text"><div class="menu-title">Calendario</div><div class="menu-sub">Jornadas y horarios</div></div><div class="menu-arrow">›</div></button>
+<button type="button" class="menu-card " data-panel="matches" onclick="setPanel(\'matches\')"><div class="menu-icon">🏈</div><div class="menu-text"><div class="menu-title">Enfrentamientos</div><div class="menu-sub">Partidos y resultados</div></div><div class="menu-arrow">›</div></button>
+<button type="button" class="menu-card " data-panel="teams" onclick="setPanel(\'teams\')"><div class="menu-icon">👥</div><div class="menu-text"><div class="menu-title">Equipos</div><div class="menu-sub">Conoce los equipos</div></div><div class="menu-arrow">›</div></button>
+<button type="button" class="menu-card " data-panel="players" onclick="setPanel(\'players\')"><div class="menu-icon">👕</div><div class="menu-text"><div class="menu-title">Jugadores</div><div class="menu-sub">Plantillas y fotos</div></div><div class="menu-arrow">›</div></button>
+<button type="button" class="menu-card " data-panel="results" onclick="setPanel(\'results\')"><div class="menu-icon">📊</div><div class="menu-text"><div class="menu-title">Resultados</div><div class="menu-sub">Marcadores y resumen</div></div><div class="menu-arrow">›</div></button>
+<button type="button" class="menu-card " data-panel="table" onclick="setPanel(\'table\')"><div class="menu-icon">📈</div><div class="menu-text"><div class="menu-title">Tabla</div><div class="menu-sub">Clasificaciones</div></div><div class="menu-arrow">›</div></button>
+<button type="button" class="menu-card " data-panel="playoffs" onclick="setPanel(\'playoffs\')"><div class="menu-icon">🏆</div><div class="menu-text"><div class="menu-title">Playoffs</div><div class="menu-sub">Fase final</div></div><div class="menu-arrow">›</div></button>
+<button type="button" class="menu-card " data-panel="champions" onclick="setPanel(\'champions\')"><div class="menu-icon">🥇</div><div class="menu-text"><div class="menu-title">Campeones</div><div class="menu-sub">Campeones por categoría</div></div><div class="menu-arrow">›</div></button><div class="menu-text"><div class="menu-title">Campeones</div><div class="menu-sub">Campeones por categoría</div></div><div class="menu-arrow">›</div></div>
   </section>
 
   <section class="calendar" id="contentPanel">
@@ -338,24 +338,17 @@ function renderPlayoffs(){const p=currentData?.playoffs||[];$('panelBody').inner
 function renderChampions(){$('panelBody').innerHTML='<div class="empty">Los campeones aparecerán aquí cuando estén registrados.</div>'}
 async function load(){try{const ts=await rpc('public_list_tournaments',{});const list=Array.isArray(ts)?ts:(ts?.tournaments||[]);$('tournamentSelect').innerHTML=list.map(t=>`<option value="${esc(t.id)}">${esc(t.name||t.title)}</option>`).join('')||'<option value="">Sin torneos</option>';if(list[0])await loadTournament(list[0].id)}catch(e){$('panelBody').innerHTML='<div class="empty">No se pudo cargar la información pública.</div>'}}
 async function loadTournament(id){try{allData=await rpc('public_get_tournament_data',{p_tournament_id:id,p_category_id:null});currentData=allData;const cats=allData?.categories||[];$('categorySelect').innerHTML='<option value="">Todas las categorías</option>'+cats.map(c=>`<option value="${esc(c.id)}">${esc(c.name)}</option>`).join('');renderPanel(document.querySelector('.menu-card.active')?.dataset.panel||'calendar')}catch(e){$('panelBody').innerHTML='<div class="empty">No se pudo cargar el torneo.</div>'}}
-$('tournamentSelect').addEventListener('change',e=>loadTournament(e.target.value));$('categorySelect').addEventListener('change',async e=>{try{if(!e.target.value){currentData=allData}else currentData=await rpc('public_get_tournament_data',{p_tournament_id:$('tournamentSelect').value,p_category_id:e.target.value});renderPanel(document.querySelector('.menu-card.active')?.dataset.panel||'calendar')}catch(err){}});document.querySelectorAll('.menu-card').forEach(b=>b.addEventListener('click',async()=>{
-  document.querySelectorAll('.menu-card').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active');
+$('tournamentSelect').addEventListener('change',e=>loadTournament(e.target.value));$('categorySelect').addEventListener('change',async e=>{try{if(!e.target.value){currentData=allData}else currentData=await rpc('public_get_tournament_data',{p_tournament_id:$('tournamentSelect').value,p_category_id:e.target.value});renderPanel(document.querySelector('.menu-card.active')?.dataset.panel||'calendar')}catch(err){}});document.addEventListener('click',async e=>{
+  const b=e.target.closest('.menu-card');
+  if(!b)return;
   const panel=b.dataset.panel||'calendar';
-  $('panelBody').innerHTML='<div class=\"loading\">Cargando…</div>';
-  try{await Promise.resolve(renderPanel(panel))}catch(err){$('panelBody').innerHTML='<div class=\"empty\">No se pudo cargar esta sección. Intenta nuevamente.</div>';}
-}));
-$('tournamentSelect').addEventListener('change',async e=>{
-  if(!e.target.value)return;
-  $('panelBody').innerHTML='<div class=\"loading\">Cargando torneo…</div>';
-  await loadTournament(e.target.value);
-});
-$('categorySelect').addEventListener('change',async e=>{
+  document.querySelectorAll('.menu-card').forEach(x=>x.classList.toggle('active',x===b));
+  $('panelBody').innerHTML='<div class="loading">Cargando…</div>';
   try{
-    $('panelBody').innerHTML='<div class=\"loading\">Actualizando…</div>';
-    currentData=e.target.value?await rpc('public_get_tournament_data',{p_tournament_id:$('tournamentSelect').value,p_category_id:e.target.value}):allData;
-    renderPanel(document.querySelector('.menu-card.active')?.dataset.panel||'calendar');
-  }catch(err){$('panelBody').innerHTML='<div class=\"empty\">No se pudo actualizar la categoría.</div>';}
+    await Promise.resolve(renderPanel(panel));
+  }catch(err){
+    $('panelBody').innerHTML='<div class="empty">No se pudo cargar esta sección.</div>';
+  }
 });
 load();
 </script>
@@ -383,6 +376,43 @@ button{font-size:14px!important}
   .menu-desc{font-size:10px!important}
   .calendar th{font-size:11px!important}
   .calendar td{font-size:11px!important}
+}
+</style>
+
+
+<style id="functional-layout-fix">
+/* El panel de contenido debe quedar visible al usar cualquier botón */
+#contentPanel.calendar{
+  display:block!important;
+  width:100%;
+  box-sizing:border-box;
+}
+
+/* Íconos un poco más grandes, manteniendo el ancho de las tarjetas */
+.menu-card{
+  grid-template-columns:34px minmax(0,1fr) 15px!important;
+}
+.menu-icon{
+  font-size:22px!important;
+  width:28px;
+  text-align:center;
+  line-height:1;
+}
+.menu-arrow{font-size:18px!important}
+@media (max-width:420px){
+  .menu-card{
+    grid-template-columns:30px minmax(0,1fr) 13px!important;
+    padding-left:6px!important;
+    padding-right:6px!important;
+  }
+  .menu-icon{font-size:20px!important;width:25px}
+  .menu-arrow{font-size:17px!important}
+}
+@media (max-width:380px){
+  .menu-card{
+    grid-template-columns:28px minmax(0,1fr) 12px!important;
+  }
+  .menu-icon{font-size:19px!important;width:23px}
 }
 </style>
 
