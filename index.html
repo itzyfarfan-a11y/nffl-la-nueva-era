@@ -202,6 +202,119 @@ body{min-width:320px;overflow-x:hidden}
   }
 }
 </style>
+
+<style id="ultra-compact-mobile">
+@media (max-width:700px){
+  body{overflow-x:hidden!important}
+  .page{width:100%!important;max-width:none!important;padding:5px 6px 12px!important}
+
+  /* Encabezado: botones e iconos mucho más pequeños */
+  .header{
+    grid-template-columns:40px minmax(0,1fr) 94px!important;
+    gap:4px!important;
+    padding:0 0 5px!important;
+    border-bottom-width:2px!important;
+  }
+  .brand-logo{width:40px!important;height:40px!important}
+  .brand-title{font-size:16px!important;letter-spacing:-.5px!important}
+  .brand-app{font-size:8px!important;letter-spacing:3px!important;margin-top:2px!important}
+  .brand-sub{font-size:5px!important;letter-spacing:2px!important;margin-top:2px!important}
+
+  .header-actions{gap:3px!important}
+  .header-btn{
+    height:24px!important;
+    min-width:0!important;
+    border-width:1.5px!important;
+    border-radius:7px!important;
+    padding:0 4px!important;
+    gap:3px!important;
+    font-size:8px!important;
+    line-height:1!important;
+    overflow:hidden!important;
+  }
+  .header-btn .ico{font-size:10px!important;flex:0 0 10px!important}
+  .header-btn small{font-size:5px!important;line-height:1!important;margin-top:1px!important;white-space:nowrap!important}
+  .header-btn .arrow{font-size:11px!important;flex:0 0 auto!important}
+  .badge{
+    min-width:14px!important;height:14px!important;font-size:8px!important;
+    margin-left:-9px!important;margin-top:-17px!important;
+  }
+
+  /* Bloque Liga más pequeño */
+  .league-row{grid-template-columns:minmax(0,1fr) 78px!important;gap:5px!important;margin-top:7px!important}
+  .league-card{padding:9px 10px!important;border-width:1.5px!important;border-radius:11px!important}
+  .league-title{font-size:18px!important;line-height:1.02!important}
+  .league-sub{font-size:10px!important;margin-top:5px!important}
+  .league-logo{padding:6px!important;border-width:1.5px!important;border-radius:11px!important}
+
+  /* Etiquetas de selección mucho más pequeñas */
+  .selects{gap:5px!important;margin-top:6px!important}
+  .select-card{
+    padding:5px 6px 6px!important;
+    border-width:1.5px!important;
+    border-radius:10px!important;
+    min-width:0!important;
+  }
+  .select-label{
+    font-size:8px!important;
+    line-height:1!important;
+    margin-bottom:4px!important;
+    letter-spacing:-.1px!important;
+  }
+  .select-box{
+    height:31px!important;
+    border-width:1.5px!important;
+    border-radius:8px!important;
+    padding:0 7px!important;
+    font-size:11px!important;
+  }
+  .chev{font-size:12px!important}
+
+  /* Tarjetas principales compactas */
+  .menu{gap:5px 6px!important;margin-top:6px!important}
+  .menu-card{
+    height:52px!important;
+    border-width:1.5px!important;
+    border-radius:10px!important;
+    grid-template-columns:25px minmax(0,1fr) 11px!important;
+    padding:5px 5px!important;
+    min-width:0!important;
+  }
+  .menu-icon{font-size:16px!important}
+  .menu-title{font-size:12px!important;line-height:1!important}
+  .menu-sub{font-size:7.5px!important;margin-top:2px!important}
+  .menu-arrow{font-size:14px!important}
+
+  .calendar{margin-top:6px!important;padding:5px!important;border-width:1.5px!important;border-radius:10px!important}
+  .cal-title{font-size:12px!important}
+  .cal-note{font-size:7px!important}
+  .cal-table{font-size:7px!important}
+  .cal-table th{font-size:6px!important;padding:3px 1px!important}
+  .cal-table td{padding:3px 1px!important}
+
+  .footer{margin-top:7px!important;padding-top:5px!important;font-size:7px!important}
+  .footer strong{font-size:8px!important}
+}
+@media (max-width:380px){
+  .header{grid-template-columns:36px minmax(0,1fr) 88px!important}
+  .brand-logo{width:36px!important;height:36px!important}
+  .brand-title{font-size:14px!important}
+  .brand-app{font-size:7px!important;letter-spacing:2.5px!important}
+  .header-btn{height:22px!important;font-size:7px!important}
+  .header-btn .ico{font-size:9px!important}
+  .header-btn small{font-size:4.5px!important}
+  .league-row{grid-template-columns:minmax(0,1fr) 70px!important}
+  .league-title{font-size:16px!important}
+  .league-sub{font-size:9px!important}
+  .select-label{font-size:7px!important}
+  .select-box{height:29px!important;font-size:10px!important}
+  .menu-card{height:49px!important;grid-template-columns:22px minmax(0,1fr) 10px!important}
+  .menu-icon{font-size:14px!important}
+  .menu-title{font-size:11px!important}
+  .menu-sub{font-size:7px!important}
+}
+</style>
+
 </head>
 <body>
 <div class="page">
