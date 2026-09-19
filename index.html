@@ -336,26 +336,19 @@ html,body{max-width:100%;overflow-x:hidden!important}
   </section>
 
   <section class="menu">
-    <button type="button" class="menu-card active" data-panel="calendar"calendar')"><div class="menu-icon">📅</div><div class="menu-text"><div class="menu-title">Calendario</div><div class="menu-sub">Jornadas y horarios</div></div><div class="menu-arrow">›</div></button>
-<button type="button" class="menu-card " data-panel="matches"matches')"><div class="menu-icon">🏈</div><div class="menu-text"><div class="menu-title">Enfrentamientos</div><div class="menu-sub">Partidos y resultados</div></div><div class="menu-arrow">›</div></button>
-<button type="button" class="menu-card " data-panel="teams"teams')"><div class="menu-icon">👥</div><div class="menu-text"><div class="menu-title">Equipos</div><div class="menu-sub">Conoce los equipos</div></div><div class="menu-arrow">›</div></button>
-<button type="button" class="menu-card " data-panel="players"players')"><div class="menu-icon">👕</div><div class="menu-text"><div class="menu-title">Jugadores</div><div class="menu-sub">Plantillas y fotos</div></div><div class="menu-arrow">›</div></button>
-<button type="button" class="menu-card " data-panel="results"results')"><div class="menu-icon">📊</div><div class="menu-text"><div class="menu-title">Resultados</div><div class="menu-sub">Marcadores y resumen</div></div><div class="menu-arrow">›</div></button>
-<button type="button" class="menu-card " data-panel="table"table')"><div class="menu-icon">📈</div><div class="menu-text"><div class="menu-title">Tabla</div><div class="menu-sub">Clasificaciones</div></div><div class="menu-arrow">›</div></button>
-<button type="button" class="menu-card " data-panel="playoffs"playoffs')"><div class="menu-icon">🏆</div><div class="menu-text"><div class="menu-title">Playoffs</div><div class="menu-sub">Fase final</div></div><div class="menu-arrow">›</div></button>
-<button type="button" class="menu-card " data-panel="champions"champions')"><div class="menu-icon">🥇</div><div class="menu-text"><div class="menu-title">Campeones</div><div class="menu-sub">Campeones por categoría</div></div><div class="menu-arrow">›</div></button>
+    <button type="button" class="menu-card active" data-panel="matches""><div class="menu-icon">🏈</div><div class="menu-text"><div class="menu-title">Enfrentamientos</div><div class="menu-sub">Partidos y resultados</div></div><div class="menu-arrow">›</div></button>
+<button type="button" class="menu-card " data-panel="teams""><div class="menu-icon">👥</div><div class="menu-text"><div class="menu-title">Equipos</div><div class="menu-sub">Conoce los equipos</div></div><div class="menu-arrow">›</div></button>
+<button type="button" class="menu-card " data-panel="players""><div class="menu-icon">👕</div><div class="menu-text"><div class="menu-title">Jugadores</div><div class="menu-sub">Plantillas y fotos</div></div><div class="menu-arrow">›</div></button>
+<button type="button" class="menu-card " data-panel="results""><div class="menu-icon">📊</div><div class="menu-text"><div class="menu-title">Resultados</div><div class="menu-sub">Marcadores y resumen</div></div><div class="menu-arrow">›</div></button>
+<button type="button" class="menu-card " data-panel="table""><div class="menu-icon">📈</div><div class="menu-text"><div class="menu-title">Tabla</div><div class="menu-sub">Clasificaciones</div></div><div class="menu-arrow">›</div></button>
+<button type="button" class="menu-card " data-panel="playoffs""><div class="menu-icon">🏆</div><div class="menu-text"><div class="menu-title">Playoffs</div><div class="menu-sub">Fase final</div></div><div class="menu-arrow">›</div></button>
+<button type="button" class="menu-card " data-panel="champions""><div class="menu-icon">🥇</div><div class="menu-text"><div class="menu-title">Campeones</div><div class="menu-sub">Campeones por categoría</div></div><div class="menu-arrow">›</div></button>
   </section>
 
-  <section class="calendar" id="contentPanel">
+  <section class="content-panel" id="contentPanel">
     
-<div class="calendar-switch" id="calendarModeSwitch">
-  <button type="button" class="active" data-calendar-mode="general">📅 Calendario general</button>
-  <button type="button" data-calendar-mode="category">🏷️ Por categoría</button>
-</div>
-
-
-<div class="calendar-head"><div class="cal-title" id="panelTitle">📅 Calendario</div><div class="cal-note" id="panelNote">Jornadas y horarios · General / categoría</div></div>
-    <div id="panelBody"><div class="loading">Cargando información…</div></div>
+<div class="calendar-head"><div class="cal-title" id="panelTitle">🏈 Enfrentamientos</div><div class="cal-note" id="panelNote">Partidos y resultados</div></div>
+<div id="panelBody"><div class="loading">Cargando información…</div></div>
   </section>
   <footer class="footer"><strong>GAME ON FLAG APPLICATION</strong>NFFL — La Nueva Era · Portal público</footer>
 </div>
@@ -369,31 +362,8 @@ function esc(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&l
 function teamName(id,d){return (d?.teams||[]).find(x=>x.id===id)?.name||'Por definir'}
 function catName(id,d){return (d?.categories||[]).find(x=>x.id===id)?.name||''}
 function setPanel(id){document.querySelectorAll('.menu-card').forEach(b=>b.classList.toggle('active',b.dataset.panel===id)); return renderPanel(id)}
-function renderPanel(id){const title={calendar:'📅 Calendario',matches:'🏈 Enfrentamientos',teams:'👥 Equipos',players:'👕 Jugadores',results:'📊 Resultados',table:'📈 Tabla',playoffs:'🏆 Playoffs',champions:'🥇 Campeones'}[id]||'📅 Calendario';$('panelTitle').textContent=title; const f={calendar:renderCalendar,matches:renderMatches,teams:renderTeams,players:renderPlayers,results:renderResults,table:renderTable,playoffs:renderPlayoffs,champions:renderChampions}[id]||renderCalendar; f()}
+function renderPanel(id){const title={matches:'🏈 Enfrentamientos',teams:'👥 Equipos',players:'👕 Jugadores',results:'📊 Resultados',table:'📈 Tabla',playoffs:'🏆 Playoffs',champions:'🥇 Campeones'}[id]||'🏈 Enfrentamientos';$('panelTitle').textContent=title; const f={matches:renderMatches,teams:renderTeams,players:renderPlayers,results:renderResults,table:renderTable,playoffs:renderPlayoffs,champions:renderChampions}[id]||renderMatches; f()}
 function matches(d=currentData){return (d?.matches||[]).filter(m=>!m.status||m.status!=='cancelled')}
-function renderCalendar(){
- const ms=matches(currentData), by={};
- ms.forEach(m=>{const d=m.match_date||'Sin fecha';(by[d]??=[]).push(m)});
- let h='<div class="calendar-mode-buttons"><button type="button" class="active" data-mode="general">📅 Calendario general</button><button type="button" data-mode="category">🏷️ Por categoría</button></div>';
- for(const date of Object.keys(by).sort()){
-  const rows={}; by[date].forEach(m=>{const t=(m.match_time||'--:--').slice(0,5);(rows[t]??={});const f=(m.field_name||'').match(/(\\d+)/)?.[1];if(f)rows[t][f]=m});
-  h+=`<div class="cal-date"><div class="cal-date-title">📅 ${esc(date)}</div><div class="cal-table-wrap"><table class="cal-table"><thead><tr><th>HORARIO</th><th>CAMPO 1</th><th>CAMPO 2</th><th>CAMPO 3</th><th>CAMPO 4</th></tr></thead><tbody>`;
-  for(const t of Object.keys(rows).sort()){
-   h+=`<tr><td class="cal-time">${esc(t)}</td>`;
-   for(let i=1;i<=4;i++){
-    const m=rows[t][i];
-    if(!m){h+='<td class="cal-empty">—</td>';continue}
-    const cat=catName(m.category_id,currentData), c=cat.toLowerCase();
-    let cls=c.includes('35+')?'c35':c.includes('mixto')?'cmx':c.includes('silver femenil')?'csf':c.includes('silver varonil')?'csv':c.includes('golden femenil')?'cgf':c.includes('golden varonil')?'cgv':'';
-    h+=`<td class="cal-match ${cls}"><span class="cal-cat">${esc(cat)}</span><b>${esc(teamName(m.home_team_id,currentData))} vs ${esc(teamName(m.away_team_id,currentData))}</b></td>`;
-   }
-   h+='</tr>';
-  }
-  h+='</tbody></table></div></div>';
- }
- $('panelBody').innerHTML=h||'<div class="empty">No hay partidos programados.</div>';
- document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-mode]').forEach(x=>x.classList.toggle('active',x===b));});
-}
 function renderMatches(){const ms=matches(currentData);$('panelBody').innerHTML=ms.length?`<table class="data-table"><thead><tr><th>Fecha</th><th>Hora</th><th>Campo</th><th>Partido</th></tr></thead><tbody>${ms.map(m=>`<tr><td>${esc(m.match_date)}</td><td>${esc((m.match_time||'').slice(0,5))}</td><td>${esc(m.field_name)}</td><td>${esc(teamName(m.home_team_id,currentData))}<br>vs<br>${esc(teamName(m.away_team_id,currentData))}</td></tr>`).join('')}</tbody></table>`:'<div class="empty">No hay enfrentamientos.</div>'}
 function renderTeams(){$('panelBody').innerHTML=`<div class="simple-grid">${(currentData?.teams||[]).map(t=>`<div class="simple-card"><strong>${esc(t.name)}</strong><span>${esc(catName(t.category_id,currentData))}</span></div>`).join('')}</div>`||'<div class="empty">No hay equipos.</div>'}
 async function renderPlayers(){const teams=currentData?.teams||[];let out='';for(const t of teams){try{const rows=await rpc('public_get_roster',{p_tournament_id:$('tournamentSelect').value,p_category_id:t.category_id,p_team_id:t.id});if(rows?.length)out+=`<div class="simple-card"><strong>${esc(t.name)}</strong><span>${rows.map(p=>esc(p.full_name||p.name||'Jugador')).join(' · ')}</span></div>`}catch(e){}}$('panelBody').innerHTML=out||'<div class="empty">No hay jugadores publicados.</div>'}
@@ -402,8 +372,15 @@ function renderTable(){const stats={};(currentData?.teams||[]).forEach(t=>stats[
 function renderPlayoffs(){const p=currentData?.playoffs||[];$('panelBody').innerHTML=p.length?`<table class="data-table"><thead><tr><th>Fase</th><th>Partido</th><th>Hora</th><th>Campo</th></tr></thead><tbody>${p.map(x=>`<tr><td>${esc(x.stage)}</td><td>${esc(teamName(x.team_a_id,currentData))}<br>vs<br>${esc(teamName(x.team_b_id,currentData))}</td><td>${esc((x.match_time||'').slice(0,5))}</td><td>${esc(x.field_name)}</td></tr>`).join('')}</tbody></table>`:'<div class="empty">No hay playoffs publicados.</div>'}
 function renderChampions(){$('panelBody').innerHTML='<div class="empty">Los campeones aparecerán aquí cuando estén registrados.</div>'}
 async function load(){try{const ts=await rpc('public_list_tournaments',{});const list=Array.isArray(ts)?ts:(ts?.tournaments||[]);$('tournamentSelect').innerHTML=list.map(t=>`<option value="${esc(t.id)}">${esc(t.name||t.title)}</option>`).join('')||'<option value="">Sin torneos</option>';if(list[0])await loadTournament(list[0].id)}catch(e){$('panelBody').innerHTML='<div class="empty">No se pudo cargar la información pública.</div>'}}
-async function loadTournament(id){try{allData=await rpc('public_get_tournament_data',{p_tournament_id:id,p_category_id:null});currentData=allData;const cats=allData?.categories||[];$('categorySelect').innerHTML='<option value="">Todas las categorías</option>'+cats.map(c=>`<option value="${esc(c.id)}">${esc(c.name)}</option>`).join('');renderPanel(document.querySelector('.menu-card.active')?.dataset.panel||'calendar')}catch(e){$('panelBody').innerHTML='<div class="empty">No se pudo cargar el torneo.</div>'}}
-$('tournamentSelect').addEventListener('change',e=>loadTournament(e.target.value));$('categorySelect').addEventListener('change',async e=>{try{if(!e.target.value){currentData=allData}else currentData=await rpc('public_get_tournament_data',{p_tournament_id:$('tournamentSelect').value,p_category_id:e.target.value});renderPanel(document.querySelector('.menu-card.active')?.dataset.panel||'calendar')}catch(err){}});load();
+async function loadTournament(id){try{allData=await rpc('public_get_tournament_data',{p_tournament_id:id,p_category_id:null});currentData=allData;const cats=allData?.categories||[];$('categorySelect').innerHTML='<option value="">Todas las categorías</option>'+cats.map(c=>`<option value="${esc(c.id)}">${esc(c.name)}</option>`).join('');renderPanel(document.querySelector('.menu-card.active')?.dataset.panel||'matches')}catch(e){$('panelBody').innerHTML='<div class="empty">No se pudo cargar el torneo.</div>'}}
+
+document.querySelectorAll('.menu-card').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const id=btn.dataset.panel;
+    if(id) setPanel(id);
+  });
+});
+$('tournamentSelect').addEventListener('change',e=>loadTournament(e.target.value));$('categorySelect').addEventListener('change',async e=>{try{if(!e.target.value){currentData=allData}else currentData=await rpc('public_get_tournament_data',{p_tournament_id:$('tournamentSelect').value,p_category_id:e.target.value});renderPanel(document.querySelector('.menu-card.active')?.dataset.panel||'matches')}catch(err){}});load();
 </script>
 
 <style id="final-readable-size">
@@ -556,3 +533,7 @@ select,.select-label{font-size:15px!important}
 
 </body>
 </html>
+<style id="calendar-removed">
+.calendar{display:none!important}
+#contentPanel.content-panel{display:block!important;width:100%;box-sizing:border-box;max-width:100%;overflow-x:auto}
+</style>
