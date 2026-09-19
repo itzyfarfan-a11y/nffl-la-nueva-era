@@ -839,4 +839,70 @@ main>section:not(#inicio){display:none!important}main>section.public-open{displa
 @media(max-width:430px){.gof-public-top{height:108px!important;min-height:108px!important}.gof-public-head{height:96px!important;grid-template-columns:56px minmax(0,1fr) 102px!important;gap:5px!important}.gof-header-logo-upload{width:52px!important;height:52px!important}.gof-header-logo-upload img{width:50px!important;height:50px!important}.gof-public-title{font-size:19px!important}.gof-public-app{font-size:8px!important;letter-spacing:4px!important}.gof-public-sub{font-size:6px!important}.gof-public-head-buttons{width:96px!important;gap:4px!important}.gof-head-btn{width:96px!important;height:33px!important;min-height:33px!important}.gof-head-btn strong{font-size:10px!important}.gof-head-btn span{font-size:14px!important}.gof-public-identity{grid-template-columns:minmax(0,1fr) 88px!important}.gof-public-league b{font-size:15px!important}#nav button,.nav button{height:72px!important;min-height:72px!important;font-size:14px!important}.calendar-round table{min-width:620px!important}}
 @media(max-width:390px){.gof-public-head{grid-template-columns:50px minmax(0,1fr) 92px!important}.gof-public-title{font-size:17px!important}.gof-public-head-buttons{width:88px!important}.gof-head-btn{width:88px!important;height:31px!important;min-height:31px!important}.gof-head-btn strong{font-size:9px!important}.gof-head-btn span{font-size:13px!important}.gof-header-logo-upload{width:46px!important;height:46px!important}.gof-header-logo-upload img{width:44px!important;height:44px!important}}
 </style>
+
+<style id="gof-final-layout-repair">
+/* CORRECCIÓN FINAL: encabezado estable + módulos funcionales */
+header.gof-public-top:before,
+header.gof-public-top:after{display:none!important;content:none!important}
+.gof-public-top{height:104px!important;min-height:104px!important;padding:6px 10px!important;position:sticky!important;top:0!important;z-index:9999!important;overflow:visible!important}
+.gof-public-head{position:relative!important;width:100%!important;max-width:1180px!important;height:92px!important;margin:0 auto!important;display:block!important}
+.gof-header-logo-upload{position:absolute!important;left:0!important;top:50%!important;transform:translateY(-50%)!important;width:62px!important;height:62px!important;margin:0!important;padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important;display:flex!important;align-items:center!important;justify-content:center!important;overflow:hidden!important;z-index:2!important}
+.gof-header-logo-upload:before,.gof-header-logo-upload:after{display:none!important;content:none!important}
+.gof-header-logo-upload img{width:60px!important;height:60px!important;object-fit:contain!important;border:0!important;border-radius:8px!important;display:block!important}
+.gof-header-logo-upload span,.gof-header-logo-upload input{display:none!important}
+.gof-public-brand{position:absolute!important;left:72px!important;right:132px!important;top:50%!important;transform:translateY(-50%)!important;width:auto!important;height:auto!important;margin:0!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;text-align:center!important;overflow:visible!important;z-index:1!important}
+.gof-public-title{width:100%!important;margin:0!important;padding:0!important;font-size:26px!important;line-height:1!important;font-weight:1000!important;letter-spacing:.5px!important;white-space:nowrap!important;overflow:visible!important;color:#fff!important;text-align:center!important}
+.gof-public-title span,.gof-public-title b{color:#b8ff00!important}
+.gof-public-app{display:block!important;font-size:11px!important;line-height:1!important;letter-spacing:6px!important;font-weight:900!important;margin-top:5px!important;color:#fff!important;text-align:center!important;white-space:nowrap!important}
+.gof-public-sub{display:block!important;font-size:8px!important;line-height:1!important;letter-spacing:3px!important;margin-top:5px!important;color:#eee8f4!important;text-align:center!important;white-space:nowrap!important}
+.gof-public-head-buttons{position:absolute!important;right:0!important;top:50%!important;transform:translateY(-50%)!important;width:116px!important;height:auto!important;margin:0!important;display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:center!important;gap:6px!important;z-index:5!important}
+.gof-public-head-buttons .gof-head-btn{width:116px!important;height:38px!important;min-height:38px!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:6px!important;padding:0 7px!important;margin:0!important;border:2px solid #8d2cff!important;border-radius:11px!important;background:linear-gradient(145deg,#21132d,#100b16)!important;color:#fff!important;font-size:12px!important;font-weight:900!important;line-height:1!important;white-space:nowrap!important;position:relative!important;overflow:visible!important;box-sizing:border-box!important}
+.gof-public-head-buttons .gof-head-btn span{font-size:15px!important;line-height:1!important;flex:0 0 auto!important}
+.gof-public-head-buttons .gof-head-btn strong{font-size:11px!important}
+.gof-public-head-buttons .gof-badge{position:absolute!important;top:-7px!important;right:-7px!important;min-width:18px!important;height:18px!important;display:grid!important;place-items:center!important;border-radius:50%!important;background:#9b32ff!important;color:#fff!important;font-size:9px!important;font-weight:900!important}
+/* Los botones de módulos deben mostrar texto completo y seguir siendo cómodos en móvil */
+#nav,.nav{grid-template-columns:1fr 1fr!important;gap:9px!important}
+#nav button,.nav button{height:74px!important;min-height:74px!important;padding:8px 29px 8px 10px!important;font-size:14px!important;gap:8px!important}
+#nav button>span:first-child,.nav button>span:first-child{font-size:25px!important;flex:0 0 29px!important}
+#nav button>span:nth-child(2)>b,.nav button>span:nth-child(2)>b{font-size:13px!important;line-height:1.05!important}
+#nav button>span:nth-child(2)>small,.nav button>span:nth-child(2)>small{font-size:8.5px!important;margin-top:3px!important}
+#nav button:after,.nav button:after{font-size:23px!important;right:7px!important}
+/* IMPORTANTE: permitir que render() muestre solamente el módulo activo. */
+main>section:not(.public-open){display:none!important}
+main>section.public-open{display:block!important}
+@media(max-width:650px){
+ .gof-public-top{height:100px!important;min-height:100px!important;padding:5px 8px!important}
+ .gof-public-head{height:90px!important}
+ .gof-header-logo-upload{width:56px!important;height:56px!important}
+ .gof-header-logo-upload img{width:54px!important;height:54px!important}
+ .gof-public-brand{left:64px!important;right:112px!important}
+ .gof-public-title{font-size:20px!important;letter-spacing:.3px!important}
+ .gof-public-app{font-size:9px!important;letter-spacing:5px!important}
+ .gof-public-sub{font-size:6.5px!important;letter-spacing:2.3px!important}
+ .gof-public-head-buttons{right:0!important;width:104px!important;gap:5px!important}
+ .gof-public-head-buttons .gof-head-btn{width:104px!important;height:34px!important;min-height:34px!important}
+ .gof-public-head-buttons .gof-head-btn strong{font-size:10px!important}
+ .gof-public-head-buttons .gof-head-btn span{font-size:14px!important}
+ #nav,.nav{gap:8px!important}
+ #nav button,.nav button{height:70px!important;min-height:70px!important;font-size:13px!important;padding:7px 25px 7px 8px!important}
+ #nav button>span:first-child,.nav button>span:first-child{font-size:23px!important;flex-basis:27px!important}
+ #nav button>span:nth-child(2)>b,.nav button>span:nth-child(2)>b{font-size:12.5px!important}
+ #nav button>span:nth-child(2)>small,.nav button>span:nth-child(2)>small{font-size:8px!important}
+}
+@media(max-width:430px){
+ .gof-public-top{height:96px!important;min-height:96px!important}
+ .gof-public-head{height:86px!important}
+ .gof-header-logo-upload{width:52px!important;height:52px!important}
+ .gof-header-logo-upload img{width:50px!important;height:50px!important}
+ .gof-public-brand{left:59px!important;right:99px!important}
+ .gof-public-title{font-size:18px!important}
+ .gof-public-app{font-size:8px!important;letter-spacing:4px!important}
+ .gof-public-sub{font-size:6px!important;letter-spacing:2px!important}
+ .gof-public-head-buttons{width:92px!important;gap:4px!important}
+ .gof-public-head-buttons .gof-head-btn{width:92px!important;height:31px!important;min-height:31px!important}
+ .gof-public-head-buttons .gof-head-btn strong{font-size:9px!important}
+ .gof-public-head-buttons .gof-head-btn span{font-size:13px!important}
+ #nav button,.nav button{height:67px!important;min-height:67px!important}
+}
+</style>
 </body></html>
