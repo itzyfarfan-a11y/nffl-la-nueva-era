@@ -381,7 +381,7 @@ async function validateNFFLSchedule(){
 }
 function nfflCategoryPreferredTime(name){const n=String(name||'').toLowerCase();if(n.includes('+35')||n.includes('35'))return 8;if(n.includes('silver varonil'))return 9;if(n.includes('silver femenil'))return 10;if(n==='mixto'||n.includes('mixto'))return 11;if(n.includes('bronce'))return 12;if(n.includes('golden'))return 13;return 14}
 function nfflDateAdd(iso,days){const d=new Date(iso+'T12:00:00');d.setDate(d.getDate()+days);return d.toISOString().slice(0,10)}
-function nfflConflict(a,b){if(a.teamIds.some(id=>b.teamIds.includes(id)))return true;const ac=String(a.club||'').trim().toLowerCase(),bc=String(b.club||'').trim().toLowerCase();if(ac&&bc&&ac===bc)return false;const am=a.cat.toLowerCase(),bm=b.cat.toLowerCase();if((am==='mixto'&&['bronce femenil','silver femenil','silver varonil'].includes(bm))||(bm==='mixto'&&['bronce femenil','silver femenil','silver varonil'].includes(am)))return true;return false}
+function nfflConflict(a,b){if(a.teamIds.some(id=>b.teamIds.includes(id)))return true;const am=String(a.cat||'').trim().toLowerCase(),bm=String(b.cat||'').trim().toLowerCase();if((am==='mixto'&&['bronce femenil','silver femenil','silver varonil'].includes(bm))||(bm==='mixto'&&['bronce femenil','silver femenil','silver varonil'].includes(am)))return true;const ac=String(a.club||'').trim().toLowerCase(),bc=String(b.club||'').trim().toLowerCase();if(ac&&bc&&ac===bc)return false;return false}
 async function generateFullTournamentSchedule(){
  const tid=val('ct');if(!tid)return alert('Selecciona un torneo.');
  const {data:tour,error:te}=await sb.from('tournaments').select('name,start_date,tournament_type,regular_rounds').eq('id',tid).single();if(te)return alert(te.message);
