@@ -336,7 +336,7 @@ async function loadSchedule(){
     const cname=isPo?(m.categories?.name||'Playoffs'):(m.categories?.name||'Categoría');
     const a=isPo?(m.a?.name||'Por definir'):(m.home?.name||'Local');
     const b=isPo?(m.b?.name||'Por definir'):(m.away?.name||'Visitante');
-    return `<div class="cg-game ${catClass(cname)}"><div class="cg-cat">${esc(cname)}${isPo?' · '+esc(m.stage||''):''}</div><div class="cg-teams">${esc(a)} <span>vs</span> ${esc(b)}</div><div class="cg-meta">${isPo?'🏆':'🏈'} ${m.round_number?'J'+m.round_number:''}</div><div class="cg-actions"><button type="button" onclick="${isPo?`editPlayoffSchedule('${m.id}')`:`editMatch('${m.id}')`}">✏️</button><button type="button" onclick="${isPo?`publishPlayoffMatch('${m.id}',${!m.published})`:`publishMatch('${m.id}',${!m.published})`}">${m.published?'Ocultar':'Publicar'}</button></div></div>`;
+    return `<div class="cg-game ${catClass(cname)}"><div class="cg-cat">${esc(cname)}${isPo?' · '+esc(m.stage||''):''}</div><div class="cg-teams">${esc(a)} <span>vs</span> ${esc(b)}</div><div class="cg-meta">${isPo?'🏆':'🏈'} ${m.round_number?'J'+m.round_number:''}</div><div class="cg-actions"><button type="button" onclick="${isPo?`editPlayoffSchedule('${m.id}')`:`editMatch('${m.id}')`}">✏️ ${isPo?'Editar':'Editar / mover'}</button><span class="tag">${m.published?'Publicado':'Pendiente de aprobación'}</span></div></div>`;
   };
   let html=`<div class="card"><h3>📊 Calendario General</h3><div class="notice"><b>${all.length} partidos</b> · ${regular.length} fase regular · ${po.length} playoffs · ${cat?'Filtro: '+esc(document.getElementById('cc')?.selectedOptions?.[0]?.textContent||'categoría'):'Todas las categorías'}</div><div class="cg-scroll"><table class="calendar-grid"><thead><tr><th>HORARIO</th><th>CAMPO 1</th><th>CAMPO 2</th><th>CAMPO 3</th><th>CAMPO 4</th></tr></thead><tbody>`;
   for(const day of days){
@@ -588,7 +588,7 @@ async function saveEditMatch(){
  if(round!==Number(editingMatch.round_number)){const {error:e2}=await sb.from('matches').update({round_number:round}).eq('id',editingMatch.id);if(e2)return alert(e2.message)}
  closeEditMatch();toast(warnings.length?'Juego guardado con aviso manual':'Juego actualizado');loadSchedule();
 }
-async function publishMatch(id,p){const {error}=await sb.from('matches').update({published:p}).eq('id',id);if(error)alert(error.message);else loadSchedule()}
+async function publishMatch(){alert('El flujo es publicar todo el calendario al final. Usa “✅📢 APROBAR Y PUBLICAR TODO”.')}
 async function publishCategorySchedule(){
   alert('El flujo ahora es publicar todo el calendario al final. Usa “APROBAR Y PUBLICAR TODO”.');
 }
