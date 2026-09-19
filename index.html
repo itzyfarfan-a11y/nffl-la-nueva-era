@@ -488,361 +488,93 @@ select,.select-label{font-size:15px!important}
 </style>
 
 
-<style id="calendar-category-colors">
-.calendar-switch{
-  display:flex; gap:7px; margin:8px 0 10px; width:100%;
-}
-.calendar-switch button{
-  flex:1; min-width:0; border:1px solid rgba(255,255,255,.16);
-  background:#17151d; color:#fff; border-radius:10px;
-  padding:8px 7px; font-weight:700; font-size:12px; cursor:pointer;
-}
-.calendar-switch button.active{
-  background:#6f35b8; border-color:#a96cff;
-}
-.cal-mixto{background:#35c875!important}
-.cal-silver-f{background:#ef76b7!important}
-.cal-silver-v{background:#42a5ff!important}
-.cal-golden-f{background:#a66cff!important}
-.cal-golden-v{background:#f0b429!important}
-.cal-35{background:#ef4444!important}
-</style>
 
 
-<script id="calendar-category-behavior">
-(function(){
-  const colors = {
-    'mixto':'cal-mixto',
-    'silver femenil':'cal-silver-f',
-    'femenil silver':'cal-silver-f',
-    'silver varonil':'cal-silver-v',
-    'varonil silver':'cal-silver-v',
-    'golden femenil':'cal-golden-f',
-    'femenil golden':'cal-golden-f',
-    'golden varonil':'cal-golden-v',
-    'varonil golden':'cal-golden-v',
-    '35+':'cal-35',
-    '35':'cal-35'
-  };
-  function key(text){
-    const s=(text||'').toLowerCase().replace(/\s+/g,' ').trim();
-    for(const k of Object.keys(colors)) if(s.includes(k)) return colors[k];
-    return '';
-  }
-  function paintCalendar(){
-    document.querySelectorAll('.calendar td, .calendar .match, .calendar .game, .calendar [data-category]').forEach(el=>{
-      const c=key(el.textContent);
-      if(c){
-        Object.values(colors).forEach(x=>el.classList.remove(x));
-        el.classList.add(c);
-      }
-    });
-  }
-  window.paintNfflCalendar=paintCalendar;
-
-  document.addEventListener('click', e=>{
-    const b=e.target.closest('[data-calendar-mode]');
-    if(!b) return;
-    document.querySelectorAll('[data-calendar-mode]').forEach(x=>x.classList.toggle('active',x===b));
-    const mode=b.dataset.calendarMode;
-    document.body.dataset.calendarMode=mode;
-    paintCalendar();
-  });
-  new MutationObserver(()=>paintCalendar()).observe(document.body,{childList:true,subtree:true});
-  setTimeout(paintCalendar,100);
-})();
-</script>
 
 
-<style id="calendar-dropdown-layout">
-/* El calendario se despliega hacia abajo, debajo de los botones */
-#calendarPanel,
-.calendar-panel,
-#panelBody{
-  width:100%;
-  box-sizing:border-box;
-}
-.calendar-content-wrap{
-  width:100%;
-  margin-top:10px;
-  overflow:hidden;
-}
-.calendar-content-wrap .calendar{
-  width:100%;
-  box-sizing:border-box;
-}
-/* En móvil, cada jornada puede crecer verticalmente sin salir del ancho */
-.calendar-content-wrap{
-  max-height:none;
-  overflow-x:auto;
-  overflow-y:visible;
-}
-.calendar-content-wrap .calendar{
-  min-width:0;
-}
-.calendar-week{
-  margin-bottom:14px;
-}
-.calendar-week-toggle{
-  width:100%;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  border:0;
-  border-radius:10px;
-  padding:10px 12px;
-  background:#211b2c;
-  color:#fff;
-  font-weight:700;
-  font-size:14px;
-  cursor:pointer;
-}
-.calendar-week-body{
-  display:block;
-  margin-top:6px;
-}
-.calendar-week-body.collapsed{display:none}
-</style>
 
 
-<script id="calendar-dropdown-behavior">
-(function(){
-  function wrapCalendar(){
-    const cal=document.querySelector('.calendar');
-    if(!cal || cal.closest('.calendar-content-wrap')) return;
-    const wrap=document.createElement('div');
-    wrap.className='calendar-content-wrap';
-    cal.parentNode.insertBefore(wrap,cal);
-    wrap.appendChild(cal);
-  }
-
-  function makeWeeksCollapsible(){
-    document.querySelectorAll('.calendar-week').forEach((week,i)=>{
-      if(week.dataset.collapsible) return;
-      week.dataset.collapsible='1';
-      const body=week.querySelector('.calendar-week-body');
-      if(!body) return;
-      const title=week.querySelector('.week-title');
-      if(!title) return;
-      const btn=document.createElement('button');
-      btn.type='button';
-      btn.className='calendar-week-toggle';
-      btn.innerHTML='<span>'+title.textContent+'</span><span>⌄</span>';
-      title.replaceWith(btn);
-      btn.addEventListener('click',()=>{
-        body.classList.toggle('collapsed');
-        btn.querySelector('span:last-child').textContent=body.classList.contains('collapsed')?'›':'⌄';
-      });
-    });
-  }
-
-  window.prepareCalendarDropdown=function(){
-    wrapCalendar();
-    makeWeeksCollapsible();
-  };
-
-  new MutationObserver(()=>setTimeout(window.prepareCalendarDropdown,0))
-    .observe(document.body,{childList:true,subtree:true});
-
-  setTimeout(window.prepareCalendarDropdown,100);
-})();
-</script>
 
 
-<style id="calendar-grid-final">
-.calendar-content-wrap{width:100%;overflow-x:auto;margin-top:10px}
-.calendar-grid{width:100%;border-collapse:separate;border-spacing:2px;table-layout:fixed}
-.calendar-grid th,.calendar-grid td{box-sizing:border-box}
-.calendar-grid th{
-  background:#171321;color:#fff;border:1px solid #3d3150;
-  padding:7px 3px;font-size:11px;font-weight:800;text-align:center;
-}
-.calendar-grid th:first-child{width:52px}
-.calendar-grid td{
-  border:1px solid #30283b;border-radius:5px;
-  padding:4px 3px;vertical-align:middle;text-align:center;
-  min-height:54px;overflow-wrap:anywhere;
-}
-.calendar-grid .time-cell{
-  background:#101522;color:#fff;font-size:11px;font-weight:800;
-  white-space:nowrap;
-}
-.calendar-grid .match-cell{
-  color:#111;background:#29232f;font-size:9px;line-height:1.12;font-weight:600;
-}
-.calendar-grid .match-cell .cat{
-  display:block;font-size:8px;font-weight:900;margin-bottom:2px;
-}
-.calendar-grid .match-cell .teams{display:block;font-weight:800}
-.calendar-grid .silver-f{background:#ef76b7!important}
-.calendar-grid .silver-v{background:#42a5ff!important}
-.calendar-grid .mixto{background:#35c875!important}
-.calendar-grid .golden-f{background:#a66cff!important;color:#fff!important}
-.calendar-grid .golden-v{background:#f0b429!important}
-.calendar-grid .thirty-five{background:#ef4444!important;color:#fff!important}
-.calendar-jornada{
-  margin:10px 0 5px;padding:8px 10px;border:1px solid #7629d7;
-  border-radius:9px;background:#181326;color:#fff;font-weight:800;
-  display:flex;align-items:center;justify-content:space-between;
-}
-.calendar-jornada button{
-  border:0;background:transparent;color:#c98aff;font-size:18px;padding:0 2px;
-}
-.calendar-mode-buttons{
-  display:flex;gap:7px;margin:8px 0 10px;
-}
-.calendar-mode-buttons button{
-  flex:1;border:1px solid #7030c9;background:#15111d;color:#fff;
-  border-radius:9px;padding:8px 5px;font-size:11px;font-weight:800;
-}
-.calendar-mode-buttons button.active{background:#6524b7;border-color:#a85dff}
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style id="calendar-safe-style">
+.calendar-content-wrap{width:100%;overflow-x:auto;margin-top:8px}
+.calendar-grid-safe{width:100%;border-collapse:separate;border-spacing:2px;table-layout:fixed}
+.calendar-grid-safe th{background:#17131e;color:#fff;padding:6px 2px;font-size:10px;text-align:center}
+.calendar-grid-safe th:first-child{width:48px}
+.calendar-grid-safe td{padding:4px 2px;border:1px solid #342b40;border-radius:5px;text-align:center;vertical-align:middle;font-size:8.5px;line-height:1.08;overflow-wrap:anywhere}
+.calendar-grid-safe .time{background:#111018;color:#fff;font-weight:800;font-size:10px}
+.calendar-grid-safe .sf{background:#ef76b7;color:#111}
+.calendar-grid-safe .sv{background:#42a5ff;color:#111}
+.calendar-grid-safe .mx{background:#35c875;color:#111}
+.calendar-grid-safe .gf{background:#9b5de5;color:#fff}
+.calendar-grid-safe .gv{background:#f0b429;color:#111}
+.calendar-grid-safe .p35{background:#ef4444;color:#fff}
+.calendar-safe-modes{display:flex;gap:7px;margin:8px 0}
+.calendar-safe-modes button{flex:1;padding:7px 5px;border-radius:9px;border:1px solid #7427d0;background:#17131e;color:#fff;font-size:10px;font-weight:800}
+.calendar-safe-modes button.active{background:#6925b8}
 @media(max-width:380px){
-  .calendar-grid th{font-size:10px;padding:6px 2px}
-  .calendar-grid th:first-child{width:47px}
-  .calendar-grid td{padding:3px 2px}
-  .calendar-grid .match-cell{font-size:8.5px}
-  .calendar-grid .match-cell .cat{font-size:7.5px}
-  .calendar-grid .time-cell{font-size:10px}
+ .calendar-grid-safe th:first-child{width:44px}
+ .calendar-grid-safe td{font-size:7.5px}
 }
 </style>
 
 
-<script id="calendar-grid-renderer">
+<script id="calendar-safe-enhancer">
 (function(){
-  function catClass(text){
-    const s=(text||'').toLowerCase();
-    if(s.includes('35+')) return 'thirty-five';
-    if(s.includes('golden femenil')||s.includes('femenil golden')) return 'golden-f';
-    if(s.includes('golden varonil')||s.includes('varonil golden')) return 'golden-v';
-    if(s.includes('silver femenil')||s.includes('femenil silver')) return 'silver-f';
-    if(s.includes('silver varonil')||s.includes('varonil silver')) return 'silver-v';
-    if(s.includes('mixto')) return 'mixto';
+  function categoryClass(s){
+    s=(s||'').toLowerCase();
+    if(s.includes('35+')) return 'p35';
+    if(s.includes('golden femenil')||s.includes('femenil golden')) return 'gf';
+    if(s.includes('golden varonil')||s.includes('varonil golden')) return 'gv';
+    if(s.includes('silver femenil')||s.includes('femenil silver')) return 'sf';
+    if(s.includes('silver varonil')||s.includes('varonil silver')) return 'sv';
+    if(s.includes('mixto')) return 'mx';
     return '';
   }
-
-  function renderGridFromExisting(){
-    const oldTables=document.querySelectorAll('.calendar table');
-    oldTables.forEach(table=>{
-      if(table.dataset.gridDone) return;
-      table.dataset.gridDone='1';
-
-      const rows=[...table.querySelectorAll('tr')];
+  function enhance(){
+    document.querySelectorAll('.calendar table:not(.calendar-grid-safe)').forEach(old=>{
+      const rows=[...old.querySelectorAll('tr')];
       if(rows.length<2) return;
-
-      const out=document.createElement('table');
-      out.className='calendar-grid';
-
+      const grid=document.createElement('table');
+      grid.className='calendar-grid-safe';
       const head=document.createElement('tr');
-      ['HORARIO','CAMPO 1','CAMPO 2','CAMPO 3','CAMPO 4'].forEach(x=>{
-        const th=document.createElement('th'); th.textContent=x; head.appendChild(th);
+      ['HORARIO','CAMPO 1','CAMPO 2','CAMPO 3','CAMPO 4'].forEach(t=>{
+        const th=document.createElement('th'); th.textContent=t; head.appendChild(th);
       });
-      out.appendChild(head);
-
-      rows.slice(1).forEach(row=>{
-        const cells=[...row.children];
+      grid.appendChild(head);
+      rows.slice(1).forEach(r=>{
+        const cells=[...r.children];
         if(cells.length<5) return;
         const tr=document.createElement('tr');
-
-        cells.forEach((cell,i)=>{
+        cells.slice(0,5).forEach((c,i)=>{
           const td=document.createElement('td');
-          if(i===0){
-            td.className='time-cell';
-            td.textContent=cell.textContent.trim();
-          }else{
-            td.className='match-cell';
-            const raw=cell.textContent.replace(/\s+/g,' ').trim();
-            const cls=catClass(raw);
-            if(cls) td.classList.add(cls);
-
-            // Preserve the category as a small label and the matchup beneath it.
-            const parts=raw.split(/(?=[A-ZÁÉÍÓÚÑ][A-Za-zÁÉÍÓÚÑ+ ]+vs\b)/i);
-            const catMatch=raw.match(/^(35\+|Mixto|Silver Femenil|Silver Varonil|Golden Femenil|Golden Varonil)\s*/i);
-            if(catMatch){
-              const cat=document.createElement('span');
-              cat.className='cat';
-              cat.textContent=catMatch[1];
-              const teams=document.createElement('span');
-              teams.className='teams';
-              teams.textContent=raw.slice(catMatch[0].length).trim();
-              td.append(cat,teams);
-            }else{
-              td.textContent=raw || '—';
-            }
-          }
+          const text=c.textContent.replace(/\s+/g,' ').trim();
+          if(i===0){td.className='time';td.textContent=text||'—'}
+          else {const cc=categoryClass(text);if(cc)td.className=cc;td.textContent=text||'—'}
           tr.appendChild(td);
         });
-        out.appendChild(tr);
+        grid.appendChild(tr);
       });
-
-      table.replaceWith(out);
+      old.replaceWith(grid);
     });
   }
-
-  window.renderNfflCalendarGrid=renderGridFromExisting;
-  new MutationObserver(()=>setTimeout(renderGridFromExisting,0))
-    .observe(document.body,{childList:true,subtree:true});
-  setTimeout(renderGridFromExisting,100);
+  window.addEventListener('load',()=>setTimeout(enhance,300));
+  new MutationObserver(()=>setTimeout(enhance,50)).observe(document.body,{childList:true,subtree:true});
 })();
 </script>
-
-
-<style id="calendar-reference-compact">
-.calendar-content-wrap{width:100%!important;overflow-x:hidden!important;margin-top:8px!important}
-.calendar-grid{
-  width:100%!important;
-  table-layout:fixed!important;
-  border-collapse:separate!important;
-  border-spacing:2px!important;
-}
-.calendar-grid th{
-  padding:6px 2px!important;
-  font-size:10px!important;
-  line-height:1!important;
-}
-.calendar-grid th:first-child{width:49px!important}
-.calendar-grid td{
-  padding:3px 2px!important;
-  min-height:48px!important;
-  height:48px!important;
-  border-radius:5px!important;
-}
-.calendar-grid .time-cell{
-  width:49px!important;
-  font-size:10px!important;
-  background:#14121b!important;
-}
-.calendar-grid .match-cell{
-  font-size:8px!important;
-  line-height:1.05!important;
-  font-weight:700!important;
-}
-.calendar-grid .match-cell .cat{
-  font-size:7px!important;
-  line-height:1!important;
-  margin-bottom:2px!important;
-}
-.calendar-grid .match-cell .teams{
-  font-size:8px!important;
-  line-height:1.05!important;
-}
-.calendar-jornada{
-  margin:8px 0 4px!important;
-  padding:7px 9px!important;
-  font-size:12px!important;
-}
-.calendar-mode-buttons{margin:7px 0 8px!important}
-.calendar-mode-buttons button{
-  padding:7px 5px!important;
-  font-size:10px!important;
-}
-@media(max-width:380px){
-  .calendar-grid th{font-size:9px!important}
-  .calendar-grid th:first-child,.calendar-grid .time-cell{width:45px!important}
-  .calendar-grid td{height:44px!important;min-height:44px!important}
-  .calendar-grid .match-cell,.calendar-grid .match-cell .teams{font-size:7.5px!important}
-  .calendar-grid .match-cell .cat{font-size:6.5px!important}
-}
-</style>
 
 </body>
 </html><style id="final-logo-visibility">
