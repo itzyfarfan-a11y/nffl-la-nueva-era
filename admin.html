@@ -596,14 +596,20 @@ async function saveEditMatch(){
    republish=confirm('⚠️ ESTE PARTIDO YA ESTÁ PUBLICADO.\n\n¿Quieres guardar el cambio y ACTUALIZAR también el calendario público?\n\nAceptar = guardar y volver a publicar\nCancelar = guardar como CAMBIO PENDIENTE y ocultarlo del portal público hasta que lo vuelvas a publicar.');
  }
  const now=new Date().toISOString();
- const {error:e}=await sb.from('matches').update({
-   match_date:date,match_time:time,field_name:field||null,round_number:round,
-   published:wasPublished ? republish : !!editingMatch.published,
+ const nextPublished=wasPublished ? republish : !!editingMatch.published;
+ const {data:saved,error:e}=await sb.from('matches').update({
+   match_date:date,
+   match_time:time+':00',
+   field_name:field||null,
+   round_number:round,
+   published:nextPublished,
    schedule_manual_override:true,
    schedule_override_note:wasPublished&&republish?'Cambio publicado y actualizado desde Administración NFFL':'Cambio manual pendiente de publicación',
    schedule_override_at:now
- }).eq('id',editingMatch.id);
+ }).eq('id',editingMatch.id).select('id,match_date,match_time,field_name,round_number,published').maybeSingle();
  if(e)return alert(e.message);
+ if(!saved)return alert('No se pudo confirmar el cambio. El partido no fue actualizado.');
+ if(String(saved.field_name||'')!==String(field||''))return alert('El campo no quedó guardado correctamente. No se actualizó la vista pública.');
  closeEditMatch();
  toast(wasPublished&&republish?'🔄 Partido actualizado y vuelto a publicar':'🟡 Cambio guardado como pendiente de publicación');
  await loadSchedule();
