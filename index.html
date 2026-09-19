@@ -131,15 +131,16 @@ body{min-width:320px;overflow-x:hidden}
 </style>
 
 <style id="mobile-proportional-icons">
+.select-icons{display:inline-block;font-size:.72em;letter-spacing:-3px;vertical-align:middle;transform:translateY(-1px)}
 @media (max-width:700px){
-  .header-btn .ico{font-size:12px!important}
-  .select-label{font-size:9px!important}
-  .menu-icon{font-size:18px!important}
+  .header-btn .ico{font-size:10px!important;transform:scale(.72);transform-origin:center}
+  .select-icons{font-size:7px!important;letter-spacing:-2px}
+  .menu-icon{font-size:15px!important;transform:scale(.72);transform-origin:center}
 }
 @media (max-width:380px){
-  .header-btn .ico{font-size:11px!important}
-  .select-label{font-size:8px!important}
-  .menu-icon{font-size:16px!important}
+  .header-btn .ico{font-size:9px!important}
+  .select-icons{font-size:6px!important}
+  .menu-icon{font-size:14px!important}
 }
 </style>
 </head>
@@ -168,11 +169,11 @@ body{min-width:320px;overflow-x:hidden}
 
   <section class="selects">
     <div class="select-card">
-      <div class="select-label">🏆 🏆 &nbsp; SELECCIONA TORNEO</div>
+      <div class="select-label"><span class="select-icons">🏆🏆</span> SELECCIONA TORNEO</div>
       <div class="select-box">NFFL LA NUEVA ERA <span class="chev">⌄</span></div>
     </div>
     <div class="select-card">
-      <div class="select-label">🏷️ 🏷️ &nbsp; SELECCIONA CATEGORÍA</div>
+      <div class="select-label"><span class="select-icons">🏷️🏷️</span> SELECCIONA CATEGORÍA</div>
       <div class="select-box">+35 Varonil <span class="chev">⌄</span></div>
     </div>
   </section>
