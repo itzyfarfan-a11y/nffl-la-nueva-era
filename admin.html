@@ -347,6 +347,28 @@ body:not(.home-screen){overflow-y:auto!important}
   .gof-admin-grid .admin-home-btn b{font-size:12px!important}
 }
 </style>
+
+<style id="nffl-admin-final-correction">
+/* Corrección final solicitada */
+body.home-screen{scroll-behavior:auto!important;overflow:hidden!important}
+body.home-screen .gof-final-header{position:sticky!important;top:0!important;z-index:1000!important}
+/* quitar Inicio del menú principal */
+.gof-admin-grid > .admin-home-btn:first-child{display:none!important}
+/* selector más compacto, con título en dos filas */
+.gof-tournament-picker{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(145px,175px) minmax(125px,155px)!important;align-items:center!important;gap:8px!important;padding:8px 10px!important;min-height:72px!important;height:auto!important}
+.gof-selector-title{font-size:15px!important;line-height:1.05!important;white-space:normal!important;max-width:210px!important}
+.gof-home-quick-selects{display:contents!important}
+.gof-home-select-card{padding:5px 7px!important;min-width:0!important}
+.gof-home-select-card span{font-size:9px!important;line-height:1.05!important;white-space:normal!important;min-height:19px!important}
+.gof-home-select-card select{height:34px!important;min-height:34px!important;font-size:11px!important}
+@media(max-width:650px){
+ .gof-final-header{height:74px!important;min-height:74px!important}
+ .gof-tournament-picker{grid-template-columns:minmax(0,1fr) 112px 102px!important;gap:6px!important;min-height:70px!important;padding:7px 8px!important}
+ .gof-selector-title{font-size:14px!important;max-width:145px!important}
+ .gof-home-select-card span{font-size:8px!important}
+ .gof-home-select-card select{font-size:10px!important;height:33px!important}
+}
+</style>
 </head><body><div class="app"><header class="top gof-top gof-final-header">
 <div aria-hidden="true"></div>
 <div class="gof-center-brand"><div class="gof-title">GAME ON FLAG <b>APPLICATION</b></div><div class="gof-subtitle">CENTRO DE ADMINISTRACIÓN</div></div>
@@ -499,7 +521,7 @@ async function changeFinancePassword(){
 async function setView(v){
   if(v==='contabilidad' && !(await enterFinance()))return;
   document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));document.body.classList.toggle('home-screen',v==='inicio');
-  document.getElementById(v).classList.add('active');
+  document.getElementById(v).classList.add('active'); if(v==='inicio'){window.scrollTo(0,0);document.documentElement.scrollTop=0;document.body.scrollTop=0;}
   document.querySelectorAll('.nav button[data-v]').forEach(b=>b.classList.toggle('active',b.dataset.v===v));
   ({torneos:loadT,equipos:loadE,rosters:loadRosterSelects,calendario:loadScheduleSelectors,resultados:loadResults,tabla:loadStandingsSelectors,playoffs:loadPlayoffSelectors,contabilidad:loadFinance,inicio:refreshDashboard}[v]||(()=>{}))();
 }
