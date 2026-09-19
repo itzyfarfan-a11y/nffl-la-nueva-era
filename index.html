@@ -730,6 +730,107 @@ body:not(.home-screen) main{height:auto!important;min-height:calc(100dvh - 88px)
 function calendar(){const s=document.getElementById('calendario');const regular=data.matches.filter(m=>!c.value||m.category_id===c.value).map(m=>({...m,kind:'regular'}));const po=data.playoffs.filter(p=>!c.value||!p.category_id||p.category_id===c.value).map(p=>({...p,kind:'playoff'}));const items=regular.concat(po),g={};items.forEach(m=>{const k=m.kind==='playoff'?'PLAYOFFS':String(m.round_number||'SIN SEMANA');(g[k]??=[]).push(m)});let h='<h2>Calendario General'+(c.value?' · '+esc(cat(c.value)):'')+'</h2>';Object.keys(g).sort((a,b)=>(a==='PLAYOFFS'?999:+a)-(b==='PLAYOFFS'?999:+b)).forEach(w=>{const arr=g[w];h+='<div class="card"><h3>'+(w==='PLAYOFFS'?'🏆 PLAYOFFS':'📅 SEMANA '+esc(w))+'</h3><div class="scroll"><table class="wide"><thead><tr><th>HORARIO</th><th>CAMPO 1</th><th>CAMPO 2</th><th>CAMPO 3</th><th>CAMPO 4</th></tr></thead><tbody>';[...new Set(arr.map(m=>m.match_time?String(m.match_time).slice(0,5):'SIN HORA'))].sort().forEach(tm=>{h+='<tr><th>'+esc(tm)+'</th>';for(let f=1;f<=4;f++){const m=arr.find(x=>field(x.field_name)===f&&(x.match_time?String(x.match_time).slice(0,5):'SIN HORA')===tm);h+='<td>'+cell(m)+'</td>'}h+='</tr>'});h+='</tbody></table></div></div>'});s.innerHTML=h}
 function table(){const s=document.getElementById('tabla');if(!c.value){s.innerHTML='<div class="empty">Selecciona una categoría.</div>';return}const m={};data.matches.filter(x=>x.category_id===c.value&&(x.status==='jugado'||x.status==='incomparecencia')).forEach(x=>{m[x.home_team_id]??={id:x.home_team_id,jj:0,jg:0,pa:0,pc:0};m[x.away_team_id]??={id:x.away_team_id,jj:0,jg:0,pa:0,pc:0};const a=m[x.home_team_id],b=m[x.away_team_id],hs=x.home_score||0,as=x.away_score||0;a.jj++;b.jj++;a.pa+=hs;a.pc+=as;b.pa+=as;b.pc+=hs;if(hs>as)a.jg++;else if(as>hs)b.jg++});const rows=Object.values(m).map(x=>({...x,dif:x.pa-x.pc})).sort((a,b)=>b.dif-a.dif||b.pa-a.pa||a.pc-b.pc||team(a.id).name.localeCompare(team(b.id).name));s.innerHTML='<h2>Tabla de posiciones · '+esc(cat(c.value))+'</h2><div class="card"><div class="scroll"><table><thead><tr><th>#</th><th>Equipo</th><th>JJ</th><th>JG</th><th>PA</th><th>PC</th><th>DIF</th></tr></thead><tbody>'+rows.map((x,i)=>'<tr><td>'+(i+1)+'</td><td><b>'+esc(team(x.id).name)+'</b></td><td>'+x.jj+'</td><td>'+x.jg+'</td><td>'+x.pa+'</td><td>'+x.pc+'</td><td>'+x.dif+'</td></tr>').join('')+'</tbody></table></div></div>'}
 </script>
+
+<style id="gof-definitive-mockup">
+/* ===== DISEÑO DEFINITIVO — basado en la maqueta aprobada ===== */
+html,body{width:100%;max-width:100%;overflow-x:hidden!important}
+body{background:radial-gradient(circle at 50% -10%,#26103e 0%,#0a0810 42%,#08070c 100%)!important}
+.gof-public-top{height:126px!important;min-height:126px!important;padding:12px 18px!important;background:linear-gradient(180deg,#09070e 0%,#0a0810 100%)!important;border-bottom:2px solid #8d2cff!important;position:sticky!important;top:0!important;z-index:100!important}
+.gof-public-head{width:100%!important;max-width:1180px!important;height:102px!important;margin:0 auto!important;display:grid!important;grid-template-columns:110px minmax(0,1fr) 250px!important;align-items:center!important;gap:14px!important}
+.gof-header-logo-upload{width:88px!important;height:88px!important;margin:0!important;border:0!important;border-radius:8px!important;background:#050509!important;box-shadow:none!important;overflow:hidden!important;position:relative!important;display:flex!important;align-items:center!important;justify-content:center!important;pointer-events:none!important}
+.gof-header-logo-upload input{display:none!important}
+.gof-header-logo-upload img{display:block!important;width:84px!important;height:84px!important;object-fit:contain!important;border:0!important;border-radius:7px!important}
+.gof-header-logo-upload span{display:none!important}
+.gof-public-brand{width:100%!important;min-width:0!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;text-align:center!important}
+.gof-public-title{font-size:42px!important;line-height:.98!important;font-weight:1000!important;letter-spacing:1px!important;white-space:nowrap!important;color:#fff!important;margin:0!important;text-align:center!important}
+.gof-public-title span{color:#b9ff00!important}
+.gof-public-app{font-size:25px!important;line-height:1!important;font-weight:900!important;letter-spacing:9px!important;margin-top:7px!important;color:#fff!important}
+.gof-public-sub{font-size:13px!important;line-height:1!important;letter-spacing:5px!important;color:#eee9f4!important;margin-top:7px!important;text-align:center!important}
+.gof-public-head-buttons{width:100%!important;display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:center!important;gap:10px!important}
+.gof-public-head-buttons .gof-head-btn{width:100%!important;height:48px!important;min-height:48px!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:9px!important;padding:0 14px!important;border:2px solid #8d2cff!important;border-radius:14px!important;background:linear-gradient(145deg,#21122d,#110c18)!important;color:#fff!important;text-decoration:none!important;font-size:16px!important;font-weight:900!important;position:relative!important;white-space:nowrap!important;box-sizing:border-box!important}
+.gof-public-head-buttons .gof-head-btn span{font-size:20px!important;line-height:1!important}
+.gof-public-head-buttons .gof-head-btn strong{font-size:16px!important}
+.gof-public-head-buttons .gof-badge{position:absolute!important;top:-8px!important;right:-7px!important;min-width:22px!important;height:22px!important;display:grid!important;place-items:center!important;padding:0 5px!important;border-radius:50%!important;background:#9b32ff!important;color:#fff!important;font-size:11px!important;font-weight:900!important}
+.gof-public-actions,.gof-public-under-actions,.gof-public-profile{display:none!important}
+main{max-width:1180px!important;margin:0 auto!important;padding:18px 18px 28px!important}
+body.home-screen main{height:auto!important;min-height:calc(100dvh - 126px)!important;overflow:visible!important}
+.gof-public-identity{width:100%!important;max-width:none!important;display:grid!important;grid-template-columns:minmax(0,1fr) 230px!important;gap:14px!important;margin:0 0 16px!important}
+.gof-public-league,.gof-public-logo-card{height:116px!important;min-height:116px!important;border-radius:20px!important;background:linear-gradient(145deg,#1b1725,#100d16)!important;border:1px solid #40324f!important;box-shadow:0 8px 28px #0005!important}
+.gof-public-league{padding:18px 24px!important;display:flex!important;align-items:center!important}
+.gof-public-league b{font-size:27px!important;line-height:1.05!important}.gof-public-league span{display:block!important;font-size:17px!important;margin-top:8px!important;color:#cfc6da!important}
+.gof-public-logo-card{padding:10px!important;display:flex!important;align-items:center!important;justify-content:center!important;border-color:#8d2cff!important}
+.gof-public-logo-upload{width:100%!important;height:100%!important;display:flex!important;align-items:center!important;justify-content:center!important;overflow:hidden!important;background:#222833!important;border-radius:12px!important}
+.gof-public-logo-upload img{width:100%!important;height:100%!important;object-fit:contain!important}.gof-public-logo-upload span{display:none!important}
+.gof-public-selectors,.controls.gof-public-selectors{width:100%!important;max-width:none!important;display:grid!important;grid-template-columns:1fr 1fr!important;gap:14px!important;margin:0 0 16px!important}
+.gof-public-select-card{height:92px!important;min-height:92px!important;padding:10px 18px!important;border:2px solid #8d2cff!important;border-radius:18px!important;background:linear-gradient(145deg,#21132e,#120d18)!important;display:flex!important;flex-direction:column!important;justify-content:center!important;box-sizing:border-box!important}
+.gof-public-select-card span{font-size:16px!important;line-height:1.05!important;margin-bottom:9px!important;color:#f2cf54!important;font-weight:900!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}.gof-public-select-card select{width:100%!important;height:48px!important;min-height:48px!important;padding:7px 13px!important;font-size:16px!important;border-radius:12px!important;border:1px solid #9b59ff!important;background:#0b0910!important;color:#fff!important}
+#nav,.nav{width:100%!important;max-width:none!important;display:grid!important;grid-template-columns:1fr 1fr!important;gap:12px!important;margin:0 0 18px!important;padding:0!important}
+#nav button,.nav button{width:100%!important;height:104px!important;min-height:104px!important;padding:13px 40px 13px 20px!important;border-radius:18px!important;display:grid!important;grid-template-columns:74px minmax(0,1fr) 20px!important;align-items:center!important;text-align:left!important;background:linear-gradient(145deg,#1b1725,#100d16)!important;border:1px solid #40324f!important;color:#fff!important;font-size:21px!important;font-weight:900!important;position:relative!important;box-shadow:0 6px 20px #0004!important}
+#nav button.active,.nav button.active{border:2px solid #9b32ff!important;background:linear-gradient(145deg,#28153a,#15101d)!important;box-shadow:0 0 0 1px #4f2376 inset!important}
+#nav button>span:first-child,.nav button>span:first-child{font-size:45px!important;line-height:1!important;text-align:center!important}
+#nav button small,.nav button small{display:block!important;font-size:15px!important;line-height:1.15!important;color:#cfc6da!important;font-weight:500!important;margin-top:7px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+#nav button:after,.nav button:after{content:'›'!important;position:absolute!important;right:15px!important;color:#b36cff!important;font-size:34px!important;font-weight:300!important}
+.gof-home-calendar{background:linear-gradient(145deg,#171321,#0d0b12)!important;border:1px solid #40324f!important;border-radius:20px!important;padding:18px!important;margin-top:0!important}
+.gof-home-calendar-head{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:14px!important;margin-bottom:14px!important}.gof-home-calendar-title{display:flex!important;align-items:center!important;gap:12px!important}.gof-home-calendar-title .cal-icon{font-size:42px!important}.gof-home-calendar-title h2{margin:0!important;font-size:30px!important}.gof-home-calendar-title p{margin:3px 0 0!important;color:#cfc6da!important;font-size:15px!important}
+.gof-calendar-switch{display:flex!important;align-items:center!important;gap:4px!important;padding:4px!important;border:2px solid #8d2cff!important;border-radius:14px!important;background:#0d0913!important}.gof-calendar-switch button{width:auto!important;min-width:150px!important;height:40px!important;padding:0 14px!important;border:0!important;border-radius:10px!important;background:transparent!important;color:#fff!important;font-size:13px!important;font-weight:900!important}.gof-calendar-switch button.active{background:#8d2cff!important}
+.gof-home-calendar .scroll{margin-top:0!important}.gof-home-calendar table{font-size:14px!important}.gof-home-calendar th{color:#c27cff!important;font-size:13px!important}.gof-home-calendar td,.gof-home-calendar th{padding:10px 8px!important}
+.gof-full-calendar-btn{width:100%!important;height:52px!important;margin-top:14px!important;border:2px solid #8d2cff!important;border-radius:13px!important;background:#140c1c!important;color:#fff!important;font-size:16px!important;font-weight:900!important}
+.gof-full-calendar-btn:hover{background:#21122d!important}
+.gof-calendar-toolbar{display:flex!important;justify-content:flex-end!important;margin-bottom:12px!important}.gof-calendar-toolbar button{width:auto!important;height:40px!important;padding:0 14px!important;border:2px solid #8d2cff!important;border-radius:11px!important;background:#140c1c!important;color:#fff!important;font-weight:900!important}
+.gof-public-footer{display:block!important}
+@media(max-width:700px){
+ .gof-public-top{height:108px!important;min-height:108px!important;padding:8px 10px!important}.gof-public-head{height:92px!important;grid-template-columns:62px minmax(0,1fr) 116px!important;gap:7px!important}.gof-header-logo-upload{width:58px!important;height:58px!important}.gof-header-logo-upload img{width:56px!important;height:56px!important}.gof-public-title{font-size:25px!important;letter-spacing:.7px!important}.gof-public-app{font-size:15px!important;letter-spacing:6px!important;margin-top:5px!important}.gof-public-sub{font-size:8px!important;letter-spacing:3px!important;margin-top:5px!important}.gof-public-head-buttons{gap:6px!important}.gof-public-head-buttons .gof-head-btn{height:39px!important;min-height:39px!important;border-radius:11px!important;padding:0 8px!important;gap:5px!important}.gof-public-head-buttons .gof-head-btn span{font-size:16px!important}.gof-public-head-buttons .gof-head-btn strong{font-size:11px!important}.gof-public-head-buttons .gof-badge{min-width:18px!important;height:18px!important;font-size:9px!important;top:-6px!important;right:-6px!important}
+ main{padding:12px 10px 22px!important}.gof-public-identity{grid-template-columns:minmax(0,1fr) 96px!important;gap:8px!important;margin-bottom:10px!important}.gof-public-league,.gof-public-logo-card{height:84px!important;min-height:84px!important}.gof-public-league{padding:11px 13px!important}.gof-public-league b{font-size:18px!important}.gof-public-league span{font-size:11px!important}.gof-public-logo-card{padding:7px!important}
+ .gof-public-selectors,.controls.gof-public-selectors{gap:8px!important;margin-bottom:10px!important}.gof-public-select-card{height:72px!important;min-height:72px!important;padding:7px 9px!important;border-radius:14px!important}.gof-public-select-card span{font-size:10px!important;margin-bottom:5px!important}.gof-public-select-card select{height:37px!important;min-height:37px!important;font-size:12px!important}
+ #nav,.nav{gap:8px!important;margin-bottom:12px!important}#nav button,.nav button{height:78px!important;min-height:78px!important;padding:8px 27px 8px 10px!important;grid-template-columns:42px minmax(0,1fr) 17px!important;border-radius:14px!important;font-size:15px!important}.gof-public-head-buttons .gof-head-btn{font-size:11px!important}#nav button>span:first-child,.nav button>span:first-child{font-size:29px!important}#nav button small,.nav button small{font-size:9px!important;margin-top:3px!important}#nav button:after,.nav button:after{font-size:24px!important;right:7px!important}
+ .gof-home-calendar{padding:11px!important;border-radius:15px!important}.gof-home-calendar-head{align-items:flex-start;flex-direction:column;gap:8px!important}.gof-home-calendar-title .cal-icon{font-size:30px!important}.gof-home-calendar-title h2{font-size:23px!important}.gof-home-calendar-title p{font-size:11px!important}.gof-calendar-switch{width:100%!important}.gof-calendar-switch button{min-width:0!important;flex:1!important;height:36px!important;font-size:10px!important;padding:0 6px!important}.gof-home-calendar table{font-size:10px!important;min-width:650px!important}.gof-home-calendar th{font-size:10px!important}.gof-home-calendar td,.gof-home-calendar th{padding:7px 5px!important}.gof-full-calendar-btn{height:44px!important;font-size:13px!important}
+}
+@media(max-width:390px){.gof-public-head{grid-template-columns:54px minmax(0,1fr) 102px!important}.gof-header-logo-upload{width:50px!important;height:50px!important}.gof-header-logo-upload img{width:48px!important;height:48px!important}.gof-public-title{font-size:21px!important}.gof-public-app{font-size:13px!important;letter-spacing:5px!important}.gof-public-sub{font-size:7px!important}.gof-public-head-buttons .gof-head-btn{height:35px!important;min-height:35px!important}.gof-public-head-buttons .gof-head-btn strong{font-size:10px!important}.gof-public-head-buttons .gof-head-btn span{font-size:14px!important}.gof-public-identity{grid-template-columns:minmax(0,1fr) 86px!important}.gof-public-league b{font-size:16px!important}#nav button,.nav button{height:72px!important;min-height:72px!important;font-size:13px!important;grid-template-columns:36px minmax(0,1fr) 15px!important}#nav button>span:first-child,.nav button>span:first-child{font-size:26px!important}}
+</style>
+<script id="gof-definitive-behavior">
+(function(){
+  let showAllCalendar=false;
+  function selectedMatches(all){
+    return (data.matches||[]).filter(m=>all || !c.value || m.category_id===c.value);
+  }
+  function calendarRows(all,limit){
+    const arr=selectedMatches(all).map(m=>({...m,kind:'regular'})).sort((a,b)=>{
+      const ra=Number(a.round_number||999), rb=Number(b.round_number||999); if(ra!==rb)return ra-rb;
+      return String(a.match_time||'').localeCompare(String(b.match_time||''));
+    });
+    return limit?arr.slice(0,limit):arr;
+  }
+  function compactCalendarHTML(all){
+    const arr=calendarRows(all,4); if(!arr.length)return '<div class="empty">No hay partidos publicados para esta selección.</div>';
+    const first=arr[0], round=first?.round_number||1;
+    const rows=arr.map(m=>'<tr><td>'+esc(m.match_time?String(m.match_time).slice(0,5):'—')+'</td><td>'+esc(m.field_name||'—')+'</td><td>'+esc(cat(m.category_id))+'</td><td>'+esc(team(m.home_team_id).name)+'</td><td>vs</td><td>'+esc(team(m.away_team_id).name)+'</td></tr>').join('');
+    return '<div class="scroll"><table class="wide"><thead><tr><th>HORA</th><th>CAMPO</th><th>CATEGORÍA</th><th>EQUIPO LOCAL</th><th>VS</th><th>EQUIPO VISITANTE</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
+  }
+  window.home=function(){
+    const selected=!!c.value;
+    const label=selected?esc(cat(c.value)):'Todas las categorías';
+    document.getElementById('inicio').innerHTML='<section class="gof-home-calendar"><div class="gof-home-calendar-head"><div class="gof-home-calendar-title"><span class="cal-icon">📅</span><div><h2>Calendario</h2><p>Jornadas y horarios de los partidos</p></div></div><div class="gof-calendar-switch"><button type="button" class="'+(!showAllCalendar?'active':'')+'" onclick="setHomeCalendar(false)">Solo esta categoría</button><button type="button" class="'+(showAllCalendar?'active':'')+'" onclick="setHomeCalendar(true)">Todas las categorías</button></div></div><div class="card"><h3>📅 Jornada 1 <span class="muted" style="float:right;font-weight:500">'+label+'</span></h3>'+compactCalendarHTML(showAllCalendar||!selected)+'</div><button type="button" class="gof-full-calendar-btn" onclick="openFullCalendar()">📅 Ver calendario completo&nbsp; ›</button></section>';
+  };
+  window.setHomeCalendar=function(all){showAllCalendar=!!all;home()};
+  window.openFullCalendar=function(){tab='calendario';render();setTimeout(()=>document.getElementById('calendario')?.scrollIntoView({behavior:'smooth',block:'start'}),40)};
+  window.calendar=function(){
+    const s=document.getElementById('calendario');
+    const all=showAllCalendar||!c.value; const arr=calendarRows(all);
+    const groups={}; arr.forEach(m=>{const k=String(m.round_number||'SIN JORNADA');(groups[k]??=[]).push(m)});
+    let h='<div class="gof-calendar-toolbar"><button type="button" onclick="setHomeCalendar('+(!all)+');calendar()">'+(all?'Solo esta categoría':'Todas las categorías')+'</button></div><h2>Calendario'+(all?' · Todas las categorías':c.value?' · '+esc(cat(c.value)):'')+'</h2>';
+    Object.keys(groups).sort((a,b)=>(+a||999)-(+b||999)).forEach(w=>{
+      const a=groups[w]; h+='<div class="card"><h3>📅 Jornada '+esc(w)+'</h3><div class="scroll"><table class="wide"><thead><tr><th>HORA</th><th>CAMPO</th><th>CATEGORÍA</th><th>EQUIPO LOCAL</th><th>VS</th><th>EQUIPO VISITANTE</th></tr></thead><tbody>';
+      a.forEach(m=>{h+='<tr><td>'+esc(m.match_time?String(m.match_time).slice(0,5):'—')+'</td><td>'+esc(m.field_name||'—')+'</td><td>'+esc(cat(m.category_id))+'</td><td>'+esc(team(m.home_team_id).name)+'</td><td>vs</td><td>'+esc(team(m.away_team_id).name)+'</td></tr>'});
+      h+='</tbody></table></div></div>';
+    });
+    s.innerHTML=h+(arr.length?'<button type="button" class="gof-full-calendar-btn" onclick="window.scrollTo({top:0,behavior:\'smooth\'});tab=\'inicio\';render()">← Volver a la portada</button>':'<div class="empty">No hay partidos publicados para esta selección.</div>');
+  };
+  // Mantener los desplegables dentro de la misma portada y hacer que el cambio de categoría reconstruya el módulo abierto.
+  const oldRender=window.render;
+  window.render=function(){oldRender(); if(tab==='inicio')home();};
+  if(c)c.addEventListener('change',function(){showAllCalendar=false;setTimeout(()=>{if(tab==='inicio')home();else render()},0)});
+})();
+</script>
 </body></html><style id="nffl-public-final-polish">
 /* Ajuste final de distribución móvil */
 .gof-public-top{height:88px!important;min-height:88px!important;padding:6px 10px!important}
@@ -1007,3 +1108,104 @@ body.home-screen main{
   #nav button,.nav button{height:62px!important;min-height:62px!important;font-size:12.5px!important}
 }
 </style>
+
+<style id="gof-definitive-mockup">
+/* ===== DISEÑO DEFINITIVO — basado en la maqueta aprobada ===== */
+html,body{width:100%;max-width:100%;overflow-x:hidden!important}
+body{background:radial-gradient(circle at 50% -10%,#26103e 0%,#0a0810 42%,#08070c 100%)!important}
+.gof-public-top{height:126px!important;min-height:126px!important;padding:12px 18px!important;background:linear-gradient(180deg,#09070e 0%,#0a0810 100%)!important;border-bottom:2px solid #8d2cff!important;position:sticky!important;top:0!important;z-index:100!important}
+.gof-public-head{width:100%!important;max-width:1180px!important;height:102px!important;margin:0 auto!important;display:grid!important;grid-template-columns:110px minmax(0,1fr) 250px!important;align-items:center!important;gap:14px!important}
+.gof-header-logo-upload{width:88px!important;height:88px!important;margin:0!important;border:0!important;border-radius:8px!important;background:#050509!important;box-shadow:none!important;overflow:hidden!important;position:relative!important;display:flex!important;align-items:center!important;justify-content:center!important;pointer-events:none!important}
+.gof-header-logo-upload input{display:none!important}
+.gof-header-logo-upload img{display:block!important;width:84px!important;height:84px!important;object-fit:contain!important;border:0!important;border-radius:7px!important}
+.gof-header-logo-upload span{display:none!important}
+.gof-public-brand{width:100%!important;min-width:0!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;text-align:center!important}
+.gof-public-title{font-size:42px!important;line-height:.98!important;font-weight:1000!important;letter-spacing:1px!important;white-space:nowrap!important;color:#fff!important;margin:0!important;text-align:center!important}
+.gof-public-title span{color:#b9ff00!important}
+.gof-public-app{font-size:25px!important;line-height:1!important;font-weight:900!important;letter-spacing:9px!important;margin-top:7px!important;color:#fff!important}
+.gof-public-sub{font-size:13px!important;line-height:1!important;letter-spacing:5px!important;color:#eee9f4!important;margin-top:7px!important;text-align:center!important}
+.gof-public-head-buttons{width:100%!important;display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:center!important;gap:10px!important}
+.gof-public-head-buttons .gof-head-btn{width:100%!important;height:48px!important;min-height:48px!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:9px!important;padding:0 14px!important;border:2px solid #8d2cff!important;border-radius:14px!important;background:linear-gradient(145deg,#21122d,#110c18)!important;color:#fff!important;text-decoration:none!important;font-size:16px!important;font-weight:900!important;position:relative!important;white-space:nowrap!important;box-sizing:border-box!important}
+.gof-public-head-buttons .gof-head-btn span{font-size:20px!important;line-height:1!important}
+.gof-public-head-buttons .gof-head-btn strong{font-size:16px!important}
+.gof-public-head-buttons .gof-badge{position:absolute!important;top:-8px!important;right:-7px!important;min-width:22px!important;height:22px!important;display:grid!important;place-items:center!important;padding:0 5px!important;border-radius:50%!important;background:#9b32ff!important;color:#fff!important;font-size:11px!important;font-weight:900!important}
+.gof-public-actions,.gof-public-under-actions,.gof-public-profile{display:none!important}
+main{max-width:1180px!important;margin:0 auto!important;padding:18px 18px 28px!important}
+body.home-screen main{height:auto!important;min-height:calc(100dvh - 126px)!important;overflow:visible!important}
+.gof-public-identity{width:100%!important;max-width:none!important;display:grid!important;grid-template-columns:minmax(0,1fr) 230px!important;gap:14px!important;margin:0 0 16px!important}
+.gof-public-league,.gof-public-logo-card{height:116px!important;min-height:116px!important;border-radius:20px!important;background:linear-gradient(145deg,#1b1725,#100d16)!important;border:1px solid #40324f!important;box-shadow:0 8px 28px #0005!important}
+.gof-public-league{padding:18px 24px!important;display:flex!important;align-items:center!important}
+.gof-public-league b{font-size:27px!important;line-height:1.05!important}.gof-public-league span{display:block!important;font-size:17px!important;margin-top:8px!important;color:#cfc6da!important}
+.gof-public-logo-card{padding:10px!important;display:flex!important;align-items:center!important;justify-content:center!important;border-color:#8d2cff!important}
+.gof-public-logo-upload{width:100%!important;height:100%!important;display:flex!important;align-items:center!important;justify-content:center!important;overflow:hidden!important;background:#222833!important;border-radius:12px!important}
+.gof-public-logo-upload img{width:100%!important;height:100%!important;object-fit:contain!important}.gof-public-logo-upload span{display:none!important}
+.gof-public-selectors,.controls.gof-public-selectors{width:100%!important;max-width:none!important;display:grid!important;grid-template-columns:1fr 1fr!important;gap:14px!important;margin:0 0 16px!important}
+.gof-public-select-card{height:92px!important;min-height:92px!important;padding:10px 18px!important;border:2px solid #8d2cff!important;border-radius:18px!important;background:linear-gradient(145deg,#21132e,#120d18)!important;display:flex!important;flex-direction:column!important;justify-content:center!important;box-sizing:border-box!important}
+.gof-public-select-card span{font-size:16px!important;line-height:1.05!important;margin-bottom:9px!important;color:#f2cf54!important;font-weight:900!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}.gof-public-select-card select{width:100%!important;height:48px!important;min-height:48px!important;padding:7px 13px!important;font-size:16px!important;border-radius:12px!important;border:1px solid #9b59ff!important;background:#0b0910!important;color:#fff!important}
+#nav,.nav{width:100%!important;max-width:none!important;display:grid!important;grid-template-columns:1fr 1fr!important;gap:12px!important;margin:0 0 18px!important;padding:0!important}
+#nav button,.nav button{width:100%!important;height:104px!important;min-height:104px!important;padding:13px 40px 13px 20px!important;border-radius:18px!important;display:grid!important;grid-template-columns:74px minmax(0,1fr) 20px!important;align-items:center!important;text-align:left!important;background:linear-gradient(145deg,#1b1725,#100d16)!important;border:1px solid #40324f!important;color:#fff!important;font-size:21px!important;font-weight:900!important;position:relative!important;box-shadow:0 6px 20px #0004!important}
+#nav button.active,.nav button.active{border:2px solid #9b32ff!important;background:linear-gradient(145deg,#28153a,#15101d)!important;box-shadow:0 0 0 1px #4f2376 inset!important}
+#nav button>span:first-child,.nav button>span:first-child{font-size:45px!important;line-height:1!important;text-align:center!important}
+#nav button small,.nav button small{display:block!important;font-size:15px!important;line-height:1.15!important;color:#cfc6da!important;font-weight:500!important;margin-top:7px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+#nav button:after,.nav button:after{content:'›'!important;position:absolute!important;right:15px!important;color:#b36cff!important;font-size:34px!important;font-weight:300!important}
+.gof-home-calendar{background:linear-gradient(145deg,#171321,#0d0b12)!important;border:1px solid #40324f!important;border-radius:20px!important;padding:18px!important;margin-top:0!important}
+.gof-home-calendar-head{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:14px!important;margin-bottom:14px!important}.gof-home-calendar-title{display:flex!important;align-items:center!important;gap:12px!important}.gof-home-calendar-title .cal-icon{font-size:42px!important}.gof-home-calendar-title h2{margin:0!important;font-size:30px!important}.gof-home-calendar-title p{margin:3px 0 0!important;color:#cfc6da!important;font-size:15px!important}
+.gof-calendar-switch{display:flex!important;align-items:center!important;gap:4px!important;padding:4px!important;border:2px solid #8d2cff!important;border-radius:14px!important;background:#0d0913!important}.gof-calendar-switch button{width:auto!important;min-width:150px!important;height:40px!important;padding:0 14px!important;border:0!important;border-radius:10px!important;background:transparent!important;color:#fff!important;font-size:13px!important;font-weight:900!important}.gof-calendar-switch button.active{background:#8d2cff!important}
+.gof-home-calendar .scroll{margin-top:0!important}.gof-home-calendar table{font-size:14px!important}.gof-home-calendar th{color:#c27cff!important;font-size:13px!important}.gof-home-calendar td,.gof-home-calendar th{padding:10px 8px!important}
+.gof-full-calendar-btn{width:100%!important;height:52px!important;margin-top:14px!important;border:2px solid #8d2cff!important;border-radius:13px!important;background:#140c1c!important;color:#fff!important;font-size:16px!important;font-weight:900!important}
+.gof-full-calendar-btn:hover{background:#21122d!important}
+.gof-calendar-toolbar{display:flex!important;justify-content:flex-end!important;margin-bottom:12px!important}.gof-calendar-toolbar button{width:auto!important;height:40px!important;padding:0 14px!important;border:2px solid #8d2cff!important;border-radius:11px!important;background:#140c1c!important;color:#fff!important;font-weight:900!important}
+.gof-public-footer{display:block!important}
+@media(max-width:700px){
+ .gof-public-top{height:108px!important;min-height:108px!important;padding:8px 10px!important}.gof-public-head{height:92px!important;grid-template-columns:62px minmax(0,1fr) 116px!important;gap:7px!important}.gof-header-logo-upload{width:58px!important;height:58px!important}.gof-header-logo-upload img{width:56px!important;height:56px!important}.gof-public-title{font-size:25px!important;letter-spacing:.7px!important}.gof-public-app{font-size:15px!important;letter-spacing:6px!important;margin-top:5px!important}.gof-public-sub{font-size:8px!important;letter-spacing:3px!important;margin-top:5px!important}.gof-public-head-buttons{gap:6px!important}.gof-public-head-buttons .gof-head-btn{height:39px!important;min-height:39px!important;border-radius:11px!important;padding:0 8px!important;gap:5px!important}.gof-public-head-buttons .gof-head-btn span{font-size:16px!important}.gof-public-head-buttons .gof-head-btn strong{font-size:11px!important}.gof-public-head-buttons .gof-badge{min-width:18px!important;height:18px!important;font-size:9px!important;top:-6px!important;right:-6px!important}
+ main{padding:12px 10px 22px!important}.gof-public-identity{grid-template-columns:minmax(0,1fr) 96px!important;gap:8px!important;margin-bottom:10px!important}.gof-public-league,.gof-public-logo-card{height:84px!important;min-height:84px!important}.gof-public-league{padding:11px 13px!important}.gof-public-league b{font-size:18px!important}.gof-public-league span{font-size:11px!important}.gof-public-logo-card{padding:7px!important}
+ .gof-public-selectors,.controls.gof-public-selectors{gap:8px!important;margin-bottom:10px!important}.gof-public-select-card{height:72px!important;min-height:72px!important;padding:7px 9px!important;border-radius:14px!important}.gof-public-select-card span{font-size:10px!important;margin-bottom:5px!important}.gof-public-select-card select{height:37px!important;min-height:37px!important;font-size:12px!important}
+ #nav,.nav{gap:8px!important;margin-bottom:12px!important}#nav button,.nav button{height:78px!important;min-height:78px!important;padding:8px 27px 8px 10px!important;grid-template-columns:42px minmax(0,1fr) 17px!important;border-radius:14px!important;font-size:15px!important}.gof-public-head-buttons .gof-head-btn{font-size:11px!important}#nav button>span:first-child,.nav button>span:first-child{font-size:29px!important}#nav button small,.nav button small{font-size:9px!important;margin-top:3px!important}#nav button:after,.nav button:after{font-size:24px!important;right:7px!important}
+ .gof-home-calendar{padding:11px!important;border-radius:15px!important}.gof-home-calendar-head{align-items:flex-start;flex-direction:column;gap:8px!important}.gof-home-calendar-title .cal-icon{font-size:30px!important}.gof-home-calendar-title h2{font-size:23px!important}.gof-home-calendar-title p{font-size:11px!important}.gof-calendar-switch{width:100%!important}.gof-calendar-switch button{min-width:0!important;flex:1!important;height:36px!important;font-size:10px!important;padding:0 6px!important}.gof-home-calendar table{font-size:10px!important;min-width:650px!important}.gof-home-calendar th{font-size:10px!important}.gof-home-calendar td,.gof-home-calendar th{padding:7px 5px!important}.gof-full-calendar-btn{height:44px!important;font-size:13px!important}
+}
+@media(max-width:390px){.gof-public-head{grid-template-columns:54px minmax(0,1fr) 102px!important}.gof-header-logo-upload{width:50px!important;height:50px!important}.gof-header-logo-upload img{width:48px!important;height:48px!important}.gof-public-title{font-size:21px!important}.gof-public-app{font-size:13px!important;letter-spacing:5px!important}.gof-public-sub{font-size:7px!important}.gof-public-head-buttons .gof-head-btn{height:35px!important;min-height:35px!important}.gof-public-head-buttons .gof-head-btn strong{font-size:10px!important}.gof-public-head-buttons .gof-head-btn span{font-size:14px!important}.gof-public-identity{grid-template-columns:minmax(0,1fr) 86px!important}.gof-public-league b{font-size:16px!important}#nav button,.nav button{height:72px!important;min-height:72px!important;font-size:13px!important;grid-template-columns:36px minmax(0,1fr) 15px!important}#nav button>span:first-child,.nav button>span:first-child{font-size:26px!important}}
+</style>
+<script id="gof-definitive-behavior">
+(function(){
+  let showAllCalendar=false;
+  function selectedMatches(all){
+    return (data.matches||[]).filter(m=>all || !c.value || m.category_id===c.value);
+  }
+  function calendarRows(all,limit){
+    const arr=selectedMatches(all).map(m=>({...m,kind:'regular'})).sort((a,b)=>{
+      const ra=Number(a.round_number||999), rb=Number(b.round_number||999); if(ra!==rb)return ra-rb;
+      return String(a.match_time||'').localeCompare(String(b.match_time||''));
+    });
+    return limit?arr.slice(0,limit):arr;
+  }
+  function compactCalendarHTML(all){
+    const arr=calendarRows(all,4); if(!arr.length)return '<div class="empty">No hay partidos publicados para esta selección.</div>';
+    const first=arr[0], round=first?.round_number||1;
+    const rows=arr.map(m=>'<tr><td>'+esc(m.match_time?String(m.match_time).slice(0,5):'—')+'</td><td>'+esc(m.field_name||'—')+'</td><td>'+esc(cat(m.category_id))+'</td><td>'+esc(team(m.home_team_id).name)+'</td><td>vs</td><td>'+esc(team(m.away_team_id).name)+'</td></tr>').join('');
+    return '<div class="scroll"><table class="wide"><thead><tr><th>HORA</th><th>CAMPO</th><th>CATEGORÍA</th><th>EQUIPO LOCAL</th><th>VS</th><th>EQUIPO VISITANTE</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
+  }
+  window.home=function(){
+    const selected=!!c.value;
+    const label=selected?esc(cat(c.value)):'Todas las categorías';
+    document.getElementById('inicio').innerHTML='<section class="gof-home-calendar"><div class="gof-home-calendar-head"><div class="gof-home-calendar-title"><span class="cal-icon">📅</span><div><h2>Calendario</h2><p>Jornadas y horarios de los partidos</p></div></div><div class="gof-calendar-switch"><button type="button" class="'+(!showAllCalendar?'active':'')+'" onclick="setHomeCalendar(false)">Solo esta categoría</button><button type="button" class="'+(showAllCalendar?'active':'')+'" onclick="setHomeCalendar(true)">Todas las categorías</button></div></div><div class="card"><h3>📅 Jornada 1 <span class="muted" style="float:right;font-weight:500">'+label+'</span></h3>'+compactCalendarHTML(showAllCalendar||!selected)+'</div><button type="button" class="gof-full-calendar-btn" onclick="openFullCalendar()">📅 Ver calendario completo&nbsp; ›</button></section>';
+  };
+  window.setHomeCalendar=function(all){showAllCalendar=!!all;home()};
+  window.openFullCalendar=function(){tab='calendario';render();setTimeout(()=>document.getElementById('calendario')?.scrollIntoView({behavior:'smooth',block:'start'}),40)};
+  window.calendar=function(){
+    const s=document.getElementById('calendario');
+    const all=showAllCalendar||!c.value; const arr=calendarRows(all);
+    const groups={}; arr.forEach(m=>{const k=String(m.round_number||'SIN JORNADA');(groups[k]??=[]).push(m)});
+    let h='<div class="gof-calendar-toolbar"><button type="button" onclick="setHomeCalendar('+(!all)+');calendar()">'+(all?'Solo esta categoría':'Todas las categorías')+'</button></div><h2>Calendario'+(all?' · Todas las categorías':c.value?' · '+esc(cat(c.value)):'')+'</h2>';
+    Object.keys(groups).sort((a,b)=>(+a||999)-(+b||999)).forEach(w=>{
+      const a=groups[w]; h+='<div class="card"><h3>📅 Jornada '+esc(w)+'</h3><div class="scroll"><table class="wide"><thead><tr><th>HORA</th><th>CAMPO</th><th>CATEGORÍA</th><th>EQUIPO LOCAL</th><th>VS</th><th>EQUIPO VISITANTE</th></tr></thead><tbody>';
+      a.forEach(m=>{h+='<tr><td>'+esc(m.match_time?String(m.match_time).slice(0,5):'—')+'</td><td>'+esc(m.field_name||'—')+'</td><td>'+esc(cat(m.category_id))+'</td><td>'+esc(team(m.home_team_id).name)+'</td><td>vs</td><td>'+esc(team(m.away_team_id).name)+'</td></tr>'});
+      h+='</tbody></table></div></div>';
+    });
+    s.innerHTML=h+(arr.length?'<button type="button" class="gof-full-calendar-btn" onclick="window.scrollTo({top:0,behavior:\'smooth\'});tab=\'inicio\';render()">← Volver a la portada</button>':'<div class="empty">No hay partidos publicados para esta selección.</div>');
+  };
+  // Mantener los desplegables dentro de la misma portada y hacer que el cambio de categoría reconstruya el módulo abierto.
+  const oldRender=window.render;
+  window.render=function(){oldRender(); if(tab==='inicio')home();};
+  if(c)c.addEventListener('change',function(){showAllCalendar=false;setTimeout(()=>{if(tab==='inicio')home();else render()},0)});
+})();
+</script>
