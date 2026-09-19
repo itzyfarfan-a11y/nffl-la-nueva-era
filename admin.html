@@ -392,7 +392,7 @@ async function loadSchedule(){
   for(const wk of weekOrder){
     const weekGames=all.filter(m=>weekKey(m)===wk);
     const canEditWeek=wk!=='PLAYOFFS'&&wk!=='SIN SEMANA';
-    html+=`<tr class="cg-day"><td colspan="5"><div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap"><div><b>${esc(weekLabel(wk))}</b><span class="small mut" style="margin-left:10px">${esc(weekDateLabel(weekGames))}</span></div>${canEditWeek?`<button type="button" class="gold" style="padding:6px 10px;font-size:12px" onclick="openWeekDateModal('${esc(wk)}','${esc(weekDateValue(weekGames))}')">✏️ Editar fecha</button>`:''}</div></td></tr>`;
+    html+=`<tr class="cg-day"><td colspan="5"><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><b>${esc(weekLabel(wk))}</b><span class="small mut">${esc(weekDateLabel(weekGames))}</span>${canEditWeek?`<button type="button" class="gold" style="padding:5px 9px;font-size:12px;display:inline-flex;align-items:center;gap:4px" onclick="openWeekDateModal('${esc(wk)}','${esc(weekDateValue(weekGames))}')">✏️ Editar fecha</button>`:''}</div></td></tr>`;
     const dayTimes=[...new Set(weekGames.map(m=>m._time?String(m._time).slice(0,5):'SIN HORA'))].sort();
     for(const tm of dayTimes){
       html+=`<tr><th class="cg-time">${esc(tm==='SIN HORA'?'Pendiente':tm)}</th>`;
