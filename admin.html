@@ -34,6 +34,21 @@
     </div>
   </div>
 </div>
+<div id="weekModal" class="modal" onclick="if(event.target===this)closeWeekModal()">
+  <div class="modalbox">
+    <h3>📅 EDITAR FECHA DE LA SEMANA</h3>
+    <div id="weekEditTitle" class="mut small" style="margin-bottom:12px"></div>
+    <div class="notice">La semana conserva su número. Solo cambia la <b>fecha</b> de todos sus partidos, manteniendo horarios y campos.</div>
+    <div class="form">
+      <div><label class="small mut">Nueva fecha</label><input id="ewDate" type="date"></div>
+    </div>
+    <div id="weekEditWarnings"></div>
+    <div class="modal-actions">
+      <button onclick="closeWeekModal()">Cancelar</button>
+      <button class="primary" onclick="saveWeekDate()">💾 Guardar fecha de la semana</button>
+    </div>
+  </div>
+</div>
 <script>
 const SUPABASE_URL='https://picivrqgmckrwutarhyw.supabase.co';let sb=null;
 const key='sb_publishable_SK8XBpzn3b5Dr-qa2rO7Nw_un7KbvCl';
@@ -298,7 +313,7 @@ function renderCell(m){
   const teams=`${esc(m.home?.name||m.a?.name||'Por definir')}<span> vs </span>${esc(m.away?.name||m.b?.name||'Por definir')}`;
   const meta=m._kind==='playoff'
     ? `${esc(cat)} · ${esc(m.stage||'Playoff')}`
-    : `${esc(cat)} · J${m.round_number||'?'}`;
+    : `${esc(cat)} · Semana ${m.round_number||'?'}`;
   const actions=m._kind==='playoff'
     ? `<button onclick="editPlayoffSchedule('${m.id}')">✏️</button><button onclick="publishPlayoffMatch('${m.id}',${!m.published})">${m.published?'Ocultar':'📢'}</button>`
     : `<button onclick="editMatch('${m.id}')">✏️ Editar / mover</button>`;
@@ -308,6 +323,39 @@ function renderCell(m){
     <div class="cg-meta">${m._time?String(m._time).slice(0,5):'Hora pendiente'} · ${esc(m._field||'Campo pendiente')}</div>
     <div class="cg-actions">${actions}</div>
   </div>`;
+}
+
+let editingWeek=null;
+function openWeekDateModal(week,date){
+  const n=Number(week);
+  if(!Number.isInteger(n)||n<1||n>7)return alert('Semana inválida.');
+  editingWeek=n;
+  document.getElementById('weekEditTitle').textContent=`SEMANA ${n} · Cambiar la fecha de todos los partidos de esta semana.`;
+  document.getElementById('ewDate').value=date||'';
+  document.getElementById('weekEditWarnings').innerHTML='';
+  document.getElementById('weekModal').classList.add('show');
+}
+function closeWeekModal(){editingWeek=null;document.getElementById('weekModal').classList.remove('show')}
+async function saveWeekDate(){
+  if(!editingWeek)return;
+  const tid=val('ct'),date=val('ewDate');
+  if(!tid||!date)return alert('Selecciona la nueva fecha.');
+  const n=Number(editingWeek);
+  const {data:games,error:ge}=await sb.from('matches').select('id,match_date,match_time,field_name,published,status').eq('tournament_id',tid).eq('round_number',n).eq('is_makeup',false);
+  if(ge)return alert('No se pudieron cargar los partidos de la semana: '+ge.message);
+  const regular=(games||[]).filter(m=>m.status!=='cancelado');
+  if(!regular.length)return alert(`No hay partidos programados en la SEMANA ${n}.`);
+  const currentDates=[...new Set(regular.map(m=>m.match_date).filter(Boolean))];
+  const already=currentDates.length===1&&currentDates[0]===date;
+  if(already){closeWeekModal();return toast(`SEMANA ${n} ya está programada para ${date}.`);}
+  const published=regular.filter(m=>m.published).length;
+  const msg=`Cambiar la fecha de SEMANA ${n} a ${date}?\n\nSe actualizarán ${regular.length} partidos y se conservarán sus horarios y campos.`+(published?`\n\n${published} partido(s) ya están publicados. El cambio de fecha se guardará y el calendario público reflejará la nueva fecha.`:'');
+  if(!confirm(msg))return;
+  const {error}=await sb.from('matches').update({match_date:date,schedule_manual_override:true,schedule_override_note:`Cambio de fecha de SEMANA ${n} realizado desde Administración NFFL`,schedule_override_at:new Date().toISOString()}).eq('tournament_id',tid).eq('round_number',n).eq('is_makeup',false).neq('status','cancelado');
+  if(error)return alert('No se pudo cambiar la fecha de la semana: '+error.message);
+  closeWeekModal();
+  toast(`✅ SEMANA ${n} movida al ${date}.`);
+  await loadSchedule();
 }
 
 async function loadSchedule(){
@@ -329,6 +377,7 @@ async function loadSchedule(){
   const weekKey=m=>m._kind==='playoff'?'PLAYOFFS':(m.round_number?String(m.round_number):'SIN SEMANA');
   const weekLabel=k=>k==='PLAYOFFS'?'🏆 PLAYOFFS':k==='SIN SEMANA'?'📅 Semana pendiente':`📅 SEMANA ${k}`;
   const weekDateLabel=arr=>{const ds=[...new Set(arr.map(m=>m._date).filter(Boolean))].sort();if(!ds.length)return 'Fecha pendiente';if(ds.length===1)return new Date(ds[0]+'T12:00:00Z').toLocaleDateString('es-MX',{weekday:'long',day:'2-digit',month:'2-digit',year:'numeric',timeZone:'UTC'}).replace(/^./,c=>c.toUpperCase());return 'Fechas: '+ds.map(d=>new Date(d+'T12:00:00Z').toLocaleDateString('es-MX',{day:'2-digit',month:'2-digit',year:'numeric',timeZone:'UTC'})).join(' · ')};
+  const weekDateValue=arr=>{const ds=[...new Set(arr.map(m=>m._date).filter(Boolean))].sort();return ds.length?ds[0]:''};
   const catClass=n=>{const x=String(n||'').toLowerCase();if(x.includes('mixto'))return 'cg-mixto';if(x.includes('bronze')||x.includes('bronce'))return 'cg-bronce';if(x.includes('silver femenil'))return 'cg-silverf';if(x.includes('silver varonil'))return 'cg-silverv';if(x.includes('35'))return 'cg-35';if(x.includes('golden'))return 'cg-golden';return 'cg-other'};
   const renderCell=(m)=>{
     if(!m)return '<div class="cg-empty">—</div>';
@@ -336,13 +385,14 @@ async function loadSchedule(){
     const cname=isPo?(m.categories?.name||'Playoffs'):(m.categories?.name||'Categoría');
     const a=isPo?(m.a?.name||'Por definir'):(m.home?.name||'Local');
     const b=isPo?(m.b?.name||'Por definir'):(m.away?.name||'Visitante');
-    return `<div class="cg-game ${catClass(cname)}"><div class="cg-cat">${esc(cname)}${isPo?' · '+esc(m.stage||''):''}</div><div class="cg-teams">${esc(a)} <span>vs</span> ${esc(b)}</div><div class="cg-meta">${isPo?'🏆':'🏈'} ${m.round_number?'J'+m.round_number:''}</div><div class="cg-actions"><button type="button" onclick="${isPo?`editPlayoffSchedule('${m.id}')`:`editMatch('${m.id}')`}">✏️ ${isPo?'Editar':'Editar / mover'}</button>${isPo?`<span class="tag">${m.published?'🟢 Publicado':'🟡 Pendiente'}</span>`:`<span class="tag">${m.published?(String(m.schedule_override_note||'').includes('pendiente')?'🟡 Cambio pendiente':'🟢 Publicado'):'🟡 Pendiente de aprobación'}</span>`}</div></div>`;
+    return `<div class="cg-game ${catClass(cname)}"><div class="cg-cat">${esc(cname)}${isPo?' · '+esc(m.stage||''):''}</div><div class="cg-teams">${esc(a)} <span>vs</span> ${esc(b)}</div><div class="cg-meta">${isPo?'🏆':'🏈'} ${m.round_number?'Semana '+m.round_number:''}</div><div class="cg-actions"><button type="button" onclick="${isPo?`editPlayoffSchedule('${m.id}')`:`editMatch('${m.id}')`}">✏️ ${isPo?'Editar':'Editar / mover'}</button>${isPo?`<span class="tag">${m.published?'🟢 Publicado':'🟡 Pendiente'}</span>`:`<span class="tag">${m.published?(String(m.schedule_override_note||'').includes('pendiente')?'🟡 Cambio pendiente':'🟢 Publicado'):'🟡 Pendiente de aprobación'}</span>`}</div></div>`;
   };
   let html=`<div class="card"><h3>📊 Calendario General</h3><div class="notice"><b>${all.length} partidos</b> · ${regular.length} fase regular · ${po.length} playoffs · ${cat?'Filtro: '+esc(document.getElementById('cc')?.selectedOptions?.[0]?.textContent||'categoría'):'Todas las categorías'}</div><div class="cg-scroll"><table class="calendar-grid"><thead><tr><th>HORARIO</th><th>CAMPO 1</th><th>CAMPO 2</th><th>CAMPO 3</th><th>CAMPO 4</th></tr></thead><tbody>`;
   const weekOrder=[...new Set(all.map(weekKey))].sort((a,b)=>{const na=a==='PLAYOFFS'?999:a==='SIN SEMANA'?998:Number(a),nb=b==='PLAYOFFS'?999:b==='SIN SEMANA'?998:Number(b);return na-nb});
   for(const wk of weekOrder){
     const weekGames=all.filter(m=>weekKey(m)===wk);
-    html+=`<tr class="cg-day"><td colspan="5"><b>${esc(weekLabel(wk))}</b><span class="small mut" style="margin-left:10px">${esc(weekDateLabel(weekGames))}</span></td></tr>`;
+    const canEditWeek=wk!=='PLAYOFFS'&&wk!=='SIN SEMANA';
+    html+=`<tr class="cg-day"><td colspan="5"><div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap"><div><b>${esc(weekLabel(wk))}</b><span class="small mut" style="margin-left:10px">${esc(weekDateLabel(weekGames))}</span></div>${canEditWeek?`<button type="button" class="gold" style="padding:6px 10px;font-size:12px" onclick="openWeekDateModal('${esc(wk)}','${esc(weekDateValue(weekGames))}')">✏️ Editar fecha</button>`:''}</div></td></tr>`;
     const dayTimes=[...new Set(weekGames.map(m=>m._time?String(m._time).slice(0,5):'SIN HORA'))].sort();
     for(const tm of dayTimes){
       html+=`<tr><th class="cg-time">${esc(tm==='SIN HORA'?'Pendiente':tm)}</th>`;
@@ -354,7 +404,7 @@ async function loadSchedule(){
     }
   }
   html+='</tbody></table></div><div class="small mut cg-legend">Vista por jornada · hora · campo. Los partidos se muestran directamente en su cancha para facilitar la revisión y los cambios manuales.</div></div>';
-  // Tabla de enfrentamientos por equipo: J1 a J7.
+  // Tabla de enfrentamientos por equipo: Semana 1 a Semana 7.
   const regularOnly=(data||[]).filter(m=>m.round_number>=1&&m.round_number<=7&&!m.is_makeup);
   const teamMap=new Map();
   regularOnly.forEach(m=>{
