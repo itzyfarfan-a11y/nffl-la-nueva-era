@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#08070d">
-<title>GAME ON FLAG APPLICATION — Portal Público</title>
+<title>GAME ON FLAG APPLICATION · Portal Público</title>
 <style>
 :root{
  --bg:#07060b;--panel:#17131f;--panel2:#1e1928;--purple:#8e2cff;--purple2:#b56cff;
@@ -213,18 +213,7 @@ footer b{font-size:16px;color:#ddd5e5}
  .gof-head-btn strong{font-size:9px}
 }
 </style>
-<style id="gof-premium-theme">
-:root{--bg:#f7f7fa;--panel:#fff;--panel2:#f0f1f5;--purple:#6f35b8;--purple2:#8f63d2;--text:#27242d;--muted:#6e6a76;--gold:#8a6b16;--line:#d7d8df;--green:#5f9d36}
-html,body{background:linear-gradient(180deg,#fff 0%,#f4f4f7 55%,#ececf1 100%);color:var(--text)}
-.gof-public-top{height:104px;background:rgba(255,255,255,.97);border-bottom:3px solid var(--purple);box-shadow:0 4px 18px rgba(48,35,70,.09)}
-.gof-public-head{height:101px;padding:8px 16px;grid-template-columns:115px minmax(0,1fr) 210px;gap:15px}.gof-header-logo-upload{width:110px;height:82px;background:#fff}.gof-header-logo-upload img{width:110px;height:82px}
-.gof-public-title{font-size:42px;color:#28232f}.gof-public-title .flag{color:var(--purple)}.gof-public-app{font-size:18px;letter-spacing:6px;color:#5f3197}.gof-public-sub{font-size:11px;letter-spacing:4px;color:#77717e}
-.gof-public-head-buttons{width:210px;gap:7px}.gof-head-btn{width:210px;height:40px;border:1px solid #d2c9df;border-radius:10px;background:linear-gradient(135deg,#fff,#f0edf5);color:#302a38;padding:0 10px;gap:8px}.gof-head-btn span{font-size:20px}.gof-head-btn strong{font-size:13px}.gof-head-btn small{font-size:9px;color:#766d80}.gof-badge{background:var(--purple)}
-main{padding:15px 20px 26px}.gof-public-league,.gof-public-logo-card{border:1px solid #d5d5de;background:linear-gradient(145deg,#fff,#f0f0f4);box-shadow:0 5px 18px rgba(55,43,74,.06)}.gof-public-league{min-height:105px;padding:16px 20px}.gof-public-league b{font-size:27px;color:#33253e}.gof-public-league span{font-size:17px;color:#7355a0}.gof-public-logo-card{height:105px;border-color:#b9a1d7}.gof-public-logo-upload{background:#f2f2f5}.gof-public-logo-fallback{color:#5f3197}
-.gof-public-select-card{border:1px solid #d6cce2;background:linear-gradient(145deg,#fff,#f2eef7);padding:11px 13px}.gof-public-select-card span{color:#6333a0;font-size:16px}.gof-public-select-card select{height:47px;border:1px solid #cfc5dc;background:#fff;color:#312d37;font-size:16px}
-#nav button{height:82px;border:1px solid #d5d5de;background:linear-gradient(145deg,#fff,#f0f0f4);color:#302d35;box-shadow:0 4px 12px rgba(55,43,74,.06)}#nav button.active{border-color:#8b62c2;background:linear-gradient(145deg,#f3edf9,#e8def3)}#nav button b{font-size:22px;color:#4e3568}#nav button>span:first-child{font-size:36px}
-@media(max-width:700px){.gof-public-top{height:82px}.gof-public-head{height:79px;padding:6px 9px;grid-template-columns:58px minmax(0,1fr) 94px;gap:7px}.gof-header-logo-upload{width:56px;height:62px}.gof-header-logo-upload img{width:56px;height:62px}.gof-public-title{font-size:22px}.gof-public-app{font-size:10px;letter-spacing:3px;margin-top:4px}.gof-public-sub{font-size:7px;letter-spacing:2px;margin-top:4px}.gof-public-head-buttons{width:94px;gap:4px}.gof-head-btn{width:94px;height:29px;border-radius:8px;padding:0 6px;justify-content:center}.gof-head-btn span{font-size:15px}.gof-head-btn strong{font-size:9px}.gof-head-btn small{display:none}.gof-badge{right:-3px;top:-6px;min-width:18px;height:18px;font-size:9px}main{padding:10px 10px 22px}.gof-public-identity{grid-template-columns:1fr 88px;gap:8px}.gof-public-league{min-height:88px;padding:12px}.gof-public-league b{font-size:21px}.gof-public-league span{font-size:13px;margin-top:7px}.gof-public-logo-card{height:88px}.gof-public-selectors{gap:8px}.gof-public-select-card{padding:8px}.gof-public-select-card span{font-size:12px}.gof-public-select-card select{height:40px;font-size:13px;padding:0 8px}#nav{gap:7px}#nav button{height:66px;border-radius:13px;padding:8px 10px;gap:9px}#nav button>span:first-child{font-size:26px;flex:0 0 30px}#nav button b{font-size:14px}}
-</style></head>
+</head>
 <body>
 <header class="gof-public-top">
   <div class="gof-public-head">
@@ -350,7 +339,7 @@ function calendar(){
     });
     h+='</tbody></table></div></div>';
   });
-  h+='<button type="button" class="calendar-full-btn" onclick="setCalendarMode(\'all\')">📅 Ver calendario completo <span>›</span></button>';
+  h+='<div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="calendar-full-btn" onclick="setCalendarMode(\'all\')">📅 Ver calendario completo <span>›</span></button><button type="button" class="calendar-full-btn" onclick="downloadPublicCalendarPNG()">🖼️ Descargar imagen</button></div>';
   s.innerHTML=h;
 }
 function setCalendarMode(mode){window.__calendarMode=mode;calendar();const el=document.getElementById('calendario');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
@@ -359,7 +348,7 @@ function matchups(){const s=document.getElementById('enfrentamientos');if(!c.val
 function results(){const s=document.getElementById('resultados'),a=data.matches.filter(m=>(!c.value||m.category_id===c.value)&&(m.status==='jugado'||m.status==='incomparecencia'));s.innerHTML='<h2>Resultados</h2>'+(a.length?a.map(m=>'<div class="card"><span class="badge">Semana '+esc(m.round_number)+'</span><div class="match"><b>'+esc(team(m.home_team_id).name)+'</b><div class="score">'+(m.home_score??0)+'-'+(m.away_score??0)+'</div><b>'+esc(team(m.away_team_id).name)+'</b></div></div>').join(''):'<div class="empty">Aún no hay resultados publicados.</div>')}
 function table(){const s=document.getElementById('tabla');if(!c.value){s.innerHTML='<h2>Tabla de posiciones</h2><div class="empty">Selecciona una categoría para mostrar su tabla.</div>';return}const m={};data.matches.filter(x=>x.category_id===c.value&&(x.status==='jugado'||x.status==='incomparecencia')).forEach(x=>{m[x.home_team_id]??={id:x.home_team_id,jj:0,jg:0,pa:0,pc:0};m[x.away_team_id]??={id:x.away_team_id,jj:0,jg:0,pa:0,pc:0};const a=m[x.home_team_id],b=m[x.away_team_id],hs=Number(x.home_score||0),as=Number(x.away_score||0);a.jj++;b.jj++;a.pa+=hs;a.pc+=as;b.pa+=as;b.pc+=hs;if(hs>as)a.jg++;else if(as>hs)b.jg++});const rows=Object.values(m).map(x=>({...x,dif:x.pa-x.pc})).sort((a,b)=>b.dif-a.dif||b.pa-a.pa||a.pc-b.pc||team(a.id).name.localeCompare(team(b.id).name));s.innerHTML='<h2>Tabla de posiciones · '+esc(cat(c.value))+'</h2><div class="card"><div class="scroll"><table><thead><tr><th>#</th><th>Equipo</th><th>JJ</th><th>JG</th><th>PA</th><th>PC</th><th>DIF</th></tr></thead><tbody>'+(rows.length?rows.map((x,i)=>'<tr><td>'+(i+1)+'</td><td><b>'+esc(team(x.id).name)+'</b></td><td>'+x.jj+'</td><td>'+x.jg+'</td><td>'+x.pa+'</td><td>'+x.pc+'</td><td>'+x.dif+'</td></tr>').join(''):'<tr><td colspan="7">No hay partidos registrados para esta categoría.</td></tr>')+'</tbody></table></div></div>'}
 function playoffs(){const s=document.getElementById('playoffs'),list=data.playoffs.filter(p=>!c.value||!p.category_id||p.category_id===c.value);s.innerHTML='<h2>Playoffs'+(c.value?' · '+esc(cat(c.value)):'')+'</h2>'+(list.length?list.map(p=>'<div class="card"><span class="badge">'+esc(p.stage||'Playoff')+'</span><div class="match"><b>'+esc(team(p.team_a_id).name)+'</b><div class="score">'+(p.score_a??'—')+'-'+(p.score_b??'—')+'</div><b>'+esc(team(p.team_b_id).name)+'</b></div></div>').join(''):'<div class="empty">El bracket aún no ha sido publicado.</div>')}
-async function refresh(){if(!t.value)return;try{data=await rpc('public_get_tournament_data',{p_tournament_id:t.value,p_category_id:null});c.innerHTML='<option value="">Todas las categorías</option>'+data.categories.map(x=>'<option value="'+esc(x.id)+'">'+esc(x.name)+'</option>').join('');render()}catch(e){status.textContent='No se pudo cargar el torneo.';status.style.display='block'}}t.onchange=()=>{c.value='';refresh()};c.onchange=render;(async()=>{try{const x=await rpc('public_list_tournaments');if(!x.length){status.textContent='Aún no hay torneos publicados.';status.style.display='block';return}t.innerHTML=x.map(y=>'<option value="'+esc(y.id)+'">'+esc(y.name)+'</option>').join('');await refresh()}catch(e){status.textContent='No se pudo cargar la información pública.';status.style.display='block'}})();
+async function refresh(){if(!t.value)return;try{data=await rpc('public_get_tournament_data',{p_tournament_id:t.value,p_category_id:null});c.innerHTML='<option value="">Todas las categorías</option>'+data.categories.map(x=>'<option value="'+esc(x.id)+'">'+esc(x.name)+'</option>').join('');render()}catch(e){status.textContent='No se pudo cargar el torneo.';status.style.display='block'}}t.onchange=()=>{c.value='';refresh()};c.onchange=render;(async()=>{try{const x=await rpc('public_list_tournaments',{p_league_slug:(new URLSearchParams(location.search).get('liga')||'nffl-la-nueva-era')});if(!x.length){status.textContent='Aún no hay torneos publicados.';status.style.display='block';return}t.innerHTML=x.map(y=>'<option value="'+esc(y.id)+'">'+esc(y.name)+'</option>').join('');await refresh()}catch(e){status.textContent='No se pudo cargar la información pública.';status.style.display='block'}})();
 </script>
 <script>
 // Fallback league logo: restore saved logo, otherwise show a clean NFFL label.
@@ -372,6 +361,8 @@ async function refresh(){if(!t.value)return;try{data=await rpc('public_get_tourn
   }
   syncLeagueFallback();
 })();
+
+function downloadPublicCalendarPNG(){const table=document.querySelector('#calendario table.wide');if(!table)return alert('No hay calendario visible para descargar.');const clone=table.cloneNode(true);const w=Math.max(900,table.scrollWidth||table.offsetWidth),h=Math.max(350,table.scrollHeight||table.offsetHeight);const html=`<div xmlns="http://www.w3.org/1999/xhtml" style="width:${w}px;background:#fff;color:#111;padding:24px;font-family:Arial,sans-serif"><h1 style="margin:0 0 6px">NFFL — La Nueva Era</h1><div style="margin-bottom:12px;font-weight:800">Calendario público</div><style>table{width:100%;border-collapse:collapse}th,td{border:1px solid #bbb;padding:8px;text-align:left}th{background:#eee}</style>${clone.outerHTML}</div>`;const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h+80}"><foreignObject width="100%" height="100%">${html}</foreignObject></svg>`;const blob=new Blob([svg],{type:'image/svg+xml;charset=utf-8'}),url=URL.createObjectURL(blob),img=new Image();img.onload=()=>{const c=document.createElement('canvas');c.width=w*2;c.height=(h+80)*2;const x=c.getContext('2d');x.scale(2,2);x.drawImage(img,0,0);URL.revokeObjectURL(url);c.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='NFFL_Calendario_Publico.png';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)},'image/png')};img.onerror=()=>{URL.revokeObjectURL(url);alert('No se pudo generar la imagen en este navegador.')};img.src=url}
 </script>
 
 
